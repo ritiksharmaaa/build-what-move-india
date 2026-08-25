@@ -4,11 +4,13 @@ import { PathwayNode } from './pathway-node';
 export function PathwayMapMobile({ 
   nodes,
   selectedIds = [],
-  onToggle
+  onToggle,
+  onAskAI
 }: { 
   nodes: EvaluatedNode[];
   selectedIds?: string[];
   onToggle?: (id: string) => void;
+  onAskAI?: (node: EvaluatedNode) => void;
 }) {
   return (
     <div className="lg:hidden flex flex-col gap-6 p-4">
@@ -19,6 +21,7 @@ export function PathwayMapMobile({
             node={node} 
             selected={selectedIds.includes(node.nodeId)}
             onToggle={onToggle}
+            onAskAI={onAskAI}
           />
         ))}
       </div>

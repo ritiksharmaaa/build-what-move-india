@@ -4,11 +4,13 @@ import { PathwayNode } from './pathway-node';
 export function PathwayMapDesktop({ 
   nodes,
   selectedIds = [],
-  onToggle
+  onToggle,
+  onAskAI
 }: { 
   nodes: EvaluatedNode[];
   selectedIds?: string[];
   onToggle?: (id: string) => void;
+  onAskAI?: (node: EvaluatedNode) => void;
 }) {
   const now = nodes.filter(n => n.tier === 'now');
   const next = nodes.filter(n => n.tier === 'next');
@@ -25,6 +27,7 @@ export function PathwayMapDesktop({
               node={node} 
               selected={selectedIds.includes(node.nodeId)}
               onToggle={onToggle}
+              onAskAI={onAskAI}
             />
           ))
         ) : (

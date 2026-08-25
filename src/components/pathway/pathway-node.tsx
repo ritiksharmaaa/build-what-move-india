@@ -6,11 +6,13 @@ import { useTranslations } from 'next-intl';
 export function PathwayNode({ 
   node, 
   selected = false,
-  onToggle 
+  onToggle,
+  onAskAI
 }: { 
   node: EvaluatedNode;
   selected?: boolean;
   onToggle?: (id: string) => void;
+  onAskAI?: (node: EvaluatedNode) => void;
 }) {
   const locale = useLocale() as 'en' | 'hi';
   const t = useTranslations('doorStatus');
@@ -73,6 +75,15 @@ export function PathwayNode({
         <div className="mt-2 text-xs font-semibold text-purple-700 bg-purple-100/50 p-2 rounded">
           Recovery: {locale === 'en' ? node.recoveryRoute.steps[0].action : 'वैकल्पिक मार्ग उपलब्ध'}
         </div>
+      )}
+
+      {onAskAI && (
+        <button 
+          onClick={() => onAskAI(node)}
+          className="mt-3 w-full py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold rounded-lg border border-purple-200 transition-colors flex items-center justify-center gap-1"
+        >
+          <span>✨</span> Ask AI for Guidance
+        </button>
       )}
     </div>
   );

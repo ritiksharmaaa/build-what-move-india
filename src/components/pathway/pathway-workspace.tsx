@@ -10,6 +10,7 @@ import { PathwayMapMobile } from './pathway-map-mobile';
 import { CompareBar } from './compare-bar';
 import { CompareModal } from './compare-modal';
 import { ActionPlanModal } from './action-plan-modal';
+import { AiExplanationModal } from './ai-explanation-modal';
 
 export function PathwayWorkspace({
   initialInput,
@@ -29,6 +30,7 @@ export function PathwayWorkspace({
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [showCompare, setShowCompare] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
+  const [activeAiNode, setActiveAiNode] = useState<EvaluatedNode | null>(null);
 
   const handleToggleNode = (id: string) => {
     setSelectedIds(prev => {
@@ -95,8 +97,8 @@ export function PathwayWorkspace({
           </div>
         )}
 
-        <PathwayMapDesktop nodes={nodes} selectedIds={selectedIds} onToggle={handleToggleNode} />
-        <PathwayMapMobile nodes={nodes} selectedIds={selectedIds} onToggle={handleToggleNode} />
+        <PathwayMapDesktop nodes={nodes} selectedIds={selectedIds} onToggle={handleToggleNode} onAskAI={setActiveAiNode} />
+        <PathwayMapMobile nodes={nodes} selectedIds={selectedIds} onToggle={handleToggleNode} onAskAI={setActiveAiNode} />
       </main>
 
       <CompareBar 
@@ -117,6 +119,14 @@ export function PathwayWorkspace({
         <ActionPlanModal 
           nodes={nodes.filter(n => selectedIds.includes(n.nodeId))} 
           onClose={() => setShowPlan(false)} 
+        />
+      )}
+
+      {activeAiNode && (
+        <AiExplanationModal 
+          node={activeAiNode} 
+          input={input}
+          onClose={() => setActiveAiNode(null)} 
         />
       )}
     </div>
