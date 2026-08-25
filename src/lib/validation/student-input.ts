@@ -2,7 +2,11 @@ import { z } from 'zod';
 
 export const StudentDecisionSchema = z.object({
   stage: z.enum(['class_10', 'class_12', 'graduate', 'dropout']),
-  class10Stream: z.enum(['science', 'commerce', 'humanities', 'vocational', 'unknown']).optional(),
+  class10Stream: z.enum([
+    'science_with_maths', 'science_without_maths', 
+    'commerce_with_maths', 'commerce_without_maths', 
+    'humanities', 'vocational', 'unknown'
+  ]).optional(),
   class12Stream: z.enum([
     'science_with_maths', 'science_without_maths', 
     'commerce_with_maths', 'commerce_without_maths', 

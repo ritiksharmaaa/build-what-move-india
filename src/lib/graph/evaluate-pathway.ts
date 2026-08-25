@@ -121,11 +121,11 @@ export function evaluateGraph(
           bestReasonEn = edgeReasonEn;
           bestReasonHi = edgeReasonHi;
           break; 
-        } else if ((edgeStatus as DoorStatus) === 'conditional' && bestStatus !== 'open') {
+        } else if ((edgeStatus as DoorStatus) === 'conditional') {
           bestStatus = 'conditional';
           bestReasonEn = edgeReasonEn;
           bestReasonHi = edgeReasonHi;
-        } else if (edgeStatus === 'harder' && (bestStatus === 'closed' || bestStatus === 'reopenable')) {
+        } else if (edgeStatus === 'harder' && bestStatus === 'closed') {
           bestStatus = 'harder';
           bestReasonEn = edgeReasonEn;
           bestReasonHi = edgeReasonHi;
