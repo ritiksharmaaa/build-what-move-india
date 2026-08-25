@@ -1,0 +1,22 @@
+{
+  "nodes": [
+    { "id": "cre_design", "nameEn": "Design (NID/NIFT)", "nameHi": "डिजाइन", "tier": "now", "costMin": 50000, "costMax": 150000, "durationMonths": 48, "competitiveness": "highly_competitive", "recognizedBy": ["NID", "NIFT"] },
+    { "id": "cre_aviation", "nameEn": "Aviation / Pilot Training", "nameHi": "विमानन / पायलट", "tier": "now", "costMin": 2000000, "costMax": 5000000, "durationMonths": 24, "competitiveness": "moderate", "recognizedBy": ["DGCA"] },
+    { "id": "cre_hospitality", "nameEn": "Hotel Management", "nameHi": "होटल प्रबंधन", "tier": "now", "costMin": 30000, "costMax": 100000, "durationMonths": 36, "competitiveness": "moderate", "recognizedBy": ["NCHMCT"] },
+    { "id": "cre_media", "nameEn": "Mass Communication / Journalism", "nameHi": "जनसंचार", "tier": "now", "costMin": 20000, "costMax": 200000, "durationMonths": 36, "competitiveness": "moderate", "recognizedBy": ["UGC"] },
+    { "id": "cre_film_arts", "nameEn": "Film / Performing Arts", "nameHi": "फिल्म / प्रदर्शन कला", "tier": "now", "costMin": 0, "costMax": 500000, "durationMonths": 36, "competitiveness": "highly_competitive", "recognizedBy": [] },
+    { "id": "cre_entrepreneur", "nameEn": "Entrepreneurship / Startup", "nameHi": "उद्यमिता", "tier": "future", "costMin": 0, "costMax": 1000000, "durationMonths": 0, "competitiveness": "highly_competitive", "recognizedBy": [] }
+  ],
+  "edges": [
+    { "id": "cre_e1", "fromNodeId": "class_12_stage", "toNodeId": "cre_design", "requiredSubjects": [], "requiredExams": ["NID DAT", "NIFT"], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": 150000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "cre_e2", "fromNodeId": "class_12_stage", "toNodeId": "cre_hospitality", "requiredSubjects": [], "requiredExams": ["NCHMCT JEE"], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": 100000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "cre_e3", "fromNodeId": "class_12_stage", "toNodeId": "cre_media", "requiredSubjects": [], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": 200000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "cre_e4", "fromNodeId": "class_12_stage", "toNodeId": "cre_film_arts", "requiredSubjects": [], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": 500000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "cre_e5", "fromNodeId": "class_12_science", "toNodeId": "cre_aviation", "requiredSubjects": ["maths", "physics"], "requiredExams": ["Class 2 Medical"], "requiredStage": "class_12", "requiredStream": "science", "requiresMaths": true, "budgetMax": 5000000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "cre_e6", "fromNodeId": "graduate", "toNodeId": "cre_entrepreneur", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "cre_e7", "fromNodeId": "dropout", "toNodeId": "cre_film_arts", "requiredSubjects": [], "requiredExams": [], "requiredStage": "dropout", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "reentry" },
+    { "id": "cre_e8", "fromNodeId": "cre_design", "toNodeId": "cre_entrepreneur", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "cre_e9", "fromNodeId": "cre_media", "toNodeId": "cre_entrepreneur", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "cre_e10", "fromNodeId": "cre_hospitality", "toNodeId": "cre_entrepreneur", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" }
+  ]
+}

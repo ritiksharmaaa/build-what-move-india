@@ -1,0 +1,124 @@
+{
+  "sources": [
+    {
+      "id": "src_ugc_recognition",
+      "name": "UGC - List of Universities",
+      "url": "https://www.ugc.gov.in/oldpdf/Consolidated%20list%20of%20All%20Universities.pdf",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["sci_*", "com_*", "cre_media"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_aicte_approval",
+      "name": "AICTE - Approved Institutions",
+      "url": "https://www.aicte-india.org/bureaus/approval/approved-institutions",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["sci_btech_*", "com_mba"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_nta_jee",
+      "name": "NTA JEE Main Official",
+      "url": "https://jeemain.nta.ac.in/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["sci_btech_*"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_nta_neet",
+      "name": "NTA NEET UG Official",
+      "url": "https://neet.nta.ac.in/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["sci_mbbs", "sci_medical_specialist"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_upsc_eligibility",
+      "name": "UPSC Eligibility Guidelines",
+      "url": "https://upsc.gov.in/sites/default/files/Exam_Guidelines.pdf",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["gov_upsc_prep", "gov_ias_ips", "gov_defence"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_uppsc_info",
+      "name": "UPPSC Official Website",
+      "url": "https://uppsc.up.nic.in/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["gov_uppsc_prep", "gov_state_service"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_icai_ca",
+      "name": "ICAI CA Course Details",
+      "url": "https://www.icai.org/post/ca-course",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["com_ca_*"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_ncs",
+      "name": "National Career Service (NCS)",
+      "url": "https://www.ncs.gov.in/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["gov_*", "com_*", "sci_*", "cre_*"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_nios",
+      "name": "NIOS - Open Schooling",
+      "url": "https://www.nios.ac.in/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["dropout_*"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_cbse_career",
+      "name": "CBSE Career Guidance Portal",
+      "url": "https://cbsecareerguidance.com/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["*"],
+      "confidence": "medium"
+    },
+    {
+      "id": "src_nmc_medical",
+      "name": "National Medical Commission",
+      "url": "https://www.nmc.org.in/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["sci_mbbs", "sci_medical_specialist"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_iim_cat",
+      "name": "IIM CAT Admission",
+      "url": "https://iimcat.ac.in/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["com_mba"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_ssc",
+      "name": "Staff Selection Commission (SSC)",
+      "url": "https://ssc.nic.in/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["gov_ssc_cgl"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_nchmct",
+      "name": "NCHMCT - Hospitality",
+      "url": "https://nchmct.info/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["cre_hospitality"],
+      "confidence": "high"
+    },
+    {
+      "id": "src_nid_nift",
+      "name": "NID / NIFT Design Portals",
+      "url": "https://admissions.nid.edu/",
+      "dateChecked": "2026-08-25",
+      "affectedPaths": ["cre_design"],
+      "confidence": "high"
+    }
+  ]
+}

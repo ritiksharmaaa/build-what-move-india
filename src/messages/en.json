@@ -1,0 +1,114 @@
+{
+  "common": {
+    "siteTitle": "PathFinder India",
+    "tagline": "Student Career and Education Route Planner",
+    "disclaimer": "This is an independent hackathon prototype, not an official government product.",
+    "loading": "Loading...",
+    "error": "An error occurred"
+  },
+  "nav": {
+    "home": "Home",
+    "start": "Start",
+    "map": "Pathway Map",
+    "compare": "Compare",
+    "plan": "Action Plan"
+  },
+  "header": {
+    "portalTitle": "PathFinder India",
+    "subtitle": "Student Career & Education Route Planner",
+    "languageLabel": "Change Language",
+    "english": "English",
+    "hindi": "हिन्दी"
+  },
+  "landing": {
+    "heroTitle": "See what your choices open and close",
+    "heroSubtitle": "A unified decision map for Indian students. Enter your stage, interests, and budget to see which career doors your choices open, close, or make harder.",
+    "ctaButton": "Start Your Journey",
+    "features": {
+      "linked": {
+        "title": "Linked Decisions",
+        "desc": "Change one choice, instantly see its cascade effect on all careers."
+      },
+      "source": {
+        "title": "Source-Backed",
+        "desc": "Every eligibility rule and cost has a verified official citation."
+      },
+      "language": {
+        "title": "Your Language",
+        "desc": "Fully available in both Hindi and English."
+      }
+    }
+  },
+  "intake": {
+    "stageQuestion": "What stage are you at?",
+    "stages": {
+      "class_10": "Class 10",
+      "class_12": "Class 12",
+      "graduate": "Graduate",
+      "dropout": "Dropped Out"
+    },
+    "historyQuestion": "What stream did you take in Class 10/12?",
+    "interestsQuestion": "What sounds interesting?",
+    "goalsQuestion": "Do you have a dream career?",
+    "budgetQuestion": "How much can your family spend per year on education?",
+    "urgencyQuestion": "How quickly do you need to start earning?",
+    "budgetLabels": {
+      "low": "₹10K (Government college)",
+      "medium": "₹1L (Mid-range)",
+      "high": "₹5L+ (Private)"
+    },
+    "pwdQuestion": "Do you have a disability certificate?",
+    "goalConflict": "These goals have different timelines. We'll show both paths — you decide."
+  },
+  "map": {
+    "statisticsOpen": "paths open",
+    "statisticsClosed": "paths closed",
+    "statisticsHard": "hard routes",
+    "statisticsRecovery": "recovery routes",
+    "parameterBar": {
+      "stage": "Stage",
+      "stream": "Stream",
+      "subjects": "Subjects",
+      "budget": "Budget",
+      "goals": "Goals",
+      "state": "State"
+    },
+    "cascadeToast": "Removing this parameter closed {closedCount} paths and opened {openedCount} new ones.",
+    "showChanges": "Show what changed",
+    "expandMore": "+{count} more"
+  },
+  "doorStatus": {
+    "open": "Available now",
+    "conditional": "Needs one more step",
+    "harder": "Possible but harder",
+    "closed": "Not available from this route",
+    "reopenable": "Closed — recovery route exists",
+    "unverified": "Needs verification"
+  },
+  "compare": {
+    "title": "Compare Routes",
+    "costColumn": "Cost",
+    "eligibilityColumn": "Eligibility",
+    "durationColumn": "Duration",
+    "examsColumn": "Exams Required",
+    "institutionComparison": "Institution Types",
+    "govtOption": "Government/Subsidized",
+    "privateOption": "Private/Unsubsidized"
+  },
+  "plan": {
+    "title": "Your 30-Day Action Plan",
+    "shareWhatsApp": "Share via WhatsApp",
+    "downloadPDF": "Download PDF",
+    "actionItems": "Action Items",
+    "govServices": "Government Services to Check",
+    "questionsToAsk": "Questions for Counsellor/School",
+    "lowCostAlternatives": "Low-Cost Alternatives",
+    "redFlags": "Risks & Warnings"
+  },
+  "safety": {
+    "distressTitle": "You are not alone",
+    "distressMessage": "We noticed you might be going through a tough time. Help is available 24/7.",
+    "helplines": "Helplines",
+    "callNow": "Call Now"
+  }
+}

@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+  }
+
+  * {
+    @apply border-slate-200;
+  }
+
+  body {
+    @apply bg-surface-secondary text-slate-900 antialiased;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Door status badge utilities */
+  .door-badge-open {
+    @apply bg-emerald-50 text-door-open border-emerald-200;
+  }
+  .door-badge-conditional {
+    @apply bg-yellow-50 text-door-conditional border-yellow-200;
+  }
+  .door-badge-harder {
+    @apply bg-orange-50 text-door-harder border-orange-200;
+  }
+  .door-badge-closed {
+    @apply bg-red-50 text-door-closed border-red-200;
+  }
+  .door-badge-reopenable {
+    @apply bg-purple-50 text-door-reopenable border-purple-200;
+  }
+  .door-badge-unverified {
+    @apply bg-gray-50 text-door-unverified border-gray-200;
+  }
+}

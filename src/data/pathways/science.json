@@ -1,0 +1,136 @@
+{
+  "nodes": [
+    {
+      "id": "sci_bsc_physics",
+      "nameEn": "BSc Physics",
+      "nameHi": "बीएससी भौतिकी",
+      "tier": "now",
+      "costMin": 5000,
+      "costMax": 200000,
+      "durationMonths": 36,
+      "competitiveness": "high_intake",
+      "recognizedBy": ["UGC"]
+    },
+    {
+      "id": "sci_bsc_chemistry",
+      "nameEn": "BSc Chemistry",
+      "nameHi": "बीएससी रसायन विज्ञान",
+      "tier": "now",
+      "costMin": 5000,
+      "costMax": 200000,
+      "durationMonths": 36,
+      "competitiveness": "high_intake",
+      "recognizedBy": ["UGC"]
+    },
+    {
+      "id": "sci_bsc_maths",
+      "nameEn": "BSc Mathematics",
+      "nameHi": "बीएससी गणित",
+      "tier": "now",
+      "costMin": 5000,
+      "costMax": 15000,
+      "durationMonths": 36,
+      "competitiveness": "high_intake",
+      "recognizedBy": ["UGC"]
+    },
+    {
+      "id": "sci_btech_cs",
+      "nameEn": "B.Tech Computer Science",
+      "nameHi": "बी.टेक कंप्यूटर साइंस",
+      "tier": "now",
+      "costMin": 50000,
+      "costMax": 500000,
+      "durationMonths": 48,
+      "competitiveness": "highly_competitive",
+      "recognizedBy": ["AICTE"]
+    },
+    {
+      "id": "sci_btech_mech",
+      "nameEn": "B.Tech Mechanical",
+      "nameHi": "बी.टेक मैकेनिकल",
+      "tier": "now",
+      "costMin": 50000,
+      "costMax": 500000,
+      "durationMonths": 48,
+      "competitiveness": "highly_competitive",
+      "recognizedBy": ["AICTE"]
+    },
+    {
+      "id": "sci_mbbs",
+      "nameEn": "MBBS",
+      "nameHi": "एमबीबीएस",
+      "tier": "now",
+      "costMin": 25000,
+      "costMax": 2500000,
+      "durationMonths": 66,
+      "competitiveness": "extremely_competitive",
+      "recognizedBy": ["NMC"]
+    },
+    {
+      "id": "sci_msc_research",
+      "nameEn": "MSc / Research",
+      "nameHi": "एमएससी / शोध",
+      "tier": "next",
+      "costMin": 10000,
+      "costMax": 30000,
+      "durationMonths": 24,
+      "competitiveness": "moderate",
+      "recognizedBy": ["UGC"]
+    },
+    {
+      "id": "sci_data_science",
+      "nameEn": "Data Science / ML Career",
+      "nameHi": "डेटा साइंस",
+      "tier": "future",
+      "costMin": 0,
+      "costMax": 0,
+      "durationMonths": 24,
+      "competitiveness": "highly_competitive",
+      "recognizedBy": []
+    },
+    {
+      "id": "sci_isro_drdo",
+      "nameEn": "ISRO/DRDO Scientist",
+      "nameHi": "इसरो/डीआरडीओ वैज्ञानिक",
+      "tier": "future",
+      "costMin": 0,
+      "costMax": 0,
+      "durationMonths": 0,
+      "competitiveness": "highly_competitive",
+      "recognizedBy": []
+    },
+    {
+      "id": "sci_medical_specialist",
+      "nameEn": "Medical Specialist",
+      "nameHi": "चिकित्सा विशेषज्ञ",
+      "tier": "future",
+      "costMin": 0,
+      "costMax": 0,
+      "durationMonths": 36,
+      "competitiveness": "highly_competitive",
+      "recognizedBy": ["NMC"]
+    }
+  ],
+  "edges": [
+    { "id": "sci_e1", "fromNodeId": "class_12_stage", "toNodeId": "sci_bsc_physics", "requiredSubjects": [], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "science", "requiresMaths": false, "budgetMax": 200000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e2", "fromNodeId": "class_12_stage", "toNodeId": "sci_bsc_chemistry", "requiredSubjects": [], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "science", "requiresMaths": false, "budgetMax": 200000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e3", "fromNodeId": "class_12_stage", "toNodeId": "sci_bsc_maths", "requiredSubjects": ["maths"], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "science", "requiresMaths": true, "budgetMax": 15000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e4", "fromNodeId": "class_12_stage", "toNodeId": "sci_btech_cs", "requiredSubjects": ["maths"], "requiredExams": ["JEE"], "requiredStage": "class_12", "requiredStream": "science", "requiresMaths": true, "budgetMax": 500000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e5", "fromNodeId": "class_12_stage", "toNodeId": "sci_btech_mech", "requiredSubjects": ["maths"], "requiredExams": ["JEE"], "requiredStage": "class_12", "requiredStream": "science", "requiresMaths": true, "budgetMax": 500000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e6", "fromNodeId": "class_12_stage", "toNodeId": "sci_mbbs", "requiredSubjects": ["biology"], "requiredExams": ["NEET"], "requiredStage": "class_12", "requiredStream": "science", "requiresMaths": false, "budgetMax": 2500000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e7", "fromNodeId": "sci_bsc_physics", "toNodeId": "sci_msc_research", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": false, "budgetMax": 30000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e8", "fromNodeId": "sci_bsc_chemistry", "toNodeId": "sci_msc_research", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": false, "budgetMax": 30000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e9", "fromNodeId": "sci_bsc_maths", "toNodeId": "sci_msc_research", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": true, "budgetMax": 30000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e10", "fromNodeId": "sci_bsc_maths", "toNodeId": "sci_data_science", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": true, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e11", "fromNodeId": "sci_btech_cs", "toNodeId": "sci_data_science", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": true, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e12", "fromNodeId": "sci_msc_research", "toNodeId": "sci_isro_drdo", "requiredSubjects": [], "requiredExams": [], "requiredStage": "postgraduate", "requiredStream": "science", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e13", "fromNodeId": "sci_btech_cs", "toNodeId": "sci_isro_drdo", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": true, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e14", "fromNodeId": "sci_mbbs", "toNodeId": "sci_medical_specialist", "requiredSubjects": [], "requiredExams": ["NEET PG"], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "sci_e15", "fromNodeId": "class_12_commerce", "toNodeId": "sci_btech_cs", "requiredSubjects": ["maths"], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "commerce", "requiresMaths": true, "budgetMax": 500000, "stateSpecific": null, "edgeType": "lateral_entry" },
+    { "id": "sci_e16", "fromNodeId": "graduate", "toNodeId": "sci_msc_research", "requiredSubjects": [], "requiredExams": ["Entrance Exam"], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": 30000, "stateSpecific": null, "edgeType": "lateral_entry" },
+    { "id": "sci_e17", "fromNodeId": "dropout", "toNodeId": "sci_bsc_physics", "requiredSubjects": [], "requiredExams": ["NIOS"], "requiredStage": "dropout", "requiredStream": "any", "requiresMaths": false, "budgetMax": 200000, "stateSpecific": null, "edgeType": "reentry" },
+    { "id": "sci_e18", "fromNodeId": "dropout", "toNodeId": "sci_btech_cs", "requiredSubjects": [], "requiredExams": ["NIOS", "JEE"], "requiredStage": "dropout", "requiredStream": "any", "requiresMaths": true, "budgetMax": 500000, "stateSpecific": null, "edgeType": "reentry" },
+    { "id": "sci_e19", "fromNodeId": "sci_bsc_physics", "toNodeId": "sci_btech_cs", "requiredSubjects": [], "requiredExams": ["GATE", "Lateral Entry"], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": false, "budgetMax": 500000, "stateSpecific": null, "edgeType": "lateral_entry" },
+    { "id": "sci_e20", "fromNodeId": "sci_btech_any", "toNodeId": "sci_isro_drdo", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "science", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" }
+  ]
+}

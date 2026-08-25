@@ -1,0 +1,28 @@
+{
+  "nodes": [
+    { "id": "gov_upsc_prep", "nameEn": "UPSC Preparation", "nameHi": "यूपीएससी तैयारी", "tier": "now", "costMin": 0, "costMax": 200000, "durationMonths": 24, "competitiveness": "highly_competitive", "recognizedBy": [] },
+    { "id": "gov_uppsc_prep", "nameEn": "UPPSC Preparation", "nameHi": "यूपीपीएससी तैयारी", "tier": "now", "costMin": 0, "costMax": 100000, "durationMonths": 24, "competitiveness": "highly_competitive", "recognizedBy": [] },
+    { "id": "gov_ssc_cgl", "nameEn": "SSC CGL", "nameHi": "एसएससी सीजीएल", "tier": "now", "costMin": 0, "costMax": 50000, "durationMonths": 12, "competitiveness": "moderate", "recognizedBy": [] },
+    { "id": "gov_ias_ips", "nameEn": "IAS/IPS Officer", "nameHi": "आईएएस/आईपीएस", "tier": "future", "costMin": 100, "costMax": 100, "durationMonths": 0, "competitiveness": "extremely_competitive", "recognizedBy": ["UPSC"] },
+    { "id": "gov_state_service", "nameEn": "State Civil Service (SDM/BDO)", "nameHi": "राज्य सिविल सेवा", "tier": "future", "costMin": 100, "costMax": 100, "durationMonths": 0, "competitiveness": "highly_competitive", "recognizedBy": ["UPPSC"] },
+    { "id": "gov_defence", "nameEn": "Defence Services (NDA/CDS)", "nameHi": "रक्षा सेवाएं", "tier": "now", "costMin": 0, "costMax": 5000, "durationMonths": 36, "competitiveness": "highly_competitive", "recognizedBy": ["UPSC"] },
+    { "id": "gov_teaching", "nameEn": "Government Teaching (TET/CTET)", "nameHi": "सरकारी शिक्षण", "tier": "next", "costMin": 0, "costMax": 5000, "durationMonths": 0, "competitiveness": "moderate", "recognizedBy": ["NCTE"] }
+  ],
+  "edges": [
+    { "id": "gov_e1", "fromNodeId": "graduate", "toNodeId": "gov_upsc_prep", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": 200000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "gov_e2", "fromNodeId": "graduate", "toNodeId": "gov_uppsc_prep", "requiredSubjects": [], "requiredExams": [], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": 100000, "stateSpecific": "UP", "edgeType": "direct" },
+    { "id": "gov_e3", "fromNodeId": "gov_upsc_prep", "toNodeId": "gov_ias_ips", "requiredSubjects": [], "requiredExams": ["UPSC CSE"], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": 100, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "gov_e4", "fromNodeId": "gov_uppsc_prep", "toNodeId": "gov_state_service", "requiredSubjects": [], "requiredExams": ["UPPSC PCS"], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": 100, "stateSpecific": "UP", "edgeType": "direct" },
+    { "id": "gov_e5", "fromNodeId": "class_12_stage", "toNodeId": "gov_defence", "requiredSubjects": [], "requiredExams": ["NDA"], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": 5000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "gov_e6", "fromNodeId": "graduate", "toNodeId": "gov_ssc_cgl", "requiredSubjects": [], "requiredExams": ["SSC CGL"], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": 50000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "gov_e7", "fromNodeId": "graduate_bed", "toNodeId": "gov_teaching", "requiredSubjects": [], "requiredExams": ["TET", "CTET"], "requiredStage": "graduate", "requiredStream": "any", "requiresMaths": false, "budgetMax": 5000, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "gov_e8", "fromNodeId": "class_12_stage", "toNodeId": "gov_upsc_prep", "requiredSubjects": [], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "gov_e9", "fromNodeId": "class_12_stage", "toNodeId": "gov_uppsc_prep", "requiredSubjects": [], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": "UP", "edgeType": "direct" },
+    { "id": "gov_e10", "fromNodeId": "class_12_stage", "toNodeId": "gov_ssc_cgl", "requiredSubjects": [], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "gov_e11", "fromNodeId": "class_12_stage", "toNodeId": "gov_teaching", "requiredSubjects": [], "requiredExams": [], "requiredStage": "class_12", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "direct" },
+    { "id": "gov_e12", "fromNodeId": "dropout", "toNodeId": "gov_upsc_prep", "requiredSubjects": [], "requiredExams": ["NIOS"], "requiredStage": "dropout", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "reentry" },
+    { "id": "gov_e13", "fromNodeId": "dropout", "toNodeId": "gov_uppsc_prep", "requiredSubjects": [], "requiredExams": ["NIOS"], "requiredStage": "dropout", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": "UP", "edgeType": "reentry" },
+    { "id": "gov_e14", "fromNodeId": "dropout", "toNodeId": "gov_ssc_cgl", "requiredSubjects": [], "requiredExams": ["NIOS"], "requiredStage": "dropout", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "reentry" },
+    { "id": "gov_e15", "fromNodeId": "dropout", "toNodeId": "gov_defence", "requiredSubjects": [], "requiredExams": ["NIOS"], "requiredStage": "dropout", "requiredStream": "any", "requiresMaths": false, "budgetMax": null, "stateSpecific": null, "edgeType": "reentry" }
+  ]
+}
