@@ -129,6 +129,9 @@ export function evaluateGraph(
           bestStatus = 'harder';
           bestReasonEn = edgeReasonEn;
           bestReasonHi = edgeReasonHi;
+        } else if (edgeStatus === 'closed' && bestStatus === 'closed') {
+          bestReasonEn = edgeReasonEn;
+          bestReasonHi = edgeReasonHi;
         }
       }
 
