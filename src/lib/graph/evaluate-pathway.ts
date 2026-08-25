@@ -30,10 +30,8 @@ export function evaluateGraph(
   ]));
 
   const evaluatedNodes: EvaluatedNode[] = rawNodes.map((node) => {
-    // Find edges pointing to this node
     const incomingEdges = rawEdges.filter(e => e.toNodeId === node.id);
     
-    // Find sources for this node
     const nodeSources: SourceClaim[] = rawSources
       .filter(s => s.nodeOrEdgeId === node.id)
       .map(s => ({
@@ -53,8 +51,6 @@ export function evaluateGraph(
     let reasonHi = 'डेटा का सत्यापन किया जा रहा है';
     let recovery: RecoveryRoute | undefined = undefined;
 
-    // Evaluate based on incoming edges and student input
-    // If there are no incoming edges, it's a root node, we'll assume open for now
     if (incomingEdges.length === 0) {
       status = 'open';
       reasonEn = 'Available directly';
@@ -65,7 +61,6 @@ export function evaluateGraph(
       let bestReasonHi = 'आप आवश्यकताओं को पूरा नहीं करते हैं।';
 
       for (const edge of incomingEdges) {
-        // Simplified evaluation logic for MVP
         let edgeStatus: DoorStatus = 'open';
         let edgeReasonEn = 'You meet all requirements.';
         let edgeReasonHi = 'आप सभी आवश्यकताओं को पूरा करते हैं।';
@@ -81,13 +76,12 @@ export function evaluateGraph(
           }
         }
 
-        // Stream check (simplified)
+        // Stream & Maths check logic
+        const userStream = input.stage === 'class_10' ? input.class10Stream : input.class12Stream;
+
+        // Stream check
         if (edgeStatus !== 'closed' && edge.requiredStream && edge.requiredStream !== 'any') {
-          const userStream = input.stage === 'graduate' || input.stage === 'dropout' 
-            ? input.class12Stream 
-            : (input as any).stream; // Assuming UI might pass stream for current class 12
-          
-          if (userStream && !userStream.includes(edge.requiredStream)) {
+          if (!userStream || !userStream.includes(edge.requiredStream)) {
             edgeStatus = 'closed';
             edgeReasonEn = `Requires ${edge.requiredStream} stream.`;
             edgeReasonHi = `${edge.requiredStream} स्ट्रीम की आवश्यकता है।`;
@@ -96,11 +90,7 @@ export function evaluateGraph(
 
         // Maths check
         if (edgeStatus !== 'closed' && edge.requiresMaths) {
-          const userStream = input.stage === 'graduate' || input.stage === 'dropout' 
-            ? input.class12Stream 
-            : (input as any).stream;
-            
-          if (userStream && !userStream.includes('with_maths')) {
+          if (!userStream || !userStream.includes('with_maths')) {
             edgeStatus = 'closed';
             edgeReasonEn = 'Requires Mathematics.';
             edgeReasonHi = 'गणित की आवश्यकता है।';
@@ -126,12 +116,11 @@ export function evaluateGraph(
           edgeReasonHi = 'लेटरल एंट्री के माध्यम से उपलब्ध (कठिन)।';
         }
 
-        // Update best status
         if (edgeStatus === 'open') {
           bestStatus = 'open';
           bestReasonEn = edgeReasonEn;
           bestReasonHi = edgeReasonHi;
-          break; // Found an open path, no need to check others
+          break; 
         } else if (edgeStatus === 'conditional' && bestStatus !== 'open') {
           bestStatus = 'conditional';
           bestReasonEn = edgeReasonEn;
@@ -140,8 +129,6 @@ export function evaluateGraph(
           bestStatus = 'harder';
           bestReasonEn = edgeReasonEn;
           bestReasonHi = edgeReasonHi;
-        } else if (edgeStatus === 'closed' && bestStatus === 'closed') {
-          // keep evaluating
         }
       }
 
@@ -150,7 +137,6 @@ export function evaluateGraph(
       reasonHi = bestReasonHi;
     }
 
-    // Attempt to find recovery route if closed
     if (status === 'closed') {
       recovery = findRecoveryRoute(node.id, input.stage, rawEdges, nodesMap, input.budgetBand);
       if (recovery) {
@@ -176,17 +162,16 @@ export function evaluateGraph(
       },
       durationMonths: node.durationMonths || 36,
       competitiveness: node.competitiveness || 'moderate',
-      futureDoorsOpened: 0, // Computed below
-      futurePathIds: [], // Computed below
+      futureDoorsOpened: 0, 
+      futurePathIds: [], 
       recoveryRoute: recovery,
       sources: nodeSources,
-      score: 0 // Computed below
+      score: 0 
     };
 
     return evalNode;
   });
 
-  // Second pass: compute future doors and scores
   for (const node of evaluatedNodes) {
     const outgoingEdges = rawEdges.filter(e => e.fromNodeId === node.nodeId);
     node.futurePathIds = outgoingEdges.map(e => e.toNodeId);
