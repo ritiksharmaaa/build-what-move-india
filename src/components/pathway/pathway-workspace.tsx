@@ -7,6 +7,9 @@ import { ParameterBar } from './parameter-bar';
 import { StatisticsBar } from './statistics-bar';
 import { PathwayMapDesktop } from './pathway-map-desktop';
 import { PathwayMapMobile } from './pathway-map-mobile';
+import { CompareBar } from './compare-bar';
+import { CompareModal } from './compare-modal';
+import { ActionPlanModal } from './action-plan-modal';
 
 export function PathwayWorkspace({
   initialInput,
@@ -23,6 +26,20 @@ export function PathwayWorkspace({
   const [nodes, setNodes] = useState<EvaluatedNode[]>(initialNodes);
   const [stats, setStats] = useState<GraphStatistics>(initialStats);
   const [cascadeMsg, setCascadeMsg] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [showCompare, setShowCompare] = useState(false);
+  const [showPlan, setShowPlan] = useState(false);
+
+  const handleToggleNode = (id: string) => {
+    setSelectedIds(prev => {
+      if (prev.includes(id)) return prev.filter(x => x !== id);
+      if (prev.length >= 3) {
+        alert("You can compare up to 3 paths at a time.");
+        return prev;
+      }
+      return [...prev, id];
+    });
+  };
 
   // When input changes, we should ideally hit an API to re-evaluate or do it on client.
   // For MVP, if we want instantaneous reactive UI, we need the `evaluateGraph` logic on client.
@@ -78,9 +95,30 @@ export function PathwayWorkspace({
           </div>
         )}
 
-        <PathwayMapDesktop nodes={nodes} />
-        <PathwayMapMobile nodes={nodes} />
+        <PathwayMapDesktop nodes={nodes} selectedIds={selectedIds} onToggle={handleToggleNode} />
+        <PathwayMapMobile nodes={nodes} selectedIds={selectedIds} onToggle={handleToggleNode} />
       </main>
+
+      <CompareBar 
+        selectedCount={selectedIds.length}
+        onCompare={() => setShowCompare(true)}
+        onActionPlan={() => setShowPlan(true)}
+        onClear={() => setSelectedIds([])}
+      />
+
+      {showCompare && (
+        <CompareModal 
+          nodes={nodes.filter(n => selectedIds.includes(n.nodeId))} 
+          onClose={() => setShowCompare(false)} 
+        />
+      )}
+
+      {showPlan && (
+        <ActionPlanModal 
+          nodes={nodes.filter(n => selectedIds.includes(n.nodeId))} 
+          onClose={() => setShowPlan(false)} 
+        />
+      )}
     </div>
   );
 }

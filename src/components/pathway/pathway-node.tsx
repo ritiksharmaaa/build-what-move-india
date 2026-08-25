@@ -3,7 +3,15 @@ import { cn, formatCostRange } from '@/lib/utils';
 import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 
-export function PathwayNode({ node }: { node: EvaluatedNode }) {
+export function PathwayNode({ 
+  node, 
+  selected = false,
+  onToggle 
+}: { 
+  node: EvaluatedNode;
+  selected?: boolean;
+  onToggle?: (id: string) => void;
+}) {
   const locale = useLocale() as 'en' | 'hi';
   const t = useTranslations('doorStatus');
 
@@ -29,9 +37,22 @@ export function PathwayNode({ node }: { node: EvaluatedNode }) {
   };
 
   return (
-    <div className={cn("p-4 rounded-xl border shadow-sm transition-all hover:shadow-md", bgClasses[node.doorStatus])}>
-      <div className="flex justify-between items-start mb-2">
+    <div className={cn("p-4 rounded-xl border shadow-sm transition-all hover:shadow-md relative", bgClasses[node.doorStatus])}>
+      {onToggle && node.doorStatus !== 'closed' && (
+        <div className="absolute top-3 right-3">
+          <input 
+            type="checkbox"
+            checked={selected}
+            onChange={() => onToggle(node.nodeId)}
+            className="w-5 h-5 rounded border-slate-300 text-brand-600 focus:ring-brand-500 cursor-pointer"
+          />
+        </div>
+      )}
+      
+      <div className="flex justify-between items-start mb-2 pr-8">
         <h3 className="font-bold text-slate-900 leading-tight">{name}</h3>
+      </div>
+      <div className="mb-2">
         <span className={cn("text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider", badgeClasses[node.doorStatus])}>
           {t(node.doorStatus)}
         </span>

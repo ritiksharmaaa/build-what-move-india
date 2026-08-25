@@ -1,7 +1,15 @@
 import type { EvaluatedNode } from '@/lib/contracts/pathway';
 import { PathwayNode } from './pathway-node';
 
-export function PathwayMapDesktop({ nodes }: { nodes: EvaluatedNode[] }) {
+export function PathwayMapDesktop({ 
+  nodes,
+  selectedIds = [],
+  onToggle
+}: { 
+  nodes: EvaluatedNode[];
+  selectedIds?: string[];
+  onToggle?: (id: string) => void;
+}) {
   const now = nodes.filter(n => n.tier === 'now');
   const next = nodes.filter(n => n.tier === 'next');
   const future = nodes.filter(n => n.tier === 'future');
@@ -11,7 +19,14 @@ export function PathwayMapDesktop({ nodes }: { nodes: EvaluatedNode[] }) {
       <h2 className="font-bold text-slate-400 uppercase tracking-widest text-sm mb-2">{title}</h2>
       <div className="flex flex-col gap-3">
         {columnNodes.length > 0 ? (
-          columnNodes.map(node => <PathwayNode key={node.nodeId} node={node} />)
+          columnNodes.map(node => (
+            <PathwayNode 
+              key={node.nodeId} 
+              node={node} 
+              selected={selectedIds.includes(node.nodeId)}
+              onToggle={onToggle}
+            />
+          ))
         ) : (
           <div className="text-sm text-slate-400 italic p-4 border border-dashed rounded-xl text-center">
             No pathways in this tier based on current inputs.
