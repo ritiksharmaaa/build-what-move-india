@@ -25,6 +25,7 @@ The core innovation is a **reactive constraint graph**: changing any parameter (
 - **UI**: Tailwind CSS 3, Shadcn UI primitives
 - **AI**: OpenAI (structured output with guardrails)
 - **Graph**: Deterministic directed pathway graph with dagre layout
+- **AI Fallback**: Built-in Bring-Your-Own-Key (BYOK) system. If the server's OpenAI key is missing or exhausted, the UI prompts the user to securely enter their own API key and endpoint (supports OpenAI, Groq, OpenRouter, etc.).
 
 ## Key Features
 
