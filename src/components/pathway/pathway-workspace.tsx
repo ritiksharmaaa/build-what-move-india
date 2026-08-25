@@ -1,27 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { StudentDecisionInput } from '@/lib/contracts/student';
 import type { EvaluatedNode, GraphStatistics } from '@/lib/contracts/pathway';
 import { ParameterBar } from './parameter-bar';
 import { StatisticsBar } from './statistics-bar';
+import { FissionPathwayGraph } from './fission-pathway-graph';
 import { PathwayMapDesktop } from './pathway-map-desktop';
 import { PathwayMapMobile } from './pathway-map-mobile';
 import { CompareBar } from './compare-bar';
 import { CompareModal } from './compare-modal';
 import { ActionPlanModal } from './action-plan-modal';
 import { AiExplanationModal } from './ai-explanation-modal';
+import { useLocale } from 'next-intl';
+import { Sparkles, Layers, GitBranch, ShieldCheck } from 'lucide-react';
 
 export function PathwayWorkspace({
   initialInput,
   initialNodes,
   initialStats,
-  rawGraphData
+  rawGraphData,
 }: {
   initialInput: StudentDecisionInput;
   initialNodes: EvaluatedNode[];
   initialStats: GraphStatistics;
-  rawGraphData: { nodes: any[], edges: any[], sources: any[] };
+  rawGraphData: { nodes: any[]; edges: any[]; sources: any[] };
 }) {
   const [input, setInput] = useState<StudentDecisionInput>(initialInput);
   const [nodes, setNodes] = useState<EvaluatedNode[]>(initialNodes);
@@ -31,44 +34,41 @@ export function PathwayWorkspace({
   const [showCompare, setShowCompare] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
   const [activeAiNode, setActiveAiNode] = useState<EvaluatedNode | null>(null);
+  const [activeTab, setActiveTab] = useState<'fission' | 'detailed'>('fission');
+
+  const locale = useLocale();
 
   const handleToggleNode = (id: string) => {
-    setSelectedIds(prev => {
-      if (prev.includes(id)) return prev.filter(x => x !== id);
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) return prev.filter((x) => x !== id);
       if (prev.length >= 3) {
-        alert("You can compare up to 3 paths at a time.");
+        alert('You can compare up to 3 paths at a time.');
         return prev;
       }
       return [...prev, id];
     });
   };
 
-  // When input changes, we should ideally hit an API to re-evaluate or do it on client.
-  // For MVP, if we want instantaneous reactive UI, we need the `evaluateGraph` logic on client.
-  // Let's assume we fetch a new state from an API route or server action.
-  
   const handleParameterChange = async (key: keyof StudentDecisionInput, value: any) => {
     const newInput = { ...input, [key]: value };
     setInput(newInput);
-    
+
     try {
-      // In a real Server Actions setup, we'd call the server.
-      // Here, we can post to an API route to re-evaluate.
       const res = await fetch('/api/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          input: newInput, 
+        body: JSON.stringify({
+          input: newInput,
           oldNodes: nodes,
-          changedKey: key
-        })
+          changedKey: key,
+        }),
       });
       if (res.ok) {
         const data = await res.json();
         setNodes(data.nodes);
         setStats(data.stats);
         if (data.cascade?.summaryEn) {
-          setCascadeMsg(data.cascade.summaryEn);
+          setCascadeMsg(locale === 'hi' ? (data.cascade.summaryHi || data.cascade.summaryEn) : data.cascade.summaryEn);
           setTimeout(() => setCascadeMsg(null), 5000);
         }
       }
@@ -78,55 +78,127 @@ export function PathwayWorkspace({
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#FAFBFD]">
+      {/* Symmetrical Parameter Bar */}
       <ParameterBar input={input} onChange={handleParameterChange} />
-      
+
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        <div className="flex justify-between items-end">
+        {/* Symmetrical Header Box */}
+        <div className="bento-box p-6 border-2 border-slate-900 bg-white flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
           <div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Your Career Map</h1>
-            <p className="text-slate-500 mt-1">Showing all paths based on your current constraints.</p>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500">
+                DECISION TOPOLOGY • उत्तर प्रदेश व केंद्रीय
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight font-devanagari mt-1">
+              {locale === 'hi' ? 'आपका व्यक्तिगत करियर मानचित्र' : 'Your Personal Career Map'}
+            </h1>
+            <p className="text-xs text-slate-500 font-devanagari">
+              {locale === 'hi'
+                ? 'आपके वर्तमान स्तर, स्ट्रीम और बजट के आधार पर वास्तविक संभावनाएं'
+                : 'Live cascade topology calculated against statutory prerequisites and budget constraints.'}
+            </p>
           </div>
-          <StatisticsBar stats={stats} />
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <StatisticsBar stats={stats} />
+          </div>
         </div>
 
+        {/* View Switcher Tabs (Symmetrical Bento Buttons) */}
+        <div className="flex items-center gap-2 border-b-2 border-slate-900 pb-2">
+          <button
+            onClick={() => setActiveTab('fission')}
+            className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider border-2 transition-all ${
+              activeTab === 'fission'
+                ? 'bg-slate-900 text-white border-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]'
+                : 'bg-white text-slate-700 border-slate-300 hover:border-slate-900'
+            }`}
+          >
+            <GitBranch className="w-4 h-4 text-emerald-400" />
+            <span>{locale === 'hi' ? '⚛️ परमाणु विखंडन श्रृंखला (Fission Graph)' : '⚛️ Nuclear Fission Chain'}</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('detailed')}
+            className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider border-2 transition-all ${
+              activeTab === 'detailed'
+                ? 'bg-slate-900 text-white border-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]'
+                : 'bg-white text-slate-700 border-slate-300 hover:border-slate-900'
+            }`}
+          >
+            <Layers className="w-4 h-4 text-brand-400" />
+            <span>{locale === 'hi' ? 'विस्तृत नोड मैट्रिक्स (Tiered Nodes)' : 'Detailed Tiered Nodes'}</span>
+          </button>
+        </div>
+
+        {/* Toast Notification for Cascade Changes */}
         {cascadeMsg && (
-          <div className="bg-brand-900 text-white px-6 py-3 rounded-xl shadow-xl font-medium animate-toast-in flex items-center justify-between">
-            <span>{cascadeMsg}</span>
-            <button onClick={() => setCascadeMsg(null)} className="opacity-50 hover:opacity-100">×</button>
+          <div className="bg-slate-950 text-white border-2 border-brand-500 px-6 py-3.5 shadow-xl font-mono text-xs flex items-center justify-between animate-toast-in">
+            <div className="flex items-center gap-2.5">
+              <Sparkles className="w-4 h-4 text-brand-400 shrink-0" />
+              <span>{cascadeMsg}</span>
+            </div>
+            <button
+              onClick={() => setCascadeMsg(null)}
+              className="text-slate-400 hover:text-white font-mono text-sm pl-4"
+            >
+              ✕
+            </button>
           </div>
         )}
 
-        <PathwayMapDesktop nodes={nodes} selectedIds={selectedIds} onToggle={handleToggleNode} onAskAI={setActiveAiNode} />
-        <PathwayMapMobile nodes={nodes} selectedIds={selectedIds} onToggle={handleToggleNode} onAskAI={setActiveAiNode} />
+        {/* Dynamic Visualizer View */}
+        {activeTab === 'fission' ? (
+          <FissionPathwayGraph studentInput={input} onSelectNode={handleToggleNode} />
+        ) : (
+          <div className="space-y-6">
+            <PathwayMapDesktop
+              nodes={nodes}
+              selectedIds={selectedIds}
+              onToggle={handleToggleNode}
+              onAskAI={setActiveAiNode}
+            />
+            <PathwayMapMobile
+              nodes={nodes}
+              selectedIds={selectedIds}
+              onToggle={handleToggleNode}
+              onAskAI={setActiveAiNode}
+            />
+          </div>
+        )}
       </main>
 
-      <CompareBar 
+      {/* Floating Compare Action Bar */}
+      <CompareBar
         selectedCount={selectedIds.length}
         onCompare={() => setShowCompare(true)}
         onActionPlan={() => setShowPlan(true)}
         onClear={() => setSelectedIds([])}
       />
 
+      {/* Modals */}
       {showCompare && (
-        <CompareModal 
-          nodes={nodes.filter(n => selectedIds.includes(n.nodeId))} 
-          onClose={() => setShowCompare(false)} 
+        <CompareModal
+          nodes={nodes.filter((n) => selectedIds.includes(n.nodeId))}
+          onClose={() => setShowCompare(false)}
         />
       )}
 
       {showPlan && (
-        <ActionPlanModal 
-          nodes={nodes.filter(n => selectedIds.includes(n.nodeId))} 
-          onClose={() => setShowPlan(false)} 
+        <ActionPlanModal
+          nodes={nodes.filter((n) => selectedIds.includes(n.nodeId))}
+          onClose={() => setShowPlan(false)}
         />
       )}
 
       {activeAiNode && (
-        <AiExplanationModal 
-          node={activeAiNode} 
+        <AiExplanationModal
+          node={activeAiNode}
           input={input}
-          onClose={() => setActiveAiNode(null)} 
+          onClose={() => setActiveAiNode(null)}
         />
       )}
     </div>

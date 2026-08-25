@@ -1,114 +1,181 @@
 {
   "common": {
     "siteTitle": "PathFinder India",
-    "tagline": "Student Career and Education Route Planner",
-    "disclaimer": "This is an independent hackathon prototype, not an official government product.",
-    "loading": "Loading...",
-    "error": "An error occurred"
+    "tagline": "One Nation, One Career Portal",
+    "subTagline": "Symmetrical Decision Map • Zero-Bias Guidance",
+    "disclaimer": "Independent open innovation prototype powered by official gazettes and statutory regulations.",
+    "loading": "Loading data...",
+    "error": "An error occurred",
+    "back": "Back",
+    "next": "Continue",
+    "viewDetails": "View Details",
+    "officialSource": "Official Source"
   },
   "nav": {
     "home": "Home",
-    "start": "Start",
-    "map": "Pathway Map",
+    "start": "Find Pathway",
+    "map": "Fission Map",
+    "mission": "Mission (Riya's Story)",
     "compare": "Compare",
-    "plan": "Action Plan"
+    "plan": "30-Day Plan",
+    "about": "Mission & Purpose"
   },
   "header": {
     "portalTitle": "PathFinder India",
-    "subtitle": "Student Career & Education Route Planner",
+    "slogan": "One Nation, One Career Portal",
+    "subtitle": "Student Career & Education Route Simulator (UP & Central)",
     "languageLabel": "Change Language",
     "english": "English",
-    "hindi": "हिन्दी"
+    "hindi": "हिन्दी",
+    "replayGreeting": "Replay Startup Animation"
+  },
+  "ticker": {
+    "liveBadge": "OFFICIAL UPDATES",
+    "items": [
+      "📢 UPPSC PCS 2026: Prelims eligibility matrix & optional subject cascade updated",
+      "📢 UP Police SI & Constable: Class 12 & Graduate criteria verified against state gazette",
+      "📢 UPSC Civil Services 2026: 21 Yrs + Any Degree mandatory • 100% Free syllabus pathways verified",
+      "📢 JEE Advanced 2026: Class 12 PCM mandatory • AKTU / UPTU state quota pathways open",
+      "📢 NEET UG 2026: PCB stream prerequisite active • 85% UP state quota rules mapped",
+      "📢 CUET UG 2026: Domain subjects mapping active for central & state universities",
+      "🇮🇳 One Nation, One Career Portal — Democratizing unbiased guidance for 4.5 crore Indian students"
+    ]
   },
   "landing": {
-    "heroTitle": "See what your choices open and close",
-    "heroSubtitle": "A unified decision map for Indian students. Enter your stage, interests, and budget to see which career doors your choices open, close, or make harder.",
-    "ctaButton": "Start Your Journey",
-    "features": {
-      "linked": {
-        "title": "Linked Decisions",
-        "desc": "Change one choice, instantly see its cascade effect on all careers."
+    "badge": "From Class 10 to High Office",
+    "heroTitle": "See Which Doors Your Choices Open, And Which Close Forever",
+    "heroSubtitle": "A single subject decision in Class 10 or 12 locks in 80% of your future paths. Cut through commercial coaching hype with a mathematical nuclear fission graph of your real options.",
+    "ctaStart": "Build Your Pathway",
+    "ctaExplore": "Explore Fission Chain",
+    "stateFocusNotice": "Default Dataset: Uttar Pradesh (UP) State & Central Exams",
+    "metrics": {
+      "title": "Built On Uncompromising Data",
+      "subtitle": "Complex Indian educational structures divided into symmetrical bento boxes",
+      "nodes": {
+        "value": "500+",
+        "label": "Career Nodes Mapped",
+        "desc": "From Class 10 to IAS, ISRO, AI Engineering, AIIMS, CA & Judiciary"
       },
-      "source": {
-        "title": "Source-Backed",
-        "desc": "Every eligibility rule and cost has a verified official citation."
+      "exams": {
+        "value": "120+",
+        "label": "UP & Central Exams",
+        "desc": "UPPSC, UPSC, JEE, NEET, SSC, UP Police, CUET, NDA, CLAT"
       },
-      "language": {
-        "title": "Your Language",
-        "desc": "Fully available in both Hindi and English."
+      "budget": {
+        "value": "₹0 - ₹25L+",
+        "label": "Budget Optimization",
+        "desc": "From zero-cost Govt Colleges (₹10K) to premier private academies"
+      },
+      "accuracy": {
+        "value": "100%",
+        "label": "Verified Sources",
+        "desc": "Gazette notifications, AICTE, UGC, NTA & statutory regulations"
+      }
+    },
+    "dreams": {
+      "title": "What Is Your Dream? Click To Trace The Route",
+      "subtitle": "Choose an aspiration to instantly see the prerequisite subjects and qualifying exams",
+      "items": {
+        "ias": { "name": "IAS / IPS Officer", "stream": "Any Stream (Graduation Required)" },
+        "scientist": { "name": "ISRO / Scientist", "stream": "Science (PCM / Research)" },
+        "doctor": { "name": "Doctor / Surgeon (MBBS)", "stream": "Science (PCB Only)" },
+        "software": { "name": "Software / AI Engineer", "stream": "Science (Maths Mandatory)" },
+        "judge": { "name": "Judge / Advocate", "stream": "Any Stream (CLAT / LLB)" },
+        "defence": { "name": "Defence Officer (NDA/CDS)", "stream": "PCM / Any Stream" },
+        "ca": { "name": "Chartered Accountant (CA)", "stream": "Commerce / Any Stream" },
+        "teacher": { "name": "Professor / Teacher (TET/NET)", "stream": "B.Ed / Post Graduate" },
+        "sports": { "name": "Athlete / Sportsperson", "stream": "Sports Quota + Degree" },
+        "singer": { "name": "Musician / Vocal Artist", "stream": "Fine Arts / Music Degree" },
+        "writer": { "name": "Author / Journalist", "stream": "Journalism / Mass Comm" },
+        "upsc": { "name": "State Civil Service (SDM/DSP)", "stream": "UPPSC State Quota" }
       }
     }
   },
   "intake": {
-    "stageQuestion": "What stage are you at?",
+    "badge": "Step 1 • Your Educational Coordinates",
+    "title": "Enter Your Educational Background",
+    "subtitle": "This input mathematically calculates available, warning, and hard-stop paths.",
+    "stageQuestion": "What is your current stage?",
     "stages": {
-      "class_10": "Class 10",
-      "class_12": "Class 12",
-      "graduate": "Graduate",
-      "dropout": "Dropped Out"
+      "class_10": "Class 10 (10th Standard)",
+      "class_12": "Class 12 (12th Standard)",
+      "graduate": "Graduate (BSc / BA / BCom / BTech)",
+      "dropout": "Dropped Out (Re-entry via NIOS)"
     },
-    "historyQuestion": "What stream did you take in Class 10/12?",
-    "interestsQuestion": "What sounds interesting?",
-    "goalsQuestion": "Do you have a dream career?",
-    "budgetQuestion": "How much can your family spend per year on education?",
-    "urgencyQuestion": "How quickly do you need to start earning?",
-    "budgetLabels": {
-      "low": "₹10K (Government college)",
-      "medium": "₹1L (Mid-range)",
-      "high": "₹5L+ (Private)"
+    "streamQuestion": "What stream did you choose or plan to choose in Class 11/12?",
+    "streams": {
+      "science_with_maths": "Science (PCM - Physics, Chem, Maths)",
+      "science_without_maths": "Science (PCB - Physics, Chem, Biology)",
+      "science_pcmb": "Science (PCMB - Both Maths & Biology)",
+      "commerce_with_maths": "Commerce (with Mathematics)",
+      "commerce_without_maths": "Commerce (without Mathematics)",
+      "humanities": "Arts / Humanities",
+      "vocational": "Vocational / ITI / Polytechnic Diploma"
     },
-    "pwdQuestion": "Do you have a disability certificate?",
-    "goalConflict": "These goals have different timelines. We'll show both paths — you decide."
+    "stateQuestion": "Home State (for State Quotas & Subsidies):",
+    "states": {
+      "UP": "Uttar Pradesh (UP) - Default",
+      "BR": "Bihar (BR)",
+      "MP": "Madhya Pradesh (MP)",
+      "DL": "Delhi NCR (DL)",
+      "RJ": "Rajasthan (RJ)",
+      "OTHER": "Other States (All India Quota)"
+    },
+    "budgetQuestion": "Annual Education Budget (How much can your family spend per year?):",
+    "budgetDescriptions": {
+      "low": "₹0 - ₹25,000 / year (Govt College / Scholarships / Free)",
+      "medium": "₹25,000 - ₹1,00,000 / year (Subsidized State Universities)",
+      "high": "₹1,00,000 - ₹5,00,000 / year (Affordable Private / Semi-Govt)",
+      "premium": "₹5,00,000+ / year (Premier Private / Global Institutes)"
+    },
+    "budgetWarningNote": "If a path exceeds your budget, it will appear with an Amber (⚠️ Warning) friction indicator.",
+    "goalsQuestion": "What is your dream career?",
+    "interestsQuestion": "Your Interests (Optional):",
+    "submitButton": "Generate Nuclear Fission Pathway →"
   },
-  "map": {
-    "statisticsOpen": "paths open",
-    "statisticsClosed": "paths closed",
-    "statisticsHard": "hard routes",
-    "statisticsRecovery": "recovery routes",
-    "parameterBar": {
-      "stage": "Stage",
-      "stream": "Stream",
-      "subjects": "Subjects",
-      "budget": "Budget",
-      "goals": "Goals",
-      "state": "State"
+  "fission": {
+    "title": "Nuclear Fission Pathway Chain",
+    "subtitle": "Interactive node network expanding from Class 10 into specialized branches",
+    "legendTitle": "Color Indicators & Pathway Tracing",
+    "legend": {
+      "active": "Active Selected Route — Glowing Green",
+      "unselected": "Available Alternative Routes — Neutral Gray Box",
+      "blocked": "Mathematically Blocked — Red Hard Stop 🔒",
+      "warning": "Exceeds Stated Budget — Amber Warning ⚠️"
     },
-    "cascadeToast": "Removing this parameter closed {closedCount} paths and opened {openedCount} new ones.",
-    "showChanges": "Show what changed",
-    "expandMore": "+{count} more"
+    "downloadPdf": "Download Complete Pathway Dossier (PDF)",
+    "resetPath": "Reset Chain To Origin",
+    "hoverTooltip": "Hover over any node to inspect eligibility, fee brackets, and official portals",
+    "step1": "Stage 1: Class 10 Origin",
+    "step2": "Stage 2: 12th Stream Split",
+    "step3": "Stage 3: Entrance Exams & Degrees",
+    "step4": "Stage 4: Terminal Careers & Officers"
+  },
+  "mission": {
+    "badge": "Our Mission",
+    "title": "Democratizing Career Clarity For Bharat",
+    "subtitle": "Why 4.5 crore Indian students need a transparent, symmetrical portal instead of commercial coaching hype.",
+    "storyTitle": "Riya's Story: From Varanasi to Civil Services",
+    "storyP1": "Riya is a bright Class 10 student from a middle-class family in Varanasi, Uttar Pradesh. Scoring 92% in Class 10, she was eager to serve the nation, but lacked unbiased guidance on whether Arts or Science would keep UPSC and State Services doors open.",
+    "storyP2": "Coaching agents pushed ₹5,00,000 multi-year coaching packages, claiming government exams are impossible without expensive private courses. No one revealed that NCERTs, state universities, and zero-cost public libraries form the true backbone of civil service preparation.",
+    "storyP3": "PathFinder India was built to eliminate this information asymmetry — a strictly un-sponsored, mathematically verified portal showing every Indian student their genuine, open pathways.",
+    "pillars": {
+      "p1Title": "Zero Commercial Bias",
+      "p1Desc": "100% un-sponsored. We never promote private coaching centers or sell student leads.",
+      "p2Title": "Strict Boxy Symmetry",
+      "p2Desc": "Information structured in crystal-clear bento-boxes without cognitive overload.",
+      "p3Title": "State-Specific Ground Realities",
+      "p3Desc": "Real Uttar Pradesh and national quota breakdowns, actual exam fees, and deadlines.",
+      "p4Title": "Vernacular First",
+      "p4Desc": "Complete technical and conceptual precision in Hindi and regional languages."
+    }
   },
   "doorStatus": {
-    "open": "Available now",
-    "conditional": "Needs one more step",
-    "harder": "Possible but harder",
-    "closed": "Not available from this route",
-    "reopenable": "Closed — recovery route exists",
-    "unverified": "Needs verification"
-  },
-  "compare": {
-    "title": "Compare Routes",
-    "costColumn": "Cost",
-    "eligibilityColumn": "Eligibility",
-    "durationColumn": "Duration",
-    "examsColumn": "Exams Required",
-    "institutionComparison": "Institution Types",
-    "govtOption": "Government/Subsidized",
-    "privateOption": "Private/Unsubsidized"
-  },
-  "plan": {
-    "title": "Your 30-Day Action Plan",
-    "shareWhatsApp": "Share via WhatsApp",
-    "downloadPDF": "Download PDF",
-    "actionItems": "Action Items",
-    "govServices": "Government Services to Check",
-    "questionsToAsk": "Questions for Counsellor/School",
-    "lowCostAlternatives": "Low-Cost Alternatives",
-    "redFlags": "Risks & Warnings"
-  },
-  "safety": {
-    "distressTitle": "You are not alone",
-    "distressMessage": "We noticed you might be going through a tough time. Help is available 24/7.",
-    "helplines": "Helplines",
-    "callNow": "Call Now"
+    "open": "Available (Open)",
+    "conditional": "Requires 1 prerequisite step",
+    "harder": "Possible but highly competitive",
+    "closed": "Blocked (Hard Stop 🔒)",
+    "reopenable": "Recovery Route Exists (NIOS/Re-entry)",
+    "unverified": "Pending statutory verification"
   }
 }
