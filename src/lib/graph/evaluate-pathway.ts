@@ -121,7 +121,7 @@ export function evaluateGraph(
           bestReasonEn = edgeReasonEn;
           bestReasonHi = edgeReasonHi;
           break; 
-        } else if (edgeStatus === 'conditional' && bestStatus !== 'open') {
+        } else if ((edgeStatus as DoorStatus) === 'conditional' && bestStatus !== 'open') {
           bestStatus = 'conditional';
           bestReasonEn = edgeReasonEn;
           bestReasonHi = edgeReasonHi;
