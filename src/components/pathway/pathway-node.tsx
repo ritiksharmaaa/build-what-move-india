@@ -79,24 +79,27 @@ export function PathwayNode({
 
       {/* Node Title */}
       <h3 className="font-black text-sm text-slate-950 leading-snug font-devanagari mb-1">
-        {name}
+        {name || node.nodeId}
       </h3>
 
       {/* Authority / Category */}
       <div className="text-[10px] text-slate-500 uppercase font-mono tracking-wider mb-2 line-clamp-1">
-        {node.family.toUpperCase()} • {node.competitiveness.replace('_', ' ').toUpperCase()}
+        {(node.family || 'general').toUpperCase()}
+        {node.competitiveness ? ` • ${node.competitiveness.replace(/_/g, ' ').toUpperCase()}` : ''}
       </div>
 
       {/* Status Reason */}
       <p className="text-xs text-slate-600 font-devanagari leading-relaxed mb-3 line-clamp-2 border-l-2 border-slate-300 pl-2">
-        {reason}
+        {reason || 'Statutory pathway verification criteria'}
       </p>
 
       {/* Cost & Recovery Bottom Bar */}
       <div className="border-t border-slate-200 pt-2 mt-auto text-[11px] font-mono flex items-center justify-between text-slate-700">
         <span className="text-slate-500">Est. Cost:</span>
         <span className="font-bold text-slate-950">
-          {node.costRange.max > 0 ? formatCostRange(node.costRange.min, node.costRange.max, locale) : '₹0 (Free / Govt)'}
+          {node.costRange && node.costRange.max > 0 
+            ? formatCostRange(node.costRange.min, node.costRange.max, locale) 
+            : '₹0 (Free / Govt)'}
         </span>
       </div>
 

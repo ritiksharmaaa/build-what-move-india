@@ -225,7 +225,7 @@ export function NeuralGraphView({
                 >
                   <div className="flex justify-between items-start mb-1">
                     <span className="text-[9px] uppercase font-bold px-1 bg-slate-800 text-slate-300 rounded">
-                      {node.streamFamily.toUpperCase()}
+                      {(node.streamFamily || 'all').toUpperCase()}
                     </span>
                     {isSelected && <Zap className="w-3.5 h-3.5 text-emerald-400" />}
                     {evalRes.status === 'blocked' && <Lock className="w-3.5 h-3.5 text-red-500" />}

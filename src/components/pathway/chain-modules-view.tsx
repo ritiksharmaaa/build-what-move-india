@@ -264,7 +264,7 @@ export function ChainModulesView({
 
                   <div className="flex justify-between items-start mb-1">
                     <span className="text-[9px] uppercase font-bold px-1 bg-slate-200 text-slate-800">
-                      {node.streamFamily.toUpperCase()}
+                      {(node.streamFamily || 'all').toUpperCase()}
                     </span>
                     {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />}
                     {evalRes.status === 'blocked' && <Lock className="w-3.5 h-3.5 text-red-600" />}
