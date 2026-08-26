@@ -2,12 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from '@/i18n/navigation';
 import { useLocale } from 'next-intl';
 import type { StudentDecisionInput } from '@/lib/contracts/student';
 import type { GraphStatistics } from '@/lib/contracts/pathway';
 import { 
-  ArrowLeft, 
   SlidersHorizontal, 
   RotateCcw, 
   Download, 
@@ -45,11 +43,11 @@ export function FloatingControlPanel({
   const [paramsOpen, setParamsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
 
-  const viewOptions: { id: PathwayViewMode; label: string; icon: React.ElementType }[] = [
-    { id: 'chain', label: locale === 'hi' ? 'श्रृंखला' : 'Chain', icon: GitBranch },
-    { id: 'neural', label: locale === 'hi' ? 'न्यूरल' : 'Neural', icon: Network },
-    { id: 'fission', label: locale === 'hi' ? 'ग्रिड' : 'Grid', icon: Share2 },
-    { id: 'detailed', label: locale === 'hi' ? 'मैट्रिक्स' : 'Nodes', icon: Layers },
+  const viewOptions: { id: PathwayViewMode; labelEn: string; labelHi: string; icon: React.ElementType }[] = [
+    { id: 'chain', labelEn: 'Chain', labelHi: 'श्रृंखला', icon: GitBranch },
+    { id: 'neural', labelEn: 'Neural', labelHi: 'न्यूरल', icon: Network },
+    { id: 'fission', labelEn: 'Grid', labelHi: 'ग्रिड', icon: Share2 },
+    { id: 'detailed', labelEn: 'Nodes', labelHi: 'नोड्स', icon: Layers },
   ];
 
   return (
@@ -58,31 +56,24 @@ export function FloatingControlPanel({
       dragMomentum={false}
       dragElastic={0}
       initial={{ x: 0, y: 0 }}
-      className="fixed bottom-4 left-4 z-[60] font-mono select-none pointer-events-auto cursor-default"
+      className="fixed bottom-4 left-4 z-[60] font-sans select-none pointer-events-auto cursor-default"
       style={{ touchAction: 'none' }}
     >
-      <div className="w-72 sm:w-80 bg-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] overflow-hidden">
-        {/* Top Control Bar with Draggable Handle */}
-        <div className="flex items-center justify-between px-3 py-1.5 bg-slate-950 text-white border-b border-slate-800 cursor-grab active:cursor-grabbing">
+      <div className="w-72 sm:w-80 bg-white/95 backdrop-blur-md border border-slate-300 shadow-xl rounded-lg overflow-hidden transition-shadow hover:shadow-2xl">
+        {/* Calm Drag Header */}
+        <div className="flex items-center justify-between px-3 py-2 bg-slate-900 text-white cursor-grab active:cursor-grabbing border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <GripHorizontal className="w-3.5 h-3.5 text-slate-500 hover:text-white" />
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-200">
-              {locale === 'hi' ? 'पाथफाइंडर इंजन' : 'Pathfinder Engine'}
+            <GripHorizontal className="w-3.5 h-3.5 text-slate-400" />
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span className="text-xs font-semibold tracking-wide text-slate-100 font-devanagari">
+              {locale === 'hi' ? 'पाथफाइंडर विज़ुअलाइज़र' : 'Pathfinder Visualizer'}
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="text-[10px] text-slate-400 hover:text-white flex items-center gap-1 transition-colors underline decoration-slate-600"
-            >
-              <ArrowLeft className="w-3 h-3" />
-              <span>{locale === 'hi' ? 'पोर्टल' : 'Home'}</span>
-            </Link>
             <button
               onClick={() => setIsMinimized(!isMinimized)}
-              className="text-slate-400 hover:text-white text-xs pl-1 font-bold"
+              className="text-slate-400 hover:text-white text-xs px-1 font-bold transition-colors"
               title={isMinimized ? 'Expand' : 'Collapse'}
             >
               {isMinimized ? '+' : '−'}
@@ -91,9 +82,9 @@ export function FloatingControlPanel({
         </div>
 
         {!isMinimized && (
-          <>
-            {/* View Switcher Tabs (4 Boxy Options) */}
-            <div className="grid grid-cols-4 border-b-2 border-slate-900 bg-slate-100">
+          <div className="p-3 space-y-3">
+            {/* Calm Segmented Tab Pill Switcher */}
+            <div className="bg-slate-100 p-1 rounded-md grid grid-cols-4 gap-1 border border-slate-200">
               {viewOptions.map((opt) => {
                 const Icon = opt.icon;
                 const isActive = activeView === opt.id;
@@ -101,119 +92,133 @@ export function FloatingControlPanel({
                   <button
                     key={opt.id}
                     onClick={() => onViewChange(opt.id)}
-                    className={`py-1.5 px-1 text-center text-[10px] font-bold uppercase flex flex-col items-center justify-center gap-0.5 border-r last:border-r-0 border-slate-300 transition-all ${
+                    className={`py-1.5 px-1 text-center text-xs font-medium rounded flex flex-col items-center justify-center gap-0.5 transition-all ${
                       isActive
-                        ? 'bg-slate-900 text-white shadow-inner'
-                        : 'bg-white text-slate-700 hover:bg-slate-50'
+                        ? 'bg-white text-slate-950 font-semibold shadow-sm border border-slate-200'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                     }`}
                   >
-                    <Icon className="w-3 h-3" />
-                    <span className="leading-tight">{opt.label}</span>
+                    <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-brand-600' : 'text-slate-400'}`} />
+                    <span className="text-[10px] leading-none font-devanagari">
+                      {locale === 'hi' ? opt.labelHi : opt.labelEn}
+                    </span>
                   </button>
                 );
               })}
             </div>
 
-            {/* Collapsible Live Parameters Accordion */}
-            <div className="border-b border-slate-200">
+            {/* Collapsible Filter Accordion */}
+            <div className="border border-slate-200 rounded-md overflow-hidden bg-slate-50/50">
               <button
                 onClick={() => setParamsOpen(!paramsOpen)}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-bold uppercase text-slate-700 hover:bg-slate-50 transition-colors"
+                className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 transition-colors"
               >
                 <div className="flex items-center gap-1.5">
-                  <SlidersHorizontal className="w-3 h-3 text-brand-600" />
-                  <span>{locale === 'hi' ? 'त्वरित पैरामीटर' : 'Live Filter Matrix'}</span>
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-brand-600" />
+                  <span className="font-devanagari">
+                    {locale === 'hi' ? 'फ़िल्टर व शैक्षणिक पैरामीटर' : 'Filter Parameters'}
+                  </span>
                 </div>
-                {paramsOpen ? <ChevronUp className="w-3 h-3 text-slate-500" /> : <ChevronDown className="w-3 h-3 text-slate-500" />}
+                {paramsOpen ? (
+                  <ChevronUp className="w-3.5 h-3.5 text-slate-400" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                )}
               </button>
 
               {paramsOpen && (
-                <div className="px-3 pb-2.5 pt-1 space-y-2 bg-slate-50 border-t border-slate-200 text-[11px]">
+                <div className="px-3 pb-3 pt-1 space-y-2.5 bg-white border-t border-slate-200 text-xs">
                   {/* Stage */}
                   <div>
-                    <label className="text-[9px] uppercase font-bold text-slate-500 block mb-0.5">
-                      Stage (स्तर):
+                    <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                      {locale === 'hi' ? 'शैक्षणिक स्तर (Stage)' : 'Academic Stage'}
                     </label>
                     <select
-                      className="w-full bg-white border border-slate-400 font-bold px-2 py-1 text-xs focus:outline-none"
+                      className="w-full bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-500"
                       value={input.stage}
                       onChange={(e) => onParameterChange('stage', e.target.value)}
                     >
-                      <option value="class_10">Class 10 (10वीं)</option>
-                      <option value="class_12">Class 12 (12वीं)</option>
+                      <option value="class_10">Class 10 (10वीं माध्यमिक)</option>
+                      <option value="class_12">Class 12 (12वीं उच्च माध्यमिक)</option>
                       <option value="graduate">Graduate (स्नातक)</option>
-                      <option value="dropout">Dropped Out</option>
+                      <option value="dropout">Dropped Out (अन्य)</option>
                     </select>
                   </div>
 
                   {/* Stream */}
                   <div>
-                    <label className="text-[9px] uppercase font-bold text-slate-500 block mb-0.5">
-                      Stream (वर्ग):
+                    <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                      {locale === 'hi' ? '12वीं संकाय (Stream)' : 'Class 12 Stream'}
                     </label>
                     <select
-                      className="w-full bg-white border border-slate-400 font-bold px-2 py-1 text-xs focus:outline-none"
+                      className="w-full bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-500"
                       value={input.class12Stream || 'science_with_maths'}
                       onChange={(e) => onParameterChange('class12Stream', e.target.value)}
                     >
-                      <option value="science_with_maths">Science (PCM)</option>
-                      <option value="science_without_maths">Science (PCB)</option>
-                      <option value="commerce_with_maths">Commerce (Maths)</option>
-                      <option value="commerce_without_maths">Commerce (No Maths)</option>
-                      <option value="humanities">Arts / Humanities</option>
+                      <option value="science_with_maths">Science (PCM with Maths)</option>
+                      <option value="science_without_maths">Science (PCB with Biology)</option>
+                      <option value="commerce_with_maths">Commerce (with Maths)</option>
+                      <option value="commerce_without_maths">Commerce (General)</option>
+                      <option value="humanities">Arts & Humanities</option>
                       <option value="vocational">Vocational / Diploma</option>
                     </select>
                   </div>
 
                   {/* Budget */}
                   <div>
-                    <label className="text-[9px] uppercase font-bold text-slate-500 block mb-0.5">
-                      Budget (वार्षिक बजट):
+                    <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                      {locale === 'hi' ? 'वार्षिक बजट (Annual Budget)' : 'Annual Budget'}
                     </label>
                     <select
-                      className="w-full bg-emerald-50 border border-slate-400 font-bold px-2 py-1 text-xs focus:outline-none"
+                      className="w-full bg-emerald-50/60 border border-emerald-300 rounded px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                       value={input.budgetBand}
                       onChange={(e) => onParameterChange('budgetBand', e.target.value)}
                     >
-                      <option value="low">Low (≤₹25k Govt Only)</option>
-                      <option value="medium">Mid (≤₹1.5L Affordable)</option>
-                      <option value="high">High (Private Deemed)</option>
+                      <option value="low">Low (≤₹25,000 / Govt Only)</option>
+                      <option value="medium">Mid (≤₹1.5 Lakh / Affordable)</option>
+                      <option value="high">High (Private / Deemed)</option>
                     </select>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Quick Action Buttons & Mini Stats */}
-            <div className="px-3 py-2 flex items-center justify-between text-[10px] bg-slate-900 text-white">
-              <div className="flex items-center gap-2">
-                <span className="text-emerald-400 font-bold">{stats.openPaths} OPEN</span>
-                <span className="text-slate-500">•</span>
-                <span className="text-red-400 font-bold">{stats.closedPaths} LOCK</span>
+            {/* Calm Footer with Metrics & Quick Actions */}
+            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2 text-[11px] font-medium text-slate-600">
+                <span className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="text-slate-900 font-semibold">{stats.openPaths}</span> open
+                </span>
+                <span className="text-slate-300">•</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-red-500" />
+                  <span className="text-slate-900 font-semibold">{stats.closedPaths}</span> locked
+                </span>
               </div>
 
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1">
                 {onReset && (
                   <button
                     onClick={onReset}
-                    className="p-1 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors"
-                    title="Reset Active Path Selection"
+                    className="p-1.5 hover:bg-slate-100 text-slate-500 hover:text-slate-900 rounded transition-colors"
+                    title="Reset Active Selections"
                   >
-                    <RotateCcw className="w-3 h-3" />
+                    <RotateCcw className="w-3.5 h-3.5" />
                   </button>
                 )}
                 {onPrint && (
                   <button
                     onClick={onPrint}
-                    className="p-1 hover:bg-slate-800 text-emerald-400 hover:text-emerald-300 transition-colors"
+                    className="p-1.5 hover:bg-slate-100 text-emerald-700 hover:text-emerald-900 rounded transition-colors"
                     title="Print / Save Career Dossier PDF"
                   >
-                    <Download className="w-3 h-3" />
+                    <Download className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </motion.div>

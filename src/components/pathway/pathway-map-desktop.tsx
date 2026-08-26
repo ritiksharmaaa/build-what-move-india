@@ -4,7 +4,6 @@ import React from 'react';
 import type { EvaluatedNode } from '@/lib/contracts/pathway';
 import { PathwayNode } from './pathway-node';
 import { useLocale } from 'next-intl';
-import { Sparkles, Layers, Target, Compass } from 'lucide-react';
 
 export function PathwayMapDesktop({ 
   nodes,
@@ -24,37 +23,32 @@ export function PathwayMapDesktop({
   const future = nodes.filter(n => n.tier === 'future');
 
   const renderColumn = (
+    stepIndex: string,
     titleEn: string, 
     titleHi: string, 
     subtitleEn: string, 
     subtitleHi: string, 
-    badgeText: string, 
-    Icon: React.ElementType,
+    accentColor: string,
     columnNodes: EvaluatedNode[]
   ) => (
-    <div className="flex-1 flex flex-col gap-4 font-mono">
-      {/* Boxy Tier Column Header with Proper Semantic Titles */}
-      <div className="bento-box p-3.5 border-2 border-slate-900 bg-slate-900 text-white flex flex-col gap-1.5 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)]">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Icon className="w-3.5 h-3.5 text-saffron-400" />
-            <span className="text-[10px] font-black uppercase tracking-widest px-1.5 py-0.5 bg-slate-800 text-saffron-300 border border-slate-700">
-              {badgeText}
-            </span>
-          </div>
-          <span className="text-[10px] text-slate-400 font-bold px-2 py-0.5 bg-slate-950 border border-slate-800">
-            {columnNodes.length} NODES
+    <div className="flex-1 flex flex-col gap-4 font-sans">
+      {/* Calm, Minimalist Column Header */}
+      <div className={`bg-white border border-slate-200 p-4 shadow-sm border-t-4 ${accentColor}`}>
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+            {stepIndex}
+          </span>
+          <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">
+            {columnNodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}
           </span>
         </div>
 
-        <div>
-          <h2 className="text-sm font-black text-white font-devanagari tracking-tight">
-            {locale === 'hi' ? titleHi : titleEn}
-          </h2>
-          <p className="text-[10px] text-slate-400 font-devanagari leading-tight">
-            {locale === 'hi' ? subtitleHi : subtitleEn}
-          </p>
-        </div>
+        <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">
+          {locale === 'hi' ? titleHi : titleEn}
+        </h2>
+        <p className="text-xs text-slate-500 font-devanagari mt-0.5">
+          {locale === 'hi' ? subtitleHi : subtitleEn}
+        </p>
       </div>
 
       {/* Nodes List */}
@@ -70,7 +64,7 @@ export function PathwayMapDesktop({
             />
           ))
         ) : (
-          <div className="text-xs text-slate-500 italic p-6 border-2 border-dashed border-slate-300 bg-slate-50 text-center font-mono">
+          <div className="text-xs text-slate-400 italic p-8 border border-dashed border-slate-200 bg-slate-50/50 text-center font-sans">
             {locale === 'hi' ? 'वर्तमान पैरामीटर अनुसार इस स्तर पर कोई मार्ग नहीं।' : 'No pathways in this tier based on current inputs.'}
           </div>
         )}
@@ -81,30 +75,30 @@ export function PathwayMapDesktop({
   return (
     <div className="hidden lg:grid grid-cols-3 gap-6 items-start w-full max-w-7xl mx-auto">
       {renderColumn(
-        'Immediate Steps & Foundation',
+        'STAGE 01',
+        'Foundation & Prerequisites',
         'आरंभिक चरण व आधारशिला',
-        'Current stage decisions & prerequisites',
-        'वर्तमान स्तर के निर्णय व अनिवार्य पूर्व-शर्तें',
-        'PHASE 1 • NOW',
-        Compass,
+        'Current stage decisions & board streams',
+        'वर्तमान स्तर के निर्णय व संकाय चयन',
+        'border-t-brand-600',
         now
       )}
       {renderColumn(
-        'Next Phase & Gateways',
+        'STAGE 02',
+        'Degrees & Entrance Gateways',
         'मध्यम चरण व प्रवेश द्वार',
-        'Qualifying exams, degrees & training',
+        'Qualifying exams, college degrees & training',
         'प्रतियोगी परीक्षाएं, स्नातक डिग्री व प्रशिक्षण',
-        'PHASE 2 • NEXT',
-        Layers,
+        'border-t-saffron-500',
         next
       )}
       {renderColumn(
-        'Future Goals & Destinations',
+        'STAGE 03',
+        'Terminal Career Goals',
         'दीर्घकालिक लक्ष्य व करियर',
         'Government officers & terminal professions',
         'राजपत्रित अधिकारी, न्यायिक सेवा व विशेषज्ञ पद',
-        'PHASE 3 • FUTURE',
-        Target,
+        'border-t-emerald-600',
         future
       )}
     </div>
