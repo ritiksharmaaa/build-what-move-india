@@ -1,3 +1,6 @@
+'use client';
+
+import React from 'react';
 import type { EvaluatedNode } from '@/lib/contracts/pathway';
 import { PathwayNode } from './pathway-node';
 
@@ -13,8 +16,8 @@ export function PathwayMapMobile({
   onAskAI?: (node: EvaluatedNode) => void;
 }) {
   return (
-    <div className="lg:hidden flex flex-col gap-6 p-4">
-      <div className="flex flex-col gap-3">
+    <div className="lg:hidden flex flex-col gap-4 p-2 font-mono">
+      <div className="flex flex-col gap-3.5">
         {nodes.map(node => (
           <PathwayNode 
             key={node.nodeId} 

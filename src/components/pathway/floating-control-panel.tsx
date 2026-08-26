@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import type { StudentDecisionInput } from '@/lib/contracts/student';
 import type { GraphStatistics } from '@/lib/contracts/pathway';
 import { 
@@ -15,7 +16,8 @@ import {
   Layers,
   GitBranch,
   Network,
-  Share2
+  Share2,
+  GripHorizontal
 } from 'lucide-react';
 
 export type PathwayViewMode = 'chain' | 'neural' | 'fission' | 'detailed';
@@ -51,14 +53,22 @@ export function FloatingControlPanel({
   ];
 
   return (
-    <div className="fixed top-3 right-3 z-[60] font-mono select-none pointer-events-auto">
-      <div className="w-72 bg-white border-2 border-slate-900 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] overflow-hidden">
-        {/* Top Control Bar */}
-        <div className="flex items-center justify-between px-3 py-1.5 bg-slate-950 text-white border-b border-slate-800">
+    <motion.div
+      drag
+      dragMomentum={false}
+      dragElastic={0}
+      initial={{ x: 0, y: 0 }}
+      className="fixed bottom-4 left-4 z-[60] font-mono select-none pointer-events-auto cursor-default"
+      style={{ touchAction: 'none' }}
+    >
+      <div className="w-72 sm:w-80 bg-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] overflow-hidden">
+        {/* Top Control Bar with Draggable Handle */}
+        <div className="flex items-center justify-between px-3 py-1.5 bg-slate-950 text-white border-b border-slate-800 cursor-grab active:cursor-grabbing">
           <div className="flex items-center gap-2">
+            <GripHorizontal className="w-3.5 h-3.5 text-slate-500 hover:text-white" />
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-wider">
-              {locale === 'hi' ? 'मानचित्र नियंत्रण' : 'Pathfinder Engine'}
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-200">
+              {locale === 'hi' ? 'पाथफाइंडर इंजन' : 'Pathfinder Engine'}
             </span>
           </div>
 
@@ -206,6 +216,6 @@ export function FloatingControlPanel({
           </>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

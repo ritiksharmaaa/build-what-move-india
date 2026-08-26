@@ -143,8 +143,8 @@ export function PathwayWorkspace({
         onPrint={handlePrintDossier}
       />
 
-      {/* Floating Status Legend in Bottom Right */}
-      {(activeView === 'chain' || activeView === 'fission') && <FloatingLegend />}
+      {/* Floating Status Indicator Legend in Top Right */}
+      <FloatingLegend />
 
       {/* Main Canvas Views */}
       <div className="w-full h-full">
