@@ -23,22 +23,23 @@
   "header": {
     "portalTitle": "PathFinder India",
     "slogan": "One Nation, One Career Portal",
-    "subtitle": "Student Career & Education Route Simulator (UP & Central)",
+    "subtitle": "One Nation • One Career Portal",
     "languageLabel": "Change Language",
     "english": "English",
     "hindi": "हिन्दी",
     "replayGreeting": "Replay Startup Animation"
   },
   "ticker": {
-    "liveBadge": "OFFICIAL UPDATES",
+    "liveBadge": "HACKATHON UPDATES",
     "items": [
+      "⚠️ HACKATHON PROTOTYPE: Not an official government product — Independent 'Build for India' hackathon project",
       "📢 UPPSC PCS 2026: Prelims eligibility matrix & optional subject cascade updated",
       "📢 UP Police SI & Constable: Class 12 & Graduate criteria verified against state gazette",
       "📢 UPSC Civil Services 2026: 21 Yrs + Any Degree mandatory • 100% Free syllabus pathways verified",
       "📢 JEE Advanced 2026: Class 12 PCM mandatory • AKTU / UPTU state quota pathways open",
       "📢 NEET UG 2026: PCB stream prerequisite active • 85% UP state quota rules mapped",
       "📢 CUET UG 2026: Domain subjects mapping active for central & state universities",
-      "🇮🇳 One Nation, One Career Portal — Democratizing unbiased guidance for 4.5 crore Indian students"
+      "🇮🇳 One Nation, One Career Portal — Open-source decision prototype for 4.5 crore Indian students"
     ]
   },
   "landing": {

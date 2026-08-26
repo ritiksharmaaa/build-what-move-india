@@ -82,9 +82,9 @@ export function PathwayWorkspace({
       {/* Symmetrical Parameter Bar */}
       <ParameterBar input={input} onChange={handleParameterChange} />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 space-y-5">
         {/* Symmetrical Header Box */}
-        <div className="bento-box p-6 border-2 border-slate-900 bg-white flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+        <div className="bento-box p-4 sm:p-5 border-2 border-slate-900 bg-white flex flex-col md:flex-row justify-between items-start md:items-center gap-3 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)]">
           <div>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
@@ -92,7 +92,7 @@ export function PathwayWorkspace({
                 DECISION TOPOLOGY • उत्तर प्रदेश व केंद्रीय
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight font-devanagari mt-1">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight font-devanagari mt-0.5">
               {locale === 'hi' ? 'आपका व्यक्तिगत करियर मानचित्र' : 'Your Personal Career Map'}
             </h1>
             <p className="text-xs text-slate-500 font-devanagari">

@@ -535,17 +535,17 @@ export function FissionPathwayGraph({
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       {/* Top Controller Bar (Boxy Symmetry) */}
-      <div className="bento-box p-6 border-2 border-slate-900 bg-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+      <div className="bento-box p-4 sm:p-5 border-2 border-slate-900 bg-white flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)]">
         <div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-            <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-500">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500">
               NUCLEAR FISSION ENGINE • विखंडन श्रृंखला
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight mt-1 font-devanagari">
+          <h2 className="text-lg sm:text-xl font-black text-slate-950 tracking-tight mt-0.5 font-devanagari">
             {t('title')}
           </h2>
           <p className="text-xs text-slate-600 font-devanagari">

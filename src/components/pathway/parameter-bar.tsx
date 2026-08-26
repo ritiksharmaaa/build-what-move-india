@@ -16,8 +16,8 @@ export function ParameterBar({
   const locale = useLocale();
 
   return (
-    <div className="sticky top-28 z-30 bg-white border-b-2 border-slate-900 py-2.5 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center gap-3">
+    <div className="sticky top-[80px] z-30 bg-white border-b-2 border-slate-900 py-1.5 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center gap-2.5">
         <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mr-2 bg-slate-100 px-2.5 py-1 border border-slate-300">
           <SlidersHorizontal className="w-3.5 h-3.5 text-brand-600" />
           <span>{locale === 'hi' ? 'त्वरित पैरामीटर' : 'Live Filter'}</span>
