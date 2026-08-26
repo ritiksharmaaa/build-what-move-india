@@ -1,11 +1,27 @@
 'use client';
 
+import React, { useState } from 'react';
 import type { EvaluatedNode } from '@/lib/contracts/pathway';
 import { useLocale, useTranslations } from 'next-intl';
+import { 
+  CalendarCheck, 
+  X, 
+  CheckSquare, 
+  Square, 
+  Share2, 
+  Printer, 
+  Copy, 
+  Check, 
+  ShieldCheck, 
+  BookOpen, 
+  Coins, 
+  ArrowRight,
+  ExternalLink
+} from 'lucide-react';
 
 export function ActionPlanModal({
   nodes,
-  onClose
+  onClose,
 }: {
   nodes: EvaluatedNode[];
   onClose: () => void;
@@ -13,59 +29,244 @@ export function ActionPlanModal({
   const locale = useLocale() as 'en' | 'hi';
   const t = useTranslations('plan');
 
-  const selectedNames = nodes.map(n => locale === 'en' ? n.nameEn : n.nameHi);
+  const [completedTasks, setCompletedTasks] = useState<Record<string, boolean>>({});
+  const [copied, setCopied] = useState(false);
 
-  // Generate WA share link text
+  const toggleTask = (taskId: string) => {
+    setCompletedTasks((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
+  };
+
+  const selectedNames = nodes.map((n) => (locale === 'en' ? n.nameEn : n.nameHi));
+
+  // WhatsApp share link text
   const waText = encodeURIComponent(
-    `Here is my PathFinder Action Plan for: ${selectedNames.join(', ')}.\n\nCheck out my roadmap at: https://pathfinder-india-hackathon.vercel.app`
+    `🚀 My PathFinder India Action Plan for: ${selectedNames.join(', ')}\n\nCheck out my roadmap at: https://pathfinder-india-hackathon.vercel.app`
   );
 
+  const copyRoadmap = () => {
+    const text = `PATHFINDER INDIA ACTION PROTOCOL\nSelected Pathway: ${selectedNames.join(' -> ')}\n\n1. Phase 1 (Day 1-30): Verify statutory prerequisites, domicile certificate & NCERT books.\n2. Phase 2 (Day 31-90): Complete mock exam calendar & official notification registrations.\n3. Phase 3 (Day 90+): Apply for state scholarship (Saksham UP / NSP) & verify zero-cost fallback routes.`;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
+  };
+
+  const printPlan = () => {
+    window.print();
+  };
+
   return (
-    <div className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col animate-in fade-in zoom-in-95">
-        <div className="p-6 border-b border-slate-200 flex justify-between items-center bg-brand-50 rounded-t-2xl">
-          <h2 className="text-2xl font-black text-brand-900">{t('title')}</h2>
-          <button onClick={onClose} className="text-brand-900/50 hover:text-brand-900 font-bold text-xl">✕</button>
+    <div className="fixed inset-0 z-[100] bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 font-sans select-none">
+      <div className="bg-white border-2 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] w-full max-w-4xl max-h-[90vh] flex flex-col animate-in fade-in zoom-in-95 overflow-hidden">
+        {/* Header */}
+        <div className="px-6 py-4 border-b-2 border-slate-900 bg-slate-900 text-white flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <CalendarCheck className="w-5 h-5 text-saffron-400" />
+            <div>
+              <h2 className="text-lg font-black tracking-tight font-devanagari">
+                {locale === 'hi' ? '30-90 दिवसीय व्यक्तिगत करियर एक्शन प्लान' : '30-90 Day Career Action Protocol'}
+              </h2>
+              <p className="text-xs text-slate-400 font-devanagari">
+                {locale === 'hi' 
+                  ? 'चयनित मार्गों के आधार पर आधिकारिक व व्यावहारिक कार्य योजना'
+                  : 'Practical, statutory roadmap customized to your selected career path.'}
+              </p>
+            </div>
+          </div>
+          <button 
+            onClick={onClose} 
+            className="text-slate-400 hover:text-white p-1 hover:bg-slate-800 transition-colors"
+            title="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-        
-        <div className="p-6 overflow-auto space-y-8">
-          
-          <section>
-            <h3 className="text-lg font-bold text-slate-900 mb-3">{t('actionItems')}</h3>
-            <ul className="space-y-3">
-              {nodes.map((node, i) => (
-                <li key={node.nodeId} className="flex gap-3">
-                  <div className="shrink-0 w-6 h-6 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">
-                    {i + 1}
-                  </div>
-                  <div>
-                    <span className="font-semibold">{locale === 'en' ? node.nameEn : node.nameHi}: </span>
-                    <span className="text-slate-600">Research officially recognized institutions and verify minimum eligibility criteria from official state counseling websites.</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
 
-          <section className="bg-amber-50 p-4 rounded-xl border border-amber-200">
-            <h3 className="font-bold text-amber-900 mb-2">{t('questionsToAsk')}</h3>
-            <ul className="list-disc list-inside text-amber-800 space-y-1">
-              <li>Are there any state-specific quotas available?</li>
-              <li>What is the actual out-of-pocket cost after scholarships?</li>
-              <li>Does the institution hold valid {nodes[0]?.sources?.[0]?.sourceName || 'regulatory'} accreditation?</li>
-            </ul>
-          </section>
+        {/* Selected Roadmap Strip */}
+        <div className="bg-emerald-50 border-b border-emerald-200 px-6 py-2.5 flex flex-wrap items-center gap-2 text-xs font-semibold text-emerald-950 font-devanagari">
+          <span className="font-bold text-emerald-800 uppercase font-mono text-[10px]">
+            {locale === 'hi' ? 'चयनित मार्ग:' : 'Selected Route:'}
+          </span>
+          {nodes.map((node, i) => (
+            <React.Fragment key={node.nodeId}>
+              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded-sm">
+                {locale === 'en' ? node.nameEn : node.nameHi}
+              </span>
+              {i < nodes.length - 1 && <ArrowRight className="w-3.5 h-3.5 text-emerald-600 shrink-0" />}
+            </React.Fragment>
+          ))}
+        </div>
 
-          <div className="flex gap-4 pt-4 border-t border-slate-100">
+        {/* Action Items Body */}
+        <div className="p-6 overflow-auto custom-scrollbar space-y-6">
+          {/* Phase 1: Days 1-30 */}
+          <div className="border-2 border-slate-900 bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2 mb-3">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-brand-600" />
+                <h3 className="font-black text-sm text-slate-950 font-devanagari uppercase">
+                  {locale === 'hi' ? 'चरण 1: दिवस 1 - 30 (वैधानिक सत्यापन व दस्तावेज)' : 'Phase 1: Days 1 - 30 (Statutory Verification)'}
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono font-bold bg-brand-50 text-brand-700 px-2 py-0.5 border border-brand-200">
+                CRITICAL
+              </span>
+            </div>
+
+            <div className="space-y-2.5 text-xs text-slate-700 font-devanagari">
+              <label 
+                onClick={() => toggleTask('task-1')}
+                className="flex items-start gap-2.5 cursor-pointer hover:bg-slate-50 p-1.5 rounded transition-colors"
+              >
+                {completedTasks['task-1'] ? (
+                  <CheckSquare className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                ) : (
+                  <Square className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                )}
+                <span className={completedTasks['task-1'] ? 'line-through text-slate-400' : ''}>
+                  {locale === 'hi'
+                    ? '10वीं / 12वीं में गणित व जीवविज्ञान विषय अनिवार्यता की आधिकारिक परीक्षा ब्रोशर से पुष्टि करें।'
+                    : 'Verify Class 10/12 subject prerequisites (Mathematics or Biology) against official regulatory guidelines.'}
+                </span>
+              </label>
+
+              <label 
+                onClick={() => toggleTask('task-2')}
+                className="flex items-start gap-2.5 cursor-pointer hover:bg-slate-50 p-1.5 rounded transition-colors"
+              >
+                {completedTasks['task-2'] ? (
+                  <CheckSquare className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                ) : (
+                  <Square className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                )}
+                <span className={completedTasks['task-2'] ? 'line-through text-slate-400' : ''}>
+                  {locale === 'hi'
+                    ? 'उत्तर प्रदेश मूल निवास (Domicile) व जाति/EWS प्रमाण पत्र तहसील से समय से पूर्व नवीनीकृत कराएं।'
+                    : 'Procure/renew Uttar Pradesh Domicile certificate and EWS/OBC/SC/ST certificates for 85% state quota eligibility.'}
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {/* Phase 2: Days 31-90 */}
+          <div className="border-2 border-slate-900 bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2 mb-3">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-saffron-600" />
+                <h3 className="font-black text-sm text-slate-950 font-devanagari uppercase">
+                  {locale === 'hi' ? 'चरण 2: दिवस 31 - 90 (पाठ्यक्रम तैयारी व मॉक कैलेंडर)' : 'Phase 2: Days 31 - 90 (Preparation & Exam Calendar)'}
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono font-bold bg-saffron-50 text-saffron-800 px-2 py-0.5 border border-saffron-200">
+                TIMELINE
+              </span>
+            </div>
+
+            <div className="space-y-2.5 text-xs text-slate-700 font-devanagari">
+              <label 
+                onClick={() => toggleTask('task-3')}
+                className="flex items-start gap-2.5 cursor-pointer hover:bg-slate-50 p-1.5 rounded transition-colors"
+              >
+                {completedTasks['task-3'] ? (
+                  <CheckSquare className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                ) : (
+                  <Square className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                )}
+                <span className={completedTasks['task-3'] ? 'line-through text-slate-400' : ''}>
+                  {locale === 'hi'
+                    ? 'NCERT आधारभूत पुस्तकों व पिछले 5 वर्षों के प्रश्न पत्रों (PYQ) का अभ्यास आरंभ करें।'
+                    : 'Download official NCERT syllabi and previous 5 years solved examination papers.'}
+                </span>
+              </label>
+
+              <label 
+                onClick={() => toggleTask('task-4')}
+                className="flex items-start gap-2.5 cursor-pointer hover:bg-slate-50 p-1.5 rounded transition-colors"
+              >
+                {completedTasks['task-4'] ? (
+                  <CheckSquare className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                ) : (
+                  <Square className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                )}
+                <span className={completedTasks['task-4'] ? 'line-through text-slate-400' : ''}>
+                  {locale === 'hi'
+                    ? 'आधिकारिक पोर्टल (NTA / UPSC / UPPSC / BTE UP) पर नोटिफिकेशन अलर्ट सेट करें।'
+                    : 'Set up calendar alerts for notification release dates on official authorities.'}
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {/* Phase 3: Financial & Scholarships */}
+          <div className="border-2 border-slate-900 bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2 mb-3">
+              <div className="flex items-center gap-2">
+                <Coins className="w-4 h-4 text-emerald-600" />
+                <h3 className="font-black text-sm text-slate-950 font-devanagari uppercase">
+                  {locale === 'hi' ? 'चरण 3: छात्रवृत्ति व वित्तीय सुरक्षा योजना' : 'Phase 3: Financial Aid & Zero-Debt Safety'}
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono font-bold bg-emerald-50 text-emerald-800 px-2 py-0.5 border border-emerald-200">
+                ZERO-DEBT
+              </span>
+            </div>
+
+            <div className="space-y-2.5 text-xs text-slate-700 font-devanagari">
+              <label 
+                onClick={() => toggleTask('task-5')}
+                className="flex items-start gap-2.5 cursor-pointer hover:bg-slate-50 p-1.5 rounded transition-colors"
+              >
+                {completedTasks['task-5'] ? (
+                  <CheckSquare className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                ) : (
+                  <Square className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                )}
+                <span className={completedTasks['task-5'] ? 'line-through text-slate-400' : ''}>
+                  {locale === 'hi'
+                    ? 'राष्ट्रीय छात्रवृत्ति पोर्टल (NSP) व यूपी छात्रवृत्ति पोर्टल (Saksham UP) पर आवेदन की तैयारी रखें।'
+                    : 'Prepare income certificates for National Scholarship Portal (NSP) and UP Post-Matric fee reimbursement.'}
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer with Share & Export buttons */}
+        <div className="px-6 py-3.5 border-t-2 border-slate-900 bg-slate-50 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={copyRoadmap}
+              className="px-3.5 py-2 bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 text-xs font-bold font-devanagari flex items-center gap-1.5 transition-colors"
+            >
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copied ? (locale === 'hi' ? 'कॉपी हो गया!' : 'Copied!') : (locale === 'hi' ? 'रोडमैप कॉपी करें' : 'Copy Plan')}</span>
+            </button>
+
+            <button
+              onClick={printPlan}
+              className="px-3.5 py-2 bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 text-xs font-bold font-devanagari flex items-center gap-1.5 transition-colors"
+            >
+              <Printer className="w-3.5 h-3.5 text-slate-600" />
+              <span>{locale === 'hi' ? 'प्रिंट / PDF' : 'Print PDF'}</span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2.5">
             <a 
               href={`https://wa.me/?text=${waText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-4 rounded-xl text-center transition-colors shadow-sm flex items-center justify-center gap-2"
+              className="bg-[#25D366] hover:bg-[#128C7E] text-white text-xs font-black font-devanagari px-4 py-2 border border-emerald-700 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] flex items-center gap-1.5 transition-all"
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-              {t('shareWhatsApp')}
+              <Share2 className="w-3.5 h-3.5" />
+              <span>{locale === 'hi' ? 'व्हाट्सएप पर साझा करें' : 'Share on WhatsApp'}</span>
             </a>
+
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold font-devanagari border border-slate-950 transition-colors"
+            >
+              {locale === 'hi' ? 'पूर्ण' : 'Done'}
+            </button>
           </div>
         </div>
       </div>
