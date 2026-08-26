@@ -3,8 +3,12 @@
 import React, { useState } from 'react';
 import type { StudentDecisionInput } from '@/lib/contracts/student';
 import type { EvaluatedNode, GraphStatistics } from '@/lib/contracts/pathway';
-import { ParameterBar } from './parameter-bar';
-import { StatisticsBar } from './statistics-bar';
+import { type FissionNode } from '@/lib/data/fission-nodes';
+import { BrandStamp } from './brand-stamp';
+import { FloatingControlPanel, type PathwayViewMode } from './floating-control-panel';
+import { FloatingLegend } from './floating-legend';
+import { ChainModulesView } from './chain-modules-view';
+import { NeuralGraphView } from './neural-graph-view';
 import { FissionPathwayGraph } from './fission-pathway-graph';
 import { PathwayMapDesktop } from './pathway-map-desktop';
 import { PathwayMapMobile } from './pathway-map-mobile';
@@ -13,7 +17,7 @@ import { CompareModal } from './compare-modal';
 import { ActionPlanModal } from './action-plan-modal';
 import { AiExplanationModal } from './ai-explanation-modal';
 import { useLocale } from 'next-intl';
-import { Sparkles, Layers, GitBranch, ShieldCheck } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export function PathwayWorkspace({
   initialInput,
@@ -34,7 +38,9 @@ export function PathwayWorkspace({
   const [showCompare, setShowCompare] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
   const [activeAiNode, setActiveAiNode] = useState<EvaluatedNode | null>(null);
-  const [activeTab, setActiveTab] = useState<'fission' | 'detailed'>('fission');
+  
+  // Default to the new Chain-of-Modules visualization view
+  const [activeView, setActiveView] = useState<PathwayViewMode>('chain');
 
   const locale = useLocale();
 
@@ -77,99 +83,131 @@ export function PathwayWorkspace({
     }
   };
 
+  const handleFissionAskAI = (fissionNode: FissionNode) => {
+    const existing = nodes.find((n) => n.nodeId === fissionNode.id);
+    if (existing) {
+      setActiveAiNode(existing);
+    } else {
+      const adapter: EvaluatedNode = {
+        nodeId: fissionNode.id,
+        nameEn: fissionNode.nameEn,
+        nameHi: fissionNode.nameHi,
+        family: fissionNode.streamFamily === 'pcm' ? 'science' 
+               : fissionNode.streamFamily === 'pcb' ? 'healthcare'
+               : fissionNode.streamFamily === 'commerce' ? 'commerce'
+               : fissionNode.streamFamily === 'humanities' ? 'government'
+               : fissionNode.streamFamily === 'vocational' ? 'vocational'
+               : 'flexible',
+        tier: fissionNode.stage === 1 ? 'now' : fissionNode.stage === 2 ? 'next' : 'future',
+        doorStatus: 'open',
+        doorReasonEn: fissionNode.descEn,
+        doorReasonHi: fissionNode.descHi,
+        costRange: {
+          min: fissionNode.costMinINR,
+          max: fissionNode.costMaxINR,
+          type: fissionNode.annualFeeINR === 0 ? 'government' : 'both',
+        },
+        durationMonths: 12,
+        competitiveness: 'moderate',
+        futureDoorsOpened: 3,
+        futurePathIds: [],
+        sources: [],
+        score: 95,
+      };
+      setActiveAiNode(adapter);
+    }
+  };
+
+  const handleResetPath = () => {
+    setInput(initialInput);
+    setSelectedIds([]);
+  };
+
+  const handlePrintDossier = () => {
+    window.print();
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAFBFD]">
-      {/* Symmetrical Parameter Bar */}
-      <ParameterBar input={input} onChange={handleParameterChange} />
+    <div className="fixed inset-0 z-50 bg-white overflow-auto select-none">
+      {/* Brand Stamp in Top Left */}
+      <BrandStamp />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 space-y-5">
-        {/* Symmetrical Header Box */}
-        <div className="bento-box p-4 sm:p-5 border-2 border-slate-900 bg-white flex flex-col md:flex-row justify-between items-start md:items-center gap-3 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)]">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500">
-                DECISION TOPOLOGY • उत्तर प्रदेश व केंद्रीय
-              </span>
+      {/* Floating Corner Control Panel in Top Right */}
+      <FloatingControlPanel
+        activeView={activeView}
+        onViewChange={setActiveView}
+        input={input}
+        onParameterChange={handleParameterChange}
+        stats={stats}
+        onReset={handleResetPath}
+        onPrint={handlePrintDossier}
+      />
+
+      {/* Floating Status Legend in Bottom Right */}
+      {(activeView === 'chain' || activeView === 'fission') && <FloatingLegend />}
+
+      {/* Main Canvas Views */}
+      <div className="w-full h-full">
+        {activeView === 'chain' && (
+          <ChainModulesView
+            studentInput={input}
+            onSelectNode={handleToggleNode}
+            onAskAI={handleFissionAskAI}
+          />
+        )}
+
+        {activeView === 'neural' && (
+          <NeuralGraphView
+            studentInput={input}
+            onSelectNode={handleToggleNode}
+            onAskAI={handleFissionAskAI}
+          />
+        )}
+
+        {activeView === 'fission' && (
+          <div className="w-full min-h-screen bg-[#FAFBFD] pt-16 pb-20 px-4 sm:px-8">
+            <div className="max-w-7xl mx-auto">
+              <FissionPathwayGraph
+                studentInput={input}
+                onSelectNode={handleToggleNode}
+              />
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight font-devanagari mt-0.5">
-              {locale === 'hi' ? 'आपका व्यक्तिगत करियर मानचित्र' : 'Your Personal Career Map'}
-            </h1>
-            <p className="text-xs text-slate-500 font-devanagari">
-              {locale === 'hi'
-                ? 'आपके वर्तमान स्तर, स्ट्रीम और बजट के आधार पर वास्तविक संभावनाएं'
-                : 'Live cascade topology calculated against statutory prerequisites and budget constraints.'}
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <StatisticsBar stats={stats} />
-          </div>
-        </div>
-
-        {/* View Switcher Tabs (Symmetrical Bento Buttons) */}
-        <div className="flex items-center gap-2 border-b-2 border-slate-900 pb-2">
-          <button
-            onClick={() => setActiveTab('fission')}
-            className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider border-2 transition-all ${
-              activeTab === 'fission'
-                ? 'bg-slate-900 text-white border-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]'
-                : 'bg-white text-slate-700 border-slate-300 hover:border-slate-900'
-            }`}
-          >
-            <GitBranch className="w-4 h-4 text-emerald-400" />
-            <span>{locale === 'hi' ? '⚛️ परमाणु विखंडन श्रृंखला (Fission Graph)' : '⚛️ Nuclear Fission Chain'}</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('detailed')}
-            className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider border-2 transition-all ${
-              activeTab === 'detailed'
-                ? 'bg-slate-900 text-white border-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]'
-                : 'bg-white text-slate-700 border-slate-300 hover:border-slate-900'
-            }`}
-          >
-            <Layers className="w-4 h-4 text-brand-400" />
-            <span>{locale === 'hi' ? 'विस्तृत नोड मैट्रिक्स (Tiered Nodes)' : 'Detailed Tiered Nodes'}</span>
-          </button>
-        </div>
-
-        {/* Toast Notification for Cascade Changes */}
-        {cascadeMsg && (
-          <div className="bg-slate-950 text-white border-2 border-brand-500 px-6 py-3.5 shadow-xl font-mono text-xs flex items-center justify-between animate-toast-in">
-            <div className="flex items-center gap-2.5">
-              <Sparkles className="w-4 h-4 text-brand-400 shrink-0" />
-              <span>{cascadeMsg}</span>
-            </div>
-            <button
-              onClick={() => setCascadeMsg(null)}
-              className="text-slate-400 hover:text-white font-mono text-sm pl-4"
-            >
-              ✕
-            </button>
           </div>
         )}
 
-        {/* Dynamic Visualizer View */}
-        {activeTab === 'fission' ? (
-          <FissionPathwayGraph studentInput={input} onSelectNode={handleToggleNode} />
-        ) : (
-          <div className="space-y-6">
-            <PathwayMapDesktop
-              nodes={nodes}
-              selectedIds={selectedIds}
-              onToggle={handleToggleNode}
-              onAskAI={setActiveAiNode}
-            />
-            <PathwayMapMobile
-              nodes={nodes}
-              selectedIds={selectedIds}
-              onToggle={handleToggleNode}
-              onAskAI={setActiveAiNode}
-            />
+        {activeView === 'detailed' && (
+          <div className="w-full min-h-screen bg-[#FAFBFD] pt-16 pb-20 px-4 sm:px-8 space-y-6">
+            <div className="max-w-7xl mx-auto space-y-6">
+              <PathwayMapDesktop
+                nodes={nodes}
+                selectedIds={selectedIds}
+                onToggle={handleToggleNode}
+                onAskAI={setActiveAiNode}
+              />
+              <PathwayMapMobile
+                nodes={nodes}
+                selectedIds={selectedIds}
+                onToggle={handleToggleNode}
+                onAskAI={setActiveAiNode}
+              />
+            </div>
           </div>
         )}
-      </main>
+      </div>
+
+      {/* Toast Notification for Real-Time Cascade Changes */}
+      {cascadeMsg && (
+        <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-[70] bg-slate-950 text-white border-2 border-emerald-500 px-5 py-2.5 shadow-2xl font-mono text-xs flex items-center gap-3">
+          <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{cascadeMsg}</span>
+          <button
+            onClick={() => setCascadeMsg(null)}
+            className="text-slate-400 hover:text-white font-mono text-sm pl-2"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Floating Compare Action Bar */}
       <CompareBar
