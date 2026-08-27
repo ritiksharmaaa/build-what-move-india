@@ -74,7 +74,7 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-latin)', 'system-ui', 'sans-serif'],
         devanagari: ['var(--font-devanagari)', 'system-ui', 'sans-serif'],
-        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       lineHeight: {
         'hindi': '1.6', // Prevents Devanagari matra clipping

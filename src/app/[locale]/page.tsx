@@ -34,7 +34,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-12">
         
         {/* 1. Hero Section (Decluttered, Blends with background) */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center min-h-[calc(100vh-140px)]">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center min-h-[calc(100vh-140px)] pb-20 lg:pb-32">
           
           {/* Main Hero Text (Left Side, 7 Cols) */}
           <div className="lg:col-span-7 flex flex-col justify-center relative">
@@ -44,11 +44,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <span>{t('badge')}</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.10] text-balance font-devanagari drop-shadow-sm">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.10] text-balance font-mono drop-shadow-sm uppercase">
                 {t('heroTitle')}
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-devanagari">
+              <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-mono">
                 {t('heroSubtitle')}
               </p>
             </div>

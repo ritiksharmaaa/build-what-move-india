@@ -1,4 +1,4 @@
-import { Inter, Noto_Sans_Devanagari } from 'next/font/google';
+import { Inter, Noto_Sans_Devanagari, IBM_Plex_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
@@ -11,6 +11,13 @@ import '@/app/globals.css';
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-latin',
+  display: 'swap',
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
@@ -44,7 +51,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${notoSansDevanagari.variable}`}
+      className={`${inter.variable} ${notoSansDevanagari.variable} ${ibmPlexMono.variable}`}
     >
       <body
         className={`min-h-screen flex flex-col antialiased bg-[#FAFBFD] text-slate-900 ${
