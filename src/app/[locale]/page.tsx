@@ -88,9 +88,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>{navT('mission')}</span>
                 </Link>
-                <div className="flex items-center justify-center gap-2 bg-slate-50 text-slate-500 font-bold px-4 py-2 text-xs uppercase tracking-wider border border-slate-200 opacity-60 cursor-not-allowed">
+                <div className="flex items-center justify-center gap-2 bg-slate-50 text-slate-500 font-bold px-4 py-2 text-[10px] sm:text-xs uppercase tracking-wider border border-slate-200 opacity-80 cursor-default">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Login</span>
+                  <span className="truncate">{locale === 'hi' ? 'लॉगिन आवश्यक नहीं' : 'No Login Required'}</span>
                 </div>
               </div>
             </div>
