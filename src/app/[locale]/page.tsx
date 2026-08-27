@@ -104,6 +104,62 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
         </section>
 
+        {/* 3. Symmetrical Bento Metrics */}
+        <section className="pt-10">
+          <MetricsBento />
+        </section>
+
+        {/* 4. Dream Showcase in 12 Equal Symmetrical Squares */}
+        <section>
+          <DreamShowcase />
+        </section>
+
+        {/* 5. Symmetrical 3-Column Architectural Pillars */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bento-box p-6 border-2 border-slate-900 bg-white shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+            <div className="w-10 h-10 bg-blue-100 text-brand-700 border border-blue-300 flex items-center justify-center font-bold mb-4">
+              01
+            </div>
+            <h3 className="text-base font-bold text-slate-950 mb-2 font-devanagari">
+              {locale === 'hi' ? 'परमाणु विखंडन विश्लेषण' : 'Nuclear Fission Visualizer'}
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-devanagari">
+              {locale === 'hi'
+                ? 'कक्षा 10 से शुरू होकर हर विषय के आधार पर शाखाओं में बंटती हुई संपूर्ण संभावनाओं की श्रृंखला।'
+                : 'Interactive horizontal node graph branching from Class 10 into streams, degrees, and government postings.'}
+            </p>
+          </div>
+
+          <div className="bento-box p-6 border-2 border-slate-900 bg-white shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+            <div className="w-10 h-10 bg-orange-100 text-orange-700 border border-orange-300 flex items-center justify-center font-bold mb-4">
+              02
+            </div>
+            <h3 className="text-base font-bold text-slate-950 mb-2 font-devanagari">
+              {locale === 'hi' ? 'उत्तर प्रदेश व केंद्रीय डेटासेट' : 'UP & Central Statues'}
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-devanagari">
+              {locale === 'hi'
+                ? 'UPPSC, UP Police, AKTU, UPSC, NTA और गजट नियमों का सटीक और अद्यतन संकलन।'
+                : 'Direct mapping of state quotas, age limits, and statutory eligibility criteria for UP and national exams.'}
+            </p>
+          </div>
+
+          <div className="bento-box p-6 border-2 border-slate-900 bg-white shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+            <div className="w-10 h-10 bg-emerald-100 text-emerald-700 border border-emerald-300 flex items-center justify-center font-bold mb-4">
+              03
+            </div>
+            <h3 className="text-base font-bold text-slate-950 mb-2 font-devanagari">
+              {locale === 'hi' ? 'पारदर्शी बजट फिल्टर' : 'Transparent Budget Logic'}
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-devanagari">
+              {locale === 'hi'
+                ? '₹0 से लेकर ₹25L+ तक की सटीक लागत ताकि कोई भी छात्र छिपे हुए खर्चों के जाल में न फंसे।'
+                : 'Exact annual fee bracket calculations showing friction warnings when private fees exceed family capacity.'}
+            </p>
+          </div>
+        </section>
+
+
         {/* 2. Decision Fission Engine (Moved to new row) */}
         <section className="w-full pt-8">
           <div className="bento-box p-6 sm:p-8 border-2 border-slate-900 bg-slate-900 text-white shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] w-full">
@@ -157,61 +213,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* 3. Symmetrical Bento Metrics */}
-        <section className="pt-10">
-          <MetricsBento />
-        </section>
-
-        {/* 4. Dream Showcase in 12 Equal Symmetrical Squares */}
-        <section>
-          <DreamShowcase />
-        </section>
-
-        {/* 5. Symmetrical 3-Column Architectural Pillars */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bento-box p-6 border-2 border-slate-900 bg-white shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-            <div className="w-10 h-10 bg-blue-100 text-brand-700 border border-blue-300 flex items-center justify-center font-bold mb-4">
-              01
-            </div>
-            <h3 className="text-base font-bold text-slate-950 mb-2 font-devanagari">
-              {locale === 'hi' ? 'परमाणु विखंडन विश्लेषण' : 'Nuclear Fission Visualizer'}
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-devanagari">
-              {locale === 'hi'
-                ? 'कक्षा 10 से शुरू होकर हर विषय के आधार पर शाखाओं में बंटती हुई संपूर्ण संभावनाओं की श्रृंखला।'
-                : 'Interactive horizontal node graph branching from Class 10 into streams, degrees, and government postings.'}
-            </p>
-          </div>
-
-          <div className="bento-box p-6 border-2 border-slate-900 bg-white shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-            <div className="w-10 h-10 bg-orange-100 text-orange-700 border border-orange-300 flex items-center justify-center font-bold mb-4">
-              02
-            </div>
-            <h3 className="text-base font-bold text-slate-950 mb-2 font-devanagari">
-              {locale === 'hi' ? 'उत्तर प्रदेश व केंद्रीय डेटासेट' : 'UP & Central Statues'}
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-devanagari">
-              {locale === 'hi'
-                ? 'UPPSC, UP Police, AKTU, UPSC, NTA और गजट नियमों का सटीक और अद्यतन संकलन।'
-                : 'Direct mapping of state quotas, age limits, and statutory eligibility criteria for UP and national exams.'}
-            </p>
-          </div>
-
-          <div className="bento-box p-6 border-2 border-slate-900 bg-white shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-            <div className="w-10 h-10 bg-emerald-100 text-emerald-700 border border-emerald-300 flex items-center justify-center font-bold mb-4">
-              03
-            </div>
-            <h3 className="text-base font-bold text-slate-950 mb-2 font-devanagari">
-              {locale === 'hi' ? 'पारदर्शी बजट फिल्टर' : 'Transparent Budget Logic'}
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-devanagari">
-              {locale === 'hi'
-                ? '₹0 से लेकर ₹25L+ तक की सटीक लागत ताकि कोई भी छात्र छिपे हुए खर्चों के जाल में न फंसे।'
-                : 'Exact annual fee bracket calculations showing friction warnings when private fees exceed family capacity.'}
-            </p>
           </div>
         </section>
       </div>
