@@ -35,7 +35,7 @@ export function MainHeader() {
       )}
 
       {/* Main Sticky Navbar */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/50 sticky top-0 z-40 flex flex-col items-center">
+      <header className="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 flex flex-col items-center">
         {/* Main Compact Header Container (h-14 / 56px) */}
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Brand Emblem & Titles */}
