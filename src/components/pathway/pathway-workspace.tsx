@@ -128,7 +128,7 @@ export function PathwayWorkspace({
 
   const getOverlayMaxWidth = () => {
     if (activeView === 'chain') return 'max-w-[1400px]';
-    if (activeView === 'neural') return 'max-w-[1600px]';
+    if (activeView === 'neural') return 'max-w-[1400px]';
     return 'max-w-7xl';
   };
 
@@ -136,8 +136,8 @@ export function PathwayWorkspace({
     <div className="fixed inset-0 z-50 bg-white overflow-auto select-none flex flex-col">
       {/* Symmetrical Floating Header Badges */}
       <div className="absolute top-6 left-0 right-0 z-[60] pointer-events-none">
-        <div className={`w-full mx-auto px-4 sm:px-8 ${getOverlayMaxWidth()}`}>
-          <div className={`inline-flex pointer-events-auto transition-all ${activeView === 'fission' ? 'ml-6' : 'ml-0'}`}>
+        <div className="w-full mx-auto px-4 sm:px-8 max-w-[1400px]">
+          <div className="inline-flex pointer-events-auto transition-all -ml-[35px]">
             <MapCornerBadge />
           </div>
         </div>
@@ -174,7 +174,7 @@ export function PathwayWorkspace({
 
         {activeView === 'fission' && (
           <div className="w-full min-h-full bg-[#FAFBFD] pt-20 pb-20 px-4 sm:px-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-[1400px] mx-auto">
               <FissionPathwayGraph
                 studentInput={input}
                 onSelectNode={handleToggleNode}
@@ -185,7 +185,7 @@ export function PathwayWorkspace({
 
         {activeView === 'detailed' && (
           <div className="w-full min-h-full bg-[#FAFBFD] pt-20 pb-20 px-4 sm:px-8 space-y-6">
-            <div className="max-w-7xl mx-auto space-y-6">
+            <div className="max-w-[1400px] mx-auto space-y-6">
               <PathwayMapDesktop
                 nodes={nodes}
                 selectedIds={selectedIds}

@@ -28,25 +28,24 @@ export function PathwayMapDesktop({
     titleHi: string, 
     subtitleEn: string, 
     subtitleHi: string, 
-    accentColor: string,
     columnNodes: EvaluatedNode[]
   ) => (
     <div className="flex-1 flex flex-col gap-4 font-sans">
       {/* Calm, Minimalist Column Header */}
-      <div className={`bg-white border border-slate-200 p-4 shadow-sm border-t-4 ${accentColor}`}>
+      <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-indigo-400 rounded-b-sm">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+          <span className="text-[10px] font-mono font-bold tracking-widest text-indigo-500 uppercase">
             {stepIndex}
           </span>
-          <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">
+          <span className="text-[10px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">
             {columnNodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}
           </span>
         </div>
 
-        <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">
+        <h2 className="text-sm font-bold text-indigo-950 tracking-tight font-devanagari">
           {locale === 'hi' ? titleHi : titleEn}
         </h2>
-        <p className="text-xs text-slate-500 font-devanagari mt-0.5">
+        <p className="text-[10px] text-indigo-700/80 font-devanagari mt-0.5 uppercase tracking-wide">
           {locale === 'hi' ? subtitleHi : subtitleEn}
         </p>
       </div>
@@ -73,14 +72,13 @@ export function PathwayMapDesktop({
   );
 
   return (
-    <div className="hidden lg:grid grid-cols-3 gap-6 items-start w-full max-w-7xl mx-auto">
+    <div className="hidden lg:grid grid-cols-3 gap-6 items-start w-full">
       {renderColumn(
         'STAGE 01',
         'Foundation & Prerequisites',
         'आरंभिक चरण व आधारशिला',
         'Current stage decisions & board streams',
         'वर्तमान स्तर के निर्णय व संकाय चयन',
-        'border-t-brand-600',
         now
       )}
       {renderColumn(
@@ -89,7 +87,6 @@ export function PathwayMapDesktop({
         'मध्यम चरण व प्रवेश द्वार',
         'Qualifying exams, college degrees & training',
         'प्रतियोगी परीक्षाएं, स्नातक डिग्री व प्रशिक्षण',
-        'border-t-saffron-500',
         next
       )}
       {renderColumn(
@@ -98,7 +95,6 @@ export function PathwayMapDesktop({
         'दीर्घकालिक लक्ष्य व करियर',
         'Government officers & terminal professions',
         'राजपत्रित अधिकारी, न्यायिक सेवा व विशेषज्ञ पद',
-        'border-t-emerald-600',
         future
       )}
     </div>
