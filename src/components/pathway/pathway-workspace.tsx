@@ -16,7 +16,7 @@ import { CompareModal } from './compare-modal';
 import { ActionPlanModal } from './action-plan-modal';
 import { AiExplanationModal } from './ai-explanation-modal';
 import { useLocale } from 'next-intl';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, GitBranch, Network, Share2, Layers } from 'lucide-react';
 
 export function PathwayWorkspace({
   initialInput,
@@ -130,29 +130,27 @@ export function PathwayWorkspace({
     if (activeView === 'chain') return 'max-w-[1400px]';
     if (activeView === 'neural') return 'max-w-[1400px]';
     return 'max-w-7xl';
-  };
-
-  return (
+  };return (
     <div className="fixed inset-0 z-50 bg-white overflow-auto select-none flex flex-col">
       {/* Symmetrical Floating Header Badges */}
-      <div className="absolute top-6 left-0 right-0 z-[60] pointer-events-none">
-        <div className="w-full mx-auto px-4 sm:px-8 max-w-[1400px]">
+      <div className="fixed top-6 left-0 right-0 z-[60] pointer-events-none">
+        <div className="w-full mx-auto px-4 sm:px-8 max-w-[1400px] flex items-start justify-between">
           <div className="inline-flex pointer-events-auto transition-all -ml-[35px]">
             <MapCornerBadge />
           </div>
+          
+          <div className="inline-flex pointer-events-auto transition-all flex-row items-center gap-2 -mr-[13px]"><FloatingControlPanel
+              activeView={activeView}
+              onViewChange={setActiveView}
+              input={input}
+              onParameterChange={handleParameterChange}
+              stats={stats}
+              onReset={handleResetPath}
+              onPrint={handlePrintDossier}
+            />
+          </div>
         </div>
       </div>
-
-      {/* Floating Corner Control Panel in Top Right */}
-      <FloatingControlPanel
-        activeView={activeView}
-        onViewChange={setActiveView}
-        input={input}
-        onParameterChange={handleParameterChange}
-        stats={stats}
-        onReset={handleResetPath}
-        onPrint={handlePrintDossier}
-      />
 
       {/* Main Canvas Views */}
       <div className="w-full flex-1">
