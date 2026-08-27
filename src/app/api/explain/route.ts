@@ -1,62 +1,62 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { GoogleGenAI } from '@google/genai';
+import { aiRateLimiter, getIP } from '@/lib/ai/rate-limit';
 
-export async function POST(request: Request) {
+export const runtime = 'nodejs';
+
+export async function POST(request: NextRequest) {
   try {
-    const { node, input, config } = await request.json();
+    // 1. Rate Limiting Check
+    const ip = getIP(request);
+    const limit = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '10', 10);
+    
+    try {
+      await aiRateLimiter.check(limit, ip);
+    } catch {
+      return NextResponse.json(
+        { error: 'RATE_LIMIT', message: 'Server rate limit exceeded. Please configure your own API key.' },
+        { status: 429 }
+      );
+    }
 
-    // Fallback to server env variables if client doesn't provide them
-    const apiKey = config?.apiKey || process.env.OPENAI_API_KEY;
-    const endpoint = config?.endpoint || process.env.OPENAI_ENDPOINT || 'https://api.openai.com/v1/chat/completions';
-    const model = config?.model || process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    const { node, input } = await request.json();
 
+    const apiKey = process.env.GOOGLE_AI_STUDIO_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ 
         error: 'MISSING_API_KEY', 
         message: 'No server API key found. Please provide your own API key.' 
-      }, { status: 401 });
+      }, { status: 503 });
     }
 
-    const systemPrompt = `You are an expert Indian career counselor. You are helping a student understand their career map. 
-The student is currently at stage: ${input.stage} (Stream: ${input.class12Stream || 'N/A'}, Budget: ${input.budgetBand}).
-Explain in simple, encouraging terms why the pathway "${node.nameEn}" is currently marked as "${node.doorStatus}".
-Provide:
-1. The exact reason (based on their stream/budget/maths constraints).
-2. What trade-offs they must make to pursue it.
-3. 2-3 concrete next steps.
-Format your response in plain text with clear bullet points. Keep it under 200 words.`;
+    const systemPrompt = `You are an Indian career counselor. Student: ${input.stage}, ${input.class12Stream || 'N/A'}, Budget: ${input.budgetBand}. Pathway: "${node.nameEn}" (Status: "${node.doorStatus}").
+Respond briefly (max 120 words) with:
+1. Famous Path-Taker: Name a famous Indian who took a similar path.
+2. Status Reason: Why this is "${node.doorStatus}" for the student.
+3. Next Steps: 1-2 concrete actions.
+Use markdown bullets. Be extremely concise to save tokens.`;
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: 'Please explain this pathway to me.' }
-        ],
+    const ai = new GoogleGenAI({ apiKey });
+    const response = await ai.models.generateContent({
+      model: 'gemini-3.6-flash',
+      contents: 'Please explain this pathway to me.',
+      config: {
+        systemInstruction: systemPrompt,
         temperature: 0.7,
-        max_tokens: 300
-      })
+      }
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      return NextResponse.json({ 
-        error: 'PROVIDER_ERROR', 
-        message: `AI Provider failed: ${response.statusText}`, 
-        details: errorText 
-      }, { status: response.status });
+    return NextResponse.json({ explanation: response.text });
+  } catch (error: any) {
+    console.error('Error in /api/explain:', error);
+    
+    if (error?.message?.includes('quota') || error?.status === 429) {
+      return NextResponse.json(
+        { error: 'QUOTA_EXCEEDED', message: 'Server AI quota exceeded. Please use your own API key.' },
+        { status: 429 }
+      );
     }
 
-    const data = await response.json();
-    const explanation = data.choices[0]?.message?.content || 'No explanation generated.';
-
-    return NextResponse.json({ explanation });
-  } catch (error) {
-    console.error('Error in /api/explain:', error);
     return NextResponse.json({ error: 'INTERNAL_ERROR', message: String(error) }, { status: 500 });
   }
 }
