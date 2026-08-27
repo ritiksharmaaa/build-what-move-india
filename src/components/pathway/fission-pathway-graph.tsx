@@ -221,40 +221,40 @@ export function FissionPathwayGraph({
         {/* Stage Columns Headers */}
         <div className="grid grid-cols-4 gap-6 min-w-[960px] mb-6 font-sans">
           {/* Column 0 */}
-          <div className="bg-white border border-slate-200 p-4 shadow-sm border-t-4 border-slate-400">
+          <div className="bg-indigo-50/60 border border-indigo-100/50 p-4 shadow-sm border-t-4 border-t-cyan-400 rounded-b-sm">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">STAGE 0</span>
-              <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">{stage0Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
+              <span className="text-[11px] font-mono font-bold tracking-widest text-indigo-500 uppercase">STAGE 0</span>
+              <span className="text-[11px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">{stage0Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
             </div>
-            <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">{locale === 'hi' ? 'कक्षा 10 (आरंभ)' : 'Class 10 (Origin)'}</h2>
-            <p className="text-xs text-slate-500 font-devanagari mt-0.5">{locale === 'hi' ? 'मूल शिक्षा' : 'Foundation'}</p>
+            <h2 className="text-base font-bold text-indigo-950 tracking-tight font-devanagari">{locale === 'hi' ? 'कक्षा 10 (आरंभ)' : 'Class 10 (Origin)'}</h2>
+            <p className="text-xs text-indigo-700/80 font-devanagari mt-0.5 uppercase tracking-wide">{locale === 'hi' ? 'मूल शिक्षा' : 'Foundation'}</p>
           </div>
           {/* Column 1 */}
-          <div className="bg-white border border-slate-200 p-4 shadow-sm border-t-4 border-lime-500">
+          <div className="bg-indigo-50/60 border border-indigo-100/50 p-4 shadow-sm border-t-4 border-t-blue-400 rounded-b-sm">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">STAGE 01</span>
-              <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">{stage1Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
+              <span className="text-[11px] font-mono font-bold tracking-widest text-indigo-500 uppercase">STAGE 01</span>
+              <span className="text-[11px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">{stage1Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
             </div>
-            <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">{locale === 'hi' ? '12वीं विषय वर्ग' : 'Class 12 Streams'}</h2>
-            <p className="text-xs text-slate-500 font-devanagari mt-0.5">{locale === 'hi' ? 'वर्तमान स्तर के निर्णय व संकाय चयन' : 'Current stage decisions & board streams'}</p>
+            <h2 className="text-base font-bold text-indigo-950 tracking-tight font-devanagari">{locale === 'hi' ? '12वीं विषय वर्ग' : 'Class 12 Streams'}</h2>
+            <p className="text-xs text-indigo-700/80 font-devanagari mt-0.5 uppercase tracking-wide">{locale === 'hi' ? 'वर्तमान स्तर के निर्णय व संकाय चयन' : 'Current stage decisions & board streams'}</p>
           </div>
           {/* Column 2 */}
-          <div className="bg-white border border-slate-200 p-4 shadow-sm border-t-4 border-emerald-500">
+          <div className="bg-indigo-50/60 border border-indigo-100/50 p-4 shadow-sm border-t-4 border-t-violet-500 rounded-b-sm">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">STAGE 02</span>
-              <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">{stage2Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
+              <span className="text-[11px] font-mono font-bold tracking-widest text-indigo-500 uppercase">STAGE 02</span>
+              <span className="text-[11px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">{stage2Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
             </div>
-            <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">{locale === 'hi' ? 'प्रवेश परीक्षा व डिग्री' : 'Exams & Degrees'}</h2>
-            <p className="text-xs text-slate-500 font-devanagari mt-0.5">{locale === 'hi' ? 'प्रतियोगी परीक्षाएं, स्नातक डिग्री व प्रशिक्षण' : 'Qualifying exams, college degrees & training'}</p>
+            <h2 className="text-base font-bold text-indigo-950 tracking-tight font-devanagari">{locale === 'hi' ? 'प्रवेश परीक्षा व डिग्री' : 'Exams & Degrees'}</h2>
+            <p className="text-xs text-indigo-700/80 font-devanagari mt-0.5 uppercase tracking-wide">{locale === 'hi' ? 'प्रतियोगी परीक्षाएं, स्नातक डिग्री व प्रशिक्षण' : 'Qualifying exams, college degrees & training'}</p>
           </div>
           {/* Column 3 */}
-          <div className="bg-white border border-slate-200 p-4 shadow-sm border-t-4 border-teal-600">
+          <div className="bg-indigo-50/60 border border-indigo-100/50 p-4 shadow-sm border-t-4 border-t-fuchsia-500 rounded-b-sm">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">STAGE 03</span>
-              <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">{stage3Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
+              <span className="text-[11px] font-mono font-bold tracking-widest text-indigo-500 uppercase">STAGE 03</span>
+              <span className="text-[11px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">{stage3Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
             </div>
-            <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">{locale === 'hi' ? 'अंतिम करियर लक्ष्य' : 'Terminal Careers'}</h2>
-            <p className="text-xs text-slate-500 font-devanagari mt-0.5">{locale === 'hi' ? 'राजपत्रित अधिकारी, न्यायिक सेवा व विशेषज्ञ पद' : 'Government officers & terminal professions'}</p>
+            <h2 className="text-base font-bold text-indigo-950 tracking-tight font-devanagari">{locale === 'hi' ? 'अंतिम करियर लक्ष्य' : 'Terminal Career Goals'}</h2>
+            <p className="text-xs text-indigo-700/80 font-devanagari mt-0.5 uppercase tracking-wide">{locale === 'hi' ? 'राजपत्रित अधिकारी, न्यायिक सेवा व विशेषज्ञ पद' : 'Government officers & terminal professions'}</p>
           </div>
         </div>
 
