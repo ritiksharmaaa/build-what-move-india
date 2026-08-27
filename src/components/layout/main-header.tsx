@@ -19,45 +19,47 @@ export function MainHeader() {
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/50 sticky top-0 z-40 flex flex-col items-center">
-      
-      {/* Sleek top micro-bar - Only on Index Page */}
+    <>
+      {/* Static Top Banners - Scroll away naturally */}
       {isIndexPage && (
-        <div className="bg-slate-950 text-slate-300 text-[10px] font-mono py-0.5 border-b border-slate-800 w-full">
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-              <span className="font-bold text-white tracking-widest uppercase">
-                {t('slogan')}
-              </span>
-              <span className="text-slate-600">|</span>
-              <span className="text-amber-300 font-medium">
-                {locale === 'hi'
-                  ? '⚠️ स्वतंत्र हैकथॉन प्रोटोटाइप (कोई आधिकारिक सरकारी उत्पाद नहीं)'
-                  : '⚠️ Independent Hackathon Prototype (Not an Official Government Product)'}
-              </span>
+        <div className="w-full flex flex-col items-center relative z-40">
+          {/* Sleek top micro-bar */}
+          <div className="bg-slate-950 text-slate-300 text-[10px] font-mono py-0.5 border-b border-slate-800 w-full">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
+                <span className="font-bold text-white tracking-widest uppercase">
+                  {t('slogan')}
+                </span>
+                <span className="text-slate-600">|</span>
+                <span className="text-amber-300 font-medium">
+                  {locale === 'hi'
+                    ? '⚠️ स्वतंत्र हैकथॉन प्रोटोटाइप (कोई आधिकारिक सरकारी उत्पाद नहीं)'
+                    : '⚠️ Independent Hackathon Prototype (Not an Official Government Product)'}
+                </span>
+              </div>
+              <button
+                onClick={handleReplayGreeting}
+                className="text-slate-400 hover:text-white transition-colors underline decoration-slate-600 text-[9px] uppercase font-mono tracking-wider ml-auto"
+              >
+                {t('replayGreeting')}
+              </button>
             </div>
-            <button
-              onClick={handleReplayGreeting}
-              className="text-slate-400 hover:text-white transition-colors underline decoration-slate-600 text-[9px] uppercase font-mono tracking-wider ml-auto"
-            >
-              {t('replayGreeting')}
-            </button>
+          </div>
+
+          {/* Full-Width Marquee Ticker */}
+          <div className="w-full bg-slate-900 border-b border-slate-200">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <MarqueeTicker />
+            </div>
           </div>
         </div>
       )}
 
-      {/* 1. Full-Width Marquee Ticker - Only on Index Page */}
-      {isIndexPage && (
-        <div className="w-full bg-slate-900 border-b border-slate-200">
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <MarqueeTicker />
-          </div>
-        </div>
-      )}
-
-      {/* Main Compact Header Container (h-14 / 56px) */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      {/* Main Sticky Navbar */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/50 sticky top-0 z-40 flex flex-col items-center">
+        {/* Main Compact Header Container (h-14 / 56px) */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Brand Emblem & Titles */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="w-8 h-8 bg-slate-900 text-white flex flex-col items-center justify-center font-mono font-black text-sm border-2 border-slate-950 shadow-[1px_1px_0px_0px_rgba(15,23,42,1)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform">
@@ -90,7 +92,8 @@ export function MainHeader() {
             <span>{locale === 'hi' ? 'मार्ग खोजें' : 'Start'}</span>
           </Link>
         </div>
-      </div>
-    </header>
+        </div>
+      </header>
+    </>
   );
 }
