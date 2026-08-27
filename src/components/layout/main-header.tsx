@@ -23,8 +23,8 @@ export function MainHeader() {
       
       {/* Sleek top micro-bar - Only on Index Page */}
       {isIndexPage && (
-        <div className="bg-slate-950 text-slate-300 text-[10px] font-mono py-0.5 px-4 border-b border-slate-800 w-full">
-          <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+        <div className="bg-slate-950 text-slate-300 text-[10px] font-mono py-0.5 border-b border-slate-800 w-full">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-2">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
               <span className="font-bold text-white tracking-widest uppercase">
@@ -50,7 +50,7 @@ export function MainHeader() {
       {/* 1. Full-Width Marquee Ticker - Only on Index Page */}
       {isIndexPage && (
         <div className="w-full bg-slate-900 border-b border-slate-200">
-          <div className="max-w-7xl mx-auto">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <MarqueeTicker />
           </div>
         </div>
