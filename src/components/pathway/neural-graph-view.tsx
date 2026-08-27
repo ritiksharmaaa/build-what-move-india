@@ -381,61 +381,68 @@ export function NeuralGraphView({
           </div>
         </div>
 
-        {/* Neural Synapse Inspector Box */}
-        <div className="p-4 border border-slate-800 bg-slate-900/90 rounded text-xs">
-          {hoveredNode ? (
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-              <div className="md:col-span-8">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-800 text-emerald-400 rounded">
-                    LAYER {hoveredNode.stage} SYNAPSE
-                  </span>
-                  <span className="text-slate-400">{hoveredNode.authority}</span>
-                </div>
-                <h3 className="text-base font-black text-white font-devanagari">
-                  {locale === 'hi' ? hoveredNode.nameHi : hoveredNode.nameEn}
-                </h3>
-                <p className="text-xs text-slate-300 mt-1 font-devanagari">
-                  {locale === 'hi' ? hoveredNode.descHi : hoveredNode.descEn}
-                </p>
-              </div>
+        {/* Neural Synapse Inspector Box (Fixed Bottom Left) */}
+        <div className="fixed bottom-6 left-0 right-0 z-[60] pointer-events-none">
+          <div className="w-full mx-auto px-4 sm:px-8 max-w-[1400px] flex justify-start">
+            <div className="pointer-events-auto max-w-2xl w-full -ml-[35px]">
+              <div className="p-3 border border-slate-800 !border-l-8 !border-l-cyan-500 bg-slate-900/95 backdrop-blur shadow-lg rounded text-xs">
+                {hoveredNode ? (
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                    <div className="md:col-span-8">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-800 text-emerald-400 rounded">
+                          LAYER {hoveredNode.stage} SYNAPSE
+                        </span>
+                        <span className="text-slate-400">{hoveredNode.authority}</span>
+                      </div>
+                      <h3 className="text-base font-black text-white font-devanagari">
+                        {locale === 'hi' ? hoveredNode.nameHi : hoveredNode.nameEn}
+                      </h3>
+                      <p className="text-xs text-slate-300 mt-1 font-devanagari">
+                        {locale === 'hi' ? hoveredNode.descHi : hoveredNode.descEn}
+                      </p>
+                    </div>
 
-              <div className="md:col-span-4 border-t md:border-t-0 md:border-l border-slate-800 pt-2 md:pt-0 md:pl-4 space-y-1 text-slate-300">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Duration:</span>
-                  <span className="font-bold text-white">{hoveredNode.duration}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Est. Fee:</span>
-                  <span className="font-bold text-emerald-400">
-                    ₹{hoveredNode.costMinINR.toLocaleString('en-IN')} - ₹{hoveredNode.costMaxINR.toLocaleString('en-IN')}
-                  </span>
-                </div>
-                {hoveredNode.portalUrl && (
-                  <a
-                    href={hoveredNode.portalUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-emerald-400 hover:underline pt-1 text-[11px]"
-                  >
-                    <span>Official Portal</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                    <div className="md:col-span-4 border-t md:border-t-0 md:border-l border-slate-800 pt-2 md:pt-0 md:pl-4 space-y-1 text-slate-300">
+                      <div className="flex justify-between">
+                        <span className="text-slate-500">Duration:</span>
+                        <span className="font-bold text-white">{hoveredNode.duration}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-500">Est. Fee:</span>
+                        <span className="font-bold text-emerald-400">
+                          ₹{hoveredNode.costMinINR.toLocaleString('en-IN')} - ₹{hoveredNode.costMaxINR.toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                      {hoveredNode.portalUrl && (
+                        <a
+                          href={hoveredNode.portalUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1 text-emerald-400 hover:underline pt-1 text-[11px]"
+                        >
+                          <span>Official Portal</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <Info className="w-4 h-4 text-slate-500" />
+                    <span>
+                      {locale === 'hi'
+                        ? 'न्यूरल नोड पर कर्सर ले जाकर सिनैप्टिक विवरण देखें, अथवा सक्रिय मार्ग चुनने के लिए क्लिक करें।'
+                        : 'Hover over neural nodes to view synaptic parameters, or click to activate decision paths.'}
+                    </span>
+                  </div>
                 )}
               </div>
             </div>
-          ) : (
-            <div className="flex items-center gap-2 text-slate-400">
-              <Info className="w-4 h-4 text-slate-500" />
-              <span>
-                {locale === 'hi'
-                  ? 'न्यूरल नोड पर कर्सर ले जाकर सिनैप्टिक विवरण देखें, अथवा सक्रिय मार्ग चुनने के लिए क्लिक करें।'
-                  : 'Hover over neural nodes to view synaptic parameters, or click to activate decision paths.'}
-              </span>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

@@ -401,61 +401,67 @@ export function FissionPathwayGraph({
         </div>
       </div>
 
-      {/* Sharp Quick-Info Tooltip / Inspector Box */}
-      <div className="bento-box p-6 border-2 border-slate-900 bg-white shadow-sm">
-        {hoveredNode ? (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-            <div className="md:col-span-8">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-mono uppercase font-bold px-1.5 py-0.5 bg-slate-900 text-white">
-                  STAGE {hoveredNode.stage} INSPECTOR
-                </span>
-                <span className="text-xs font-mono text-slate-500">{hoveredNode.authority}</span>
-              </div>
-              <h3 className="text-lg font-black text-slate-950 font-devanagari">
-                {locale === 'hi' ? hoveredNode.nameHi : hoveredNode.nameEn}
-              </h3>
-              <p className="text-xs text-slate-600 mt-1 font-devanagari leading-relaxed">
-                {locale === 'hi' ? hoveredNode.descHi : hoveredNode.descEn}
-              </p>
-            </div>
+      {/* Sharp Quick-Info Tooltip / Inspector Box (Fixed Bottom Left) */}
+      <div className="fixed bottom-6 left-0 right-0 z-[60] pointer-events-none">
+        <div className="w-full mx-auto px-4 sm:px-8 max-w-[1400px] flex justify-start">
+          <div className="pointer-events-auto max-w-2xl w-full -ml-[35px]">
+            <div className="bento-box p-3 border-2 border-slate-900 !border-l-8 !border-l-sky-500 bg-white shadow-[2px_2px_0_0_#0f172a]">
+              {hoveredNode ? (
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                  <div className="md:col-span-8">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-mono uppercase font-bold px-1.5 py-0.5 bg-slate-900 text-white">
+                        STAGE {hoveredNode.stage} INSPECTOR
+                      </span>
+                      <span className="text-xs font-mono text-slate-500">{hoveredNode.authority}</span>
+                    </div>
+                    <h3 className="text-lg font-black text-slate-950 font-devanagari">
+                      {locale === 'hi' ? hoveredNode.nameHi : hoveredNode.nameEn}
+                    </h3>
+                    <p className="text-xs text-slate-600 mt-1 font-devanagari leading-relaxed">
+                      {locale === 'hi' ? hoveredNode.descHi : hoveredNode.descEn}
+                    </p>
+                  </div>
 
-            <div className="md:col-span-4 border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0 md:pl-4 space-y-1.5 text-xs font-mono">
-              <div className="flex justify-between">
-                <span className="text-slate-500">Duration:</span>
-                <span className="font-bold text-slate-900">{hoveredNode.duration}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Est. Fee:</span>
-                <span className="font-bold text-slate-900">
-                  ₹{hoveredNode.costMinINR.toLocaleString('en-IN')} - ₹{hoveredNode.costMaxINR.toLocaleString('en-IN')}
-                </span>
-              </div>
-              {hoveredNode.quotaUP && (
-                <div className="flex justify-between text-emerald-700 font-bold">
-                  <span>UP Quota:</span>
-                  <span>{hoveredNode.quotaUP}</span>
+                  <div className="md:col-span-4 border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0 md:pl-4 space-y-1.5 text-xs font-mono">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Duration:</span>
+                      <span className="font-bold text-slate-900">{hoveredNode.duration}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Est. Fee:</span>
+                      <span className="font-bold text-slate-900">
+                        ₹{hoveredNode.costMinINR.toLocaleString('en-IN')} - ₹{hoveredNode.costMaxINR.toLocaleString('en-IN')}
+                      </span>
+                    </div>
+                    {hoveredNode.quotaUP && (
+                      <div className="flex justify-between text-emerald-700 font-bold">
+                        <span>UP Quota:</span>
+                        <span>{hoveredNode.quotaUP}</span>
+                      </div>
+                    )}
+                    {hoveredNode.portalUrl && (
+                      <a
+                        href={hoveredNode.portalUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 text-brand-600 hover:underline pt-1 text-[11px] font-bold"
+                      >
+                        <span>Official Portal (आधिकारिक वेबसाइट)</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 text-xs text-slate-500 font-mono">
+                  <Info className="w-4 h-4 text-slate-400" />
+                  <span>{t('hoverTooltip')}</span>
                 </div>
               )}
-              {hoveredNode.portalUrl && (
-                <a
-                  href={hoveredNode.portalUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 text-brand-600 hover:underline pt-1 text-[11px] font-bold"
-                >
-                  <span>Official Portal (आधिकारिक वेबसाइट)</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              )}
             </div>
           </div>
-        ) : (
-          <div className="flex items-center gap-3 text-xs text-slate-500 font-mono">
-            <Info className="w-4 h-4 text-slate-400" />
-            <span>{t('hoverTooltip')}</span>
-          </div>
-        )}
+        </div>
       </div>
 
       {/* Printable Dossier Summary (Hidden during normal screen, perfectly formatted for PDF Print) */}
