@@ -23,29 +23,7 @@ export function MainHeader() {
       {/* Static Top Banners - Scroll away naturally */}
       {isIndexPage && (
         <div className="w-full flex flex-col items-center relative z-40">
-          {/* Sleek top micro-bar */}
-          <div className="bg-slate-950 text-slate-300 text-[10px] font-mono py-0.5 border-b border-slate-800 w-full">
-            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-2">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-                <span className="font-bold text-white tracking-widest uppercase">
-                  {t('slogan')}
-                </span>
-                <span className="text-slate-600">|</span>
-                <span className="text-amber-300 font-medium">
-                  {locale === 'hi'
-                    ? '⚠️ स्वतंत्र हैकथॉन प्रोटोटाइप (कोई आधिकारिक सरकारी उत्पाद नहीं)'
-                    : '⚠️ Independent Hackathon Prototype (Not an Official Government Product)'}
-                </span>
-              </div>
-              <button
-                onClick={handleReplayGreeting}
-                className="text-slate-400 hover:text-white transition-colors underline decoration-slate-600 text-[9px] uppercase font-mono tracking-wider ml-auto"
-              >
-                {t('replayGreeting')}
-              </button>
-            </div>
-          </div>
+
 
           {/* Full-Width Marquee Ticker */}
           <div className="w-full bg-slate-900 border-b border-slate-200">

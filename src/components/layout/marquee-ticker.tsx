@@ -1,29 +1,25 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 export function MarqueeTicker() {
-  const t = useTranslations('ticker');
+  const locale = useLocale();
 
-  const items = [
-    t('items.0'),
-    t('items.1'),
-    t('items.2'),
-    t('items.3'),
-    t('items.4'),
-    t('items.5'),
-    t('items.6'),
-    t('items.7'),
-  ];
+  const itemText = locale === 'hi' 
+    ? 'वन नेशन, वन करियर पोर्टल | ⚠️ स्वतंत्र हैकथॉन प्रोटोटाइप (कोई आधिकारिक सरकारी उत्पाद नहीं)'
+    : 'ONE NATION, ONE CAREER PORTAL | ⚠️ Independent Hackathon Prototype (Not an Official Government Product)';
+
+  // We duplicate it a few times in the array so the scrolling marquee has enough width to loop smoothly without gaps on ultra-wide screens.
+  const items = [itemText, itemText, itemText, itemText];
 
   return (
     <div className="w-full bg-slate-900 text-white border-y border-slate-950 overflow-hidden flex items-center shadow-inner">
       {/* Sleek Compact Badge */}
       <div className="shrink-0 bg-saffron-600 text-white px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 border-r border-slate-950 z-10">
         <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-        <span className="hidden sm:inline">{t('liveBadge')}</span>
-        <span className="sm:hidden">UPDATES</span>
+        <span className="hidden sm:inline">ALERT NOTE</span>
+        <span className="sm:hidden">ALERT</span>
       </div>
 
       {/* Compact Marquee Scroller */}
