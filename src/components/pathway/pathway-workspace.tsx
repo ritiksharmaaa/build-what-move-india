@@ -3,10 +3,9 @@
 import React, { useState } from 'react';
 import type { StudentDecisionInput } from '@/lib/contracts/student';
 import type { EvaluatedNode, GraphStatistics } from '@/lib/contracts/pathway';
-import { type FissionNode } from '@/lib/data/fission-nodes';
-import { BrandStamp } from './brand-stamp';
+import { FissionNode } from '@/lib/data/fission-nodes';
+import { MapCornerBadge } from './map-corner-badge';
 import { FloatingControlPanel, type PathwayViewMode } from './floating-control-panel';
-import { FloatingLegend } from './floating-legend';
 import { ChainModulesView } from './chain-modules-view';
 import { NeuralGraphView } from './neural-graph-view';
 import { FissionPathwayGraph } from './fission-pathway-graph';
@@ -127,10 +126,22 @@ export function PathwayWorkspace({
     window.print();
   };
 
+  const getOverlayMaxWidth = () => {
+    if (activeView === 'chain') return 'max-w-[1400px]';
+    if (activeView === 'neural') return 'max-w-[1600px]';
+    return 'max-w-7xl';
+  };
+
   return (
-    <div className="fixed inset-0 z-50 bg-white overflow-auto select-none">
-      {/* Brand Stamp in Top Left */}
-      <BrandStamp />
+    <div className="fixed inset-0 z-50 bg-white overflow-auto select-none flex flex-col">
+      {/* Symmetrical Floating Header Badges */}
+      <div className="absolute top-6 left-0 right-0 z-[60] pointer-events-none">
+        <div className={`w-full mx-auto px-4 sm:px-8 ${getOverlayMaxWidth()}`}>
+          <div className={`inline-flex pointer-events-auto transition-all ${activeView === 'fission' ? 'ml-6' : 'ml-0'}`}>
+            <MapCornerBadge />
+          </div>
+        </div>
+      </div>
 
       {/* Floating Corner Control Panel in Top Right */}
       <FloatingControlPanel
@@ -143,11 +154,8 @@ export function PathwayWorkspace({
         onPrint={handlePrintDossier}
       />
 
-      {/* Floating Status Indicator Legend in Top Right */}
-      <FloatingLegend />
-
       {/* Main Canvas Views */}
-      <div className="w-full h-full">
+      <div className="w-full flex-1">
         {activeView === 'chain' && (
           <ChainModulesView
             studentInput={input}
@@ -165,7 +173,7 @@ export function PathwayWorkspace({
         )}
 
         {activeView === 'fission' && (
-          <div className="w-full min-h-screen bg-[#FAFBFD] pt-16 pb-20 px-4 sm:px-8">
+          <div className="w-full min-h-full bg-[#FAFBFD] pt-20 pb-20 px-4 sm:px-8">
             <div className="max-w-7xl mx-auto">
               <FissionPathwayGraph
                 studentInput={input}
@@ -176,7 +184,7 @@ export function PathwayWorkspace({
         )}
 
         {activeView === 'detailed' && (
-          <div className="w-full min-h-screen bg-[#FAFBFD] pt-16 pb-20 px-4 sm:px-8 space-y-6">
+          <div className="w-full min-h-full bg-[#FAFBFD] pt-20 pb-20 px-4 sm:px-8 space-y-6">
             <div className="max-w-7xl mx-auto space-y-6">
               <PathwayMapDesktop
                 nodes={nodes}

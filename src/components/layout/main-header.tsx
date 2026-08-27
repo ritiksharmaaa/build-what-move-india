@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { Link } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 import { LanguageSwitcher } from './language-switcher';
 import { Sparkles } from 'lucide-react';
 import { MarqueeTicker } from './marquee-ticker';
@@ -10,6 +10,8 @@ import { MarqueeTicker } from './marquee-ticker';
 export function MainHeader() {
   const t = useTranslations('header');
   const locale = useLocale();
+  const pathname = usePathname();
+  const isIndexPage = pathname === '/';
 
   const handleReplayGreeting = () => {
     sessionStorage.removeItem('pathfinder_greeting_seen');
@@ -17,38 +19,45 @@ export function MainHeader() {
   };
 
   return (
-    <header className="border-b-2 border-slate-900 bg-white sticky top-0 z-40 shadow-sm">
-      {/* Sleek top micro-bar */}
-      <div className="bg-slate-950 text-slate-300 text-[10px] font-mono py-0.5 px-4 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-            <span className="font-bold text-white tracking-widest uppercase">
-              {t('slogan')}
-            </span>
-            <span className="text-slate-600">|</span>
-            <span className="text-amber-300 font-medium">
-              {locale === 'hi'
-                ? '⚠️ स्वतंत्र हैकथॉन प्रोटोटाइप (कोई आधिकारिक सरकारी उत्पाद नहीं)'
-                : '⚠️ Independent Hackathon Prototype (Not an Official Government Product)'}
-            </span>
+    <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/50 sticky top-0 z-40 flex flex-col items-center">
+      
+      {/* Sleek top micro-bar - Only on Index Page */}
+      {isIndexPage && (
+        <div className="bg-slate-950 text-slate-300 text-[10px] font-mono py-0.5 px-4 border-b border-slate-800 w-full">
+          <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
+              <span className="font-bold text-white tracking-widest uppercase">
+                {t('slogan')}
+              </span>
+              <span className="text-slate-600">|</span>
+              <span className="text-amber-300 font-medium">
+                {locale === 'hi'
+                  ? '⚠️ स्वतंत्र हैकथॉन प्रोटोटाइप (कोई आधिकारिक सरकारी उत्पाद नहीं)'
+                  : '⚠️ Independent Hackathon Prototype (Not an Official Government Product)'}
+              </span>
+            </div>
+            <button
+              onClick={handleReplayGreeting}
+              className="text-slate-400 hover:text-white transition-colors underline decoration-slate-600 text-[9px] uppercase font-mono tracking-wider ml-auto"
+            >
+              {t('replayGreeting')}
+            </button>
           </div>
-          <button
-            onClick={handleReplayGreeting}
-            className="text-slate-400 hover:text-white transition-colors underline decoration-slate-600 text-[9px] uppercase font-mono tracking-wider ml-auto"
-          >
-            {t('replayGreeting')}
-          </button>
         </div>
-      </div>
+      )}
 
-      {/* 1. Full-Width Marquee Ticker Moved Here */}
-      <div className="w-full border-b border-slate-200">
-        <MarqueeTicker />
-      </div>
+      {/* 1. Full-Width Marquee Ticker - Only on Index Page */}
+      {isIndexPage && (
+        <div className="w-full bg-slate-900 border-b border-slate-200">
+          <div className="max-w-7xl mx-auto">
+            <MarqueeTicker />
+          </div>
+        </div>
+      )}
 
       {/* Main Compact Header Container (h-14 / 56px) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Brand Emblem & Titles */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="w-8 h-8 bg-slate-900 text-white flex flex-col items-center justify-center font-mono font-black text-sm border-2 border-slate-950 shadow-[1px_1px_0px_0px_rgba(15,23,42,1)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform">

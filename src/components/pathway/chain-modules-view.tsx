@@ -157,7 +157,7 @@ export function ChainModulesView({
   };
 
   return (
-    <div className="w-full min-h-screen bg-white text-slate-900 font-mono relative overflow-x-auto select-none pt-16 pb-24 px-4 sm:px-8">
+    <div className="w-full min-h-full bg-white text-slate-900 font-mono relative overflow-x-auto select-none pt-20 pb-24 px-4 sm:px-8">
       {/* Subtle Dot Grid Pattern Canvas */}
       <div className="absolute inset-0 grid-pattern opacity-30 pointer-events-none" />
 
@@ -178,22 +178,42 @@ export function ChainModulesView({
 
       <div className="max-w-[1400px] mx-auto relative z-10 space-y-6">
         {/* Stage Column Labels */}
-        <div className="grid grid-cols-4 gap-6 min-w-[1050px] pb-3 border-b-2 border-slate-900 text-xs font-bold uppercase tracking-wider text-slate-700">
-          <div className="flex items-center gap-2">
-            <span className="w-5 h-5 bg-slate-900 text-white flex items-center justify-center text-[10px]">0</span>
-            <span>{locale === 'hi' ? 'कक्षा 10 (आरंभ)' : 'Class 10 (Origin)'}</span>
+        <div className="grid grid-cols-4 gap-6 min-w-[1050px] mb-6 font-sans">
+          {/* Column 0 */}
+          <div className="bg-white border border-slate-200 p-4 shadow-sm border-t-4 border-slate-400">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">STAGE 0</span>
+              <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">{stage0Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
+            </div>
+            <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">{locale === 'hi' ? 'कक्षा 10 (आरंभ)' : 'Class 10 (Origin)'}</h2>
+            <p className="text-xs text-slate-500 font-devanagari mt-0.5">{locale === 'hi' ? 'मूल शिक्षा' : 'Foundation'}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-5 h-5 bg-slate-900 text-white flex items-center justify-center text-[10px]">1</span>
-            <span>{locale === 'hi' ? '12वीं विषय वर्ग' : 'Class 12 Streams'}</span>
+          {/* Column 1 */}
+          <div className="bg-white border border-slate-200 p-4 shadow-sm border-t-4 border-lime-500">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">STAGE 01</span>
+              <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">{stage1Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
+            </div>
+            <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">{locale === 'hi' ? '12वीं विषय वर्ग' : 'Class 12 Streams'}</h2>
+            <p className="text-xs text-slate-500 font-devanagari mt-0.5">{locale === 'hi' ? 'वर्तमान स्तर के निर्णय व संकाय चयन' : 'Current stage decisions & board streams'}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-5 h-5 bg-slate-900 text-white flex items-center justify-center text-[10px]">2</span>
-            <span>{locale === 'hi' ? 'प्रवेश परीक्षा व डिग्री' : 'Exams & Degrees'}</span>
+          {/* Column 2 */}
+          <div className="bg-white border border-slate-200 p-4 shadow-sm border-t-4 border-emerald-500">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">STAGE 02</span>
+              <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">{stage2Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
+            </div>
+            <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">{locale === 'hi' ? 'प्रवेश परीक्षा व डिग्री' : 'Exams & Degrees'}</h2>
+            <p className="text-xs text-slate-500 font-devanagari mt-0.5">{locale === 'hi' ? 'प्रतियोगी परीक्षाएं, स्नातक डिग्री व प्रशिक्षण' : 'Qualifying exams, college degrees & training'}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-5 h-5 bg-slate-900 text-white flex items-center justify-center text-[10px]">3</span>
-            <span>{locale === 'hi' ? 'अंतिम करियर लक्ष्य' : 'Terminal Careers'}</span>
+          {/* Column 3 */}
+          <div className="bg-white border border-slate-200 p-4 shadow-sm border-t-4 border-teal-600">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">STAGE 03</span>
+              <span className="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-200">{stage3Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
+            </div>
+            <h2 className="text-base font-bold text-slate-900 tracking-tight font-devanagari">{locale === 'hi' ? 'अंतिम करियर लक्ष्य' : 'Terminal Careers'}</h2>
+            <p className="text-xs text-slate-500 font-devanagari mt-0.5">{locale === 'hi' ? 'राजपत्रित अधिकारी, न्यायिक सेवा व विशेषज्ञ पद' : 'Government officers & terminal professions'}</p>
           </div>
         </div>
 
@@ -246,10 +266,10 @@ export function ChainModulesView({
                     isSelected
                       ? 'border-emerald-600 bg-emerald-50 text-slate-950 node-active-glow font-bold z-10'
                       : evalRes.status === 'blocked'
-                      ? 'border-red-300 bg-red-50/40 text-slate-400 opacity-60 cursor-not-allowed'
+                      ? 'bg-red-50 border-red-400 text-slate-800 cursor-not-allowed'
                       : evalRes.status === 'warning'
-                      ? 'border-amber-500 bg-amber-50 text-slate-950'
-                      : 'border-slate-300 bg-white text-slate-800 hover:border-slate-900 shadow-sm'
+                      ? 'bg-amber-50 border-amber-400 text-slate-950'
+                      : 'border-blue-200 bg-blue-50/30 text-slate-900 hover:border-brand-500 shadow-sm'
                   }`}
                 >
                   {/* Left Input Socket */}
@@ -315,10 +335,10 @@ export function ChainModulesView({
                     isSelected
                       ? 'border-emerald-600 bg-emerald-50 text-slate-950 node-active-glow font-bold z-10'
                       : evalRes.status === 'blocked'
-                      ? 'border-red-300 bg-red-50/40 text-slate-400 opacity-60 cursor-not-allowed'
+                      ? 'bg-red-50 border-red-400 text-slate-800 cursor-not-allowed'
                       : evalRes.status === 'warning'
-                      ? 'border-amber-500 bg-amber-50 text-slate-950'
-                      : 'border-slate-300 bg-white text-slate-800 hover:border-slate-900 shadow-sm'
+                      ? 'bg-amber-50 border-amber-400 text-slate-950'
+                      : 'border-blue-200 bg-blue-50/30 text-slate-900 hover:border-brand-500 shadow-sm'
                   }`}
                 >
                   {/* Left Input Socket */}
@@ -390,10 +410,10 @@ export function ChainModulesView({
                     isSelected
                       ? 'border-emerald-600 bg-emerald-50 text-slate-950 node-active-glow font-bold z-10'
                       : evalRes.status === 'blocked'
-                      ? 'border-red-300 bg-red-50/40 text-slate-400 opacity-60 cursor-not-allowed'
+                      ? 'bg-red-50 border-red-400 text-slate-800 cursor-not-allowed'
                       : evalRes.status === 'warning'
-                      ? 'border-amber-500 bg-amber-50 text-slate-950'
-                      : 'border-slate-300 bg-white text-slate-800 hover:border-slate-900 shadow-sm'
+                      ? 'bg-amber-50 border-amber-400 text-slate-950'
+                      : 'border-blue-200 bg-blue-50/30 text-slate-900 hover:border-brand-500 shadow-sm'
                   }`}
                 >
                   {/* Left Input Socket */}

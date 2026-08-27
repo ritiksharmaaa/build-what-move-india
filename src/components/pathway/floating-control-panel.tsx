@@ -59,7 +59,7 @@ export function FloatingControlPanel({
       className="fixed bottom-4 left-4 z-[60] font-sans select-none pointer-events-auto cursor-default"
       style={{ touchAction: 'none' }}
     >
-      <div className="w-72 sm:w-80 bg-white/95 backdrop-blur-md border border-slate-300 shadow-xl rounded-lg overflow-hidden transition-shadow hover:shadow-2xl">
+      <div className="w-72 sm:w-80 bento-box bg-white border-2 border-slate-900 shadow-[4px_4px_0_0_#0f172a] transition-all">
         {/* Calm Drag Header */}
         <div className="flex items-center justify-between px-3 py-2 bg-slate-900 text-white cursor-grab active:cursor-grabbing border-b border-slate-800">
           <div className="flex items-center gap-2">
