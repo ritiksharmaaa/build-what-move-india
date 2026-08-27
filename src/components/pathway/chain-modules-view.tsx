@@ -180,7 +180,7 @@ export function ChainModulesView({
         {/* Stage Column Labels */}
         <div className="grid grid-cols-4 gap-6 min-w-[1050px] mb-6 font-sans">
           {/* Column 0 */}
-          <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-indigo-400 rounded-b-sm">
+          <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-cyan-400 rounded-b-sm">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] font-mono font-bold tracking-widest text-indigo-500 uppercase">STAGE 0</span>
               <span className="text-[10px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">{stage0Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
@@ -189,7 +189,7 @@ export function ChainModulesView({
             <p className="text-[10px] text-indigo-700/80 font-devanagari mt-0.5 uppercase tracking-wide">{locale === 'hi' ? 'मूल शिक्षा' : 'Foundation'}</p>
           </div>
           {/* Column 1 */}
-          <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-indigo-400 rounded-b-sm">
+          <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-blue-400 rounded-b-sm">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] font-mono font-bold tracking-widest text-indigo-500 uppercase">STAGE 1</span>
               <span className="text-[10px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">{stage1Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
@@ -198,7 +198,7 @@ export function ChainModulesView({
             <p className="text-[10px] text-indigo-700/80 font-devanagari mt-0.5 uppercase tracking-wide">{locale === 'hi' ? 'वर्तमान स्तर के निर्णय' : 'Current stage decisions'}</p>
           </div>
           {/* Column 2 */}
-          <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-indigo-400 rounded-b-sm">
+          <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-violet-500 rounded-b-sm">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] font-mono font-bold tracking-widest text-indigo-500 uppercase">STAGE 2</span>
               <span className="text-[10px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">{stage2Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>
@@ -207,7 +207,7 @@ export function ChainModulesView({
             <p className="text-[10px] text-indigo-700/80 font-devanagari mt-0.5 uppercase tracking-wide">{locale === 'hi' ? 'प्रतियोगी परीक्षाएं व प्रशिक्षण' : 'Qualifying exams & training'}</p>
           </div>
           {/* Column 3 */}
-          <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-indigo-400 rounded-b-sm">
+          <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-fuchsia-500 rounded-b-sm">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] font-mono font-bold tracking-widest text-indigo-500 uppercase">STAGE 3</span>
               <span className="text-[10px] font-mono font-semibold text-indigo-600 bg-indigo-100/50 px-2 py-0.5 border border-indigo-200 rounded">{stage3Nodes.length} {locale === 'hi' ? 'मार्ग' : 'routes'}</span>

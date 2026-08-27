@@ -167,7 +167,7 @@ export function NeuralGraphView({
         <div className="grid grid-cols-4 gap-6 min-w-[1050px] items-start relative">
           {/* Layer 0: Input Layer */}
           <div className="flex flex-col gap-4">
-            <div className="text-[10px] font-bold uppercase text-slate-400 bg-slate-900 border border-slate-800 px-2.5 py-1 flex items-center justify-between">
+            <div className="text-[10px] font-bold uppercase text-slate-400 bg-slate-900 border border-slate-800 border-t-2 border-t-sky-400 px-2.5 py-1 flex items-center justify-between">
               <span>Input Nucleus</span>
               <span className="text-emerald-400">L0</span>
             </div>
@@ -199,7 +199,7 @@ export function NeuralGraphView({
 
           {/* Layer 1: Stream Hidden Synapses */}
           <div className="flex flex-col gap-3">
-            <div className="text-[10px] font-bold uppercase text-slate-400 bg-slate-900 border border-slate-800 px-2.5 py-1 flex items-center justify-between">
+            <div className="text-[10px] font-bold uppercase text-slate-400 bg-slate-900 border border-slate-800 border-t-2 border-t-indigo-400 px-2.5 py-1 flex items-center justify-between">
               <span>Stream Layer</span>
               <span className="text-brand-400">L1</span>
             </div>
@@ -258,8 +258,8 @@ export function NeuralGraphView({
 
           {/* Layer 2: Examination & Degree Gateways */}
           <div className="flex flex-col gap-3">
-            <div className="text-[10px] font-bold uppercase text-slate-400 bg-slate-900 border border-slate-800 px-2.5 py-1 flex items-center justify-between">
-              <span>Degree Gateways</span>
+            <div className="text-[10px] font-bold uppercase text-slate-400 bg-slate-900 border border-slate-800 border-t-2 border-t-purple-400 px-2.5 py-1 flex items-center justify-between">
+              <span>Gateway Layer</span>
               <span className="text-amber-400">L2</span>
             </div>
 
@@ -321,11 +321,11 @@ export function NeuralGraphView({
             })}
           </div>
 
-          {/* Layer 3: Output Decision Layer */}
+          {/* Layer 3: Terminal Output */}
           <div className="flex flex-col gap-3">
-            <div className="text-[10px] font-bold uppercase text-slate-400 bg-slate-900 border border-slate-800 px-2.5 py-1 flex items-center justify-between">
-              <span>Decision Outputs</span>
-              <span className="text-emerald-400">L3</span>
+            <div className="text-[10px] font-bold uppercase text-slate-400 bg-slate-900 border border-slate-800 border-t-2 border-t-fuchsia-400 px-2.5 py-1 flex items-center justify-between">
+              <span>Terminal Layer</span>
+              <span className="text-fuchsia-400">L3</span>
             </div>
 
             {stage3Nodes.map((node) => {

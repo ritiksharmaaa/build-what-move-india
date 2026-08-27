@@ -28,11 +28,12 @@ export function PathwayMapDesktop({
     titleHi: string, 
     subtitleEn: string, 
     subtitleHi: string, 
+    accentColor: string,
     columnNodes: EvaluatedNode[]
   ) => (
     <div className="flex-1 flex flex-col gap-4 font-sans">
       {/* Calm, Minimalist Column Header */}
-      <div className="bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 border-t-indigo-400 rounded-b-sm">
+      <div className={`bg-indigo-50/60 border border-indigo-100/50 p-3 shadow-sm border-t-4 ${accentColor} rounded-b-sm`}>
         <div className="flex items-center justify-between mb-1">
           <span className="text-[10px] font-mono font-bold tracking-widest text-indigo-500 uppercase">
             {stepIndex}
@@ -79,6 +80,7 @@ export function PathwayMapDesktop({
         'आरंभिक चरण व आधारशिला',
         'Current stage decisions & board streams',
         'वर्तमान स्तर के निर्णय व संकाय चयन',
+        'border-t-sky-400',
         now
       )}
       {renderColumn(
@@ -87,6 +89,7 @@ export function PathwayMapDesktop({
         'मध्यम चरण व प्रवेश द्वार',
         'Qualifying exams, college degrees & training',
         'प्रतियोगी परीक्षाएं, स्नातक डिग्री व प्रशिक्षण',
+        'border-t-indigo-400',
         next
       )}
       {renderColumn(
@@ -95,6 +98,7 @@ export function PathwayMapDesktop({
         'दीर्घकालिक लक्ष्य व करियर',
         'Government officers & terminal professions',
         'राजपत्रित अधिकारी, न्यायिक सेवा व विशेषज्ञ पद',
+        'border-t-purple-500',
         future
       )}
     </div>
