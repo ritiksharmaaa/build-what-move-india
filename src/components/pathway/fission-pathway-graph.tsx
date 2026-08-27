@@ -192,29 +192,7 @@ export function FissionPathwayGraph({
         </div>
       </div>
 
-      {/* Symmetrical Color Legend Bar */}
-      <div className="bento-box p-4 border-2 border-slate-900 bg-slate-900 text-white text-xs font-mono grid grid-cols-2 sm:grid-cols-4 gap-3 shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="w-3.5 h-3.5 bg-emerald-500 border border-emerald-300 shadow-[0_0_8px_#22c55e]" />
-          <span className="font-bold text-emerald-400">ACTIVE PATH (चयनित मार्ग)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3.5 h-3.5 bg-slate-600 border border-slate-400" />
-          <span className="text-slate-300">AVAILABLE (अन्य विकल्प)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3.5 h-3.5 bg-red-600 border border-red-400 flex items-center justify-center text-[9px]">
-            🔒
-          </div>
-          <span className="font-bold text-red-400">HARD STOP (अवरुद्ध)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3.5 h-3.5 bg-amber-500 border border-amber-300 flex items-center justify-center text-[9px]">
-            ⚠️
-          </div>
-          <span className="font-bold text-amber-400">BUDGET RISK (बजट चेतावनी)</span>
-        </div>
-      </div>
+
 
       {/* Main Interactive Fission Workspace (Horizontal Scroll & Multi-Tier Grid) */}
       <div className="relative w-full overflow-x-auto custom-scrollbar border-2 border-slate-900 bg-[#FAFBFD] p-6 shadow-inner min-h-[580px]">
