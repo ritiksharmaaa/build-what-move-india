@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import { aiRateLimiter, getIP } from '@/lib/ai/rate-limit';
+import { buildNodeExplanationPrompt } from '@/lib/ai/prompts';
 
 export const runtime = 'nodejs';
 
@@ -8,7 +9,7 @@ export async function POST(request: NextRequest) {
   try {
     // 1. Rate Limiting Check
     const ip = getIP(request);
-    const limit = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '10', 10);
+    const limit = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '15', 10);
     
     try {
       await aiRateLimiter.check(limit, ip);
@@ -19,44 +20,42 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { node, input } = await request.json();
+    const { node, input, locale } = await request.json();
 
     const apiKey = process.env.GOOGLE_AI_STUDIO_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ 
         error: 'MISSING_API_KEY', 
-        message: 'No server API key found. Please provide your own API key.' 
+        message: 'No server API key found. Please provide your own API key in AI Settings.' 
       }, { status: 503 });
     }
 
-    const systemPrompt = `You are an Indian career counselor. Student: ${input.stage}, ${input.class12Stream || 'N/A'}, Budget: ${input.budgetBand}. Pathway: "${node.nameEn}" (Status: "${node.doorStatus}").
-Respond briefly (max 120 words) with:
-1. Famous Path-Taker: Name a famous Indian who took a similar path.
-2. Status Reason: Why this is "${node.doorStatus}" for the student.
-3. Next Steps: 1-2 concrete actions.
-Use markdown bullets. Be extremely concise to save tokens.`;
+    const effectiveLocale: 'en' | 'hi' = locale === 'hi' || input?.preferredLanguage === 'hi' ? 'hi' : 'en';
+    const { systemInstruction, userPrompt } = buildNodeExplanationPrompt(node, input, effectiveLocale);
 
     const ai = new GoogleGenAI({ apiKey });
+    
+    // Strictly generate with gemini-3.6-flash
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
-      contents: 'Please explain this pathway to me.',
+      contents: userPrompt,
       config: {
-        systemInstruction: systemPrompt,
-        temperature: 0.7,
+        systemInstruction,
+        temperature: 0.6,
       }
     });
 
-    return NextResponse.json({ explanation: response.text });
+    return NextResponse.json({ explanation: response.text || '' });
   } catch (error: any) {
     console.error('Error in /api/explain:', error);
     
     if (error?.message?.includes('quota') || error?.status === 429) {
       return NextResponse.json(
-        { error: 'QUOTA_EXCEEDED', message: 'Server AI quota exceeded. Please use your own API key.' },
+        { error: 'QUOTA_EXCEEDED', message: 'Server AI quota exceeded. Please use your own API key in AI Settings.' },
         { status: 429 }
       );
     }
 
-    return NextResponse.json({ error: 'INTERNAL_ERROR', message: String(error) }, { status: 500 });
+    return NextResponse.json({ error: 'INTERNAL_ERROR', message: String(error?.message || error) }, { status: 500 });
   }
 }

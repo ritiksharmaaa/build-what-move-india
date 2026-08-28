@@ -1,3 +1,4 @@
+import { getLanguageMandate } from './prompts';
 
 export type AIProviderOptions = {
   provider: 'google' | 'openai';
@@ -12,7 +13,7 @@ export class FallbackError extends Error {
 }
 
 /**
- * Gets AI response. 
+ * Gets AI response with strict locale language enforcement using gemini-3.6-flash.
  * If user settings exist, uses them client-side directly.
  * If no user settings, hits the Next.js server route (default).
  * If the server route fails (rate limit/quota), throws FallbackError to prompt the user.
@@ -20,9 +21,15 @@ export class FallbackError extends Error {
 export async function getAIResponse(
   prompt: string, 
   system: string = 'You are an expert career counselor for Indian students.',
-  userSettings?: AIProviderOptions | null
+  userSettings?: AIProviderOptions | null,
+  locale: 'en' | 'hi' = 'en'
 ): Promise<string> {
-  
+  // Ensure strict language mandate is always embedded in the system prompt
+  const languageMandate = getLanguageMandate(locale);
+  const effectiveSystemPrompt = system.includes('LANGUAGE') 
+    ? system 
+    : `${system}\n\n${languageMandate}`;
+
   // 1. Client-Side Execution (User's own key)
   if (userSettings && userSettings.apiKey && userSettings.apiKey.trim() !== '') {
     try {
@@ -31,11 +38,14 @@ export async function getAIResponse(
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            system_instruction: { parts: { text: system } },
+            system_instruction: { parts: [{ text: effectiveSystemPrompt }] },
             contents: [{ parts: [{ text: prompt }] }]
           })
         });
-        if (!res.ok) throw new Error('Google API Error: ' + res.statusText);
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(`Google Gemini 3.6 API Error: ${errData?.error?.message || res.statusText}`);
+        }
         const data = await res.json();
         return data.candidates[0].content.parts[0].text;
       } else if (userSettings.provider === 'openai') {
@@ -48,12 +58,15 @@ export async function getAIResponse(
           body: JSON.stringify({
             model: 'gpt-4o-mini',
             messages: [
-              { role: 'system', content: system },
+              { role: 'system', content: effectiveSystemPrompt },
               { role: 'user', content: prompt }
             ]
           })
         });
-        if (!res.ok) throw new Error('OpenAI API Error: ' + res.statusText);
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(`OpenAI API Error: ${errData?.error?.message || res.statusText}`);
+        }
         const data = await res.json();
         return data.choices[0].message.content;
       }
@@ -63,14 +76,14 @@ export async function getAIResponse(
     }
   }
 
-  // 2. Server-Side Execution (Default Google AI Studio Key)
+  // 2. Server-Side Execution (Default Google AI Studio Key via /api/chat)
   try {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ prompt, system }),
+      body: JSON.stringify({ prompt, system: effectiveSystemPrompt, locale }),
     });
 
     const data = await res.json();

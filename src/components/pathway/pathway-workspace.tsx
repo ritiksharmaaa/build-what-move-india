@@ -227,6 +227,7 @@ export function PathwayWorkspace({
       {showCompare && (
         <CompareModal
           nodes={nodes.filter((n) => selectedIds.includes(n.nodeId))}
+          input={input}
           onClose={() => setShowCompare(false)}
           onGetActionPlan={() => setShowPlan(true)}
         />
@@ -235,6 +236,7 @@ export function PathwayWorkspace({
       {showPlan && (
         <ActionPlanModal
           nodes={nodes.filter((n) => selectedIds.includes(n.nodeId))}
+          input={input}
           onClose={() => setShowPlan(false)}
         />
       )}
