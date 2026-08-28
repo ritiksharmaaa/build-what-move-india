@@ -26,7 +26,7 @@ export function printFormattedDocument({
     .replace(/^# (.*$)/gim, '<h1 style="font-size: 22px; font-weight: 900; margin-top: 24px; margin-bottom: 12px; color: #0f172a;">$1</h1>')
     .replace(/\*\*(.*?)\*\*/gim, '<strong style="font-weight: 800; color: #0f172a;">$1</strong>')
     .replace(/^\- (.*$)/gim, '<li style="margin-bottom: 6px; line-height: 1.6;">$1</li>')
-    .replace(/(<li>.*<\/li>)/gis, '<ul style="margin-left: 20px; margin-bottom: 12px; list-style-type: square;">$1</ul>')
+    .replace(/(<li>[\s\S]*<\/li>)/gi, '<ul style="margin-left: 20px; margin-bottom: 12px; list-style-type: square;">$1</ul>')
     .replace(/\n\n/gim, '<p style="margin-bottom: 10px; line-height: 1.6;"></p>');
 
   const html = `
