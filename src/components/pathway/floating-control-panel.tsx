@@ -76,8 +76,8 @@ export function FloatingControlPanel({
       <div className="flex items-center h-10 bg-white border-2 border-slate-900 shadow-[2px_2px_0_0_#0f172a] divide-x-2 divide-slate-900">
         <select
           className="bg-transparent text-[10px] font-black uppercase text-slate-900 focus:outline-none cursor-pointer pl-3 pr-1 h-full"
-          value={input.currentStage}
-          onChange={(e) => onParameterChange('currentStage', e.target.value)}
+          value={input.stage}
+          onChange={(e) => onParameterChange('stage', e.target.value)}
         >
           <option value="class_10">STAGE: 10TH</option>
           <option value="class_12">STAGE: 12TH</option>
