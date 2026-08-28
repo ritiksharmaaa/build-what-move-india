@@ -15,14 +15,15 @@ import {
   Building2, 
   Sparkles, 
   RotateCw, 
-  AlertCircle, 
   Settings, 
   Info,
-  ArrowRight
+  ArrowRight,
+  Printer
 } from 'lucide-react';
-import { buildCompareAnalysisPrompt } from '@/lib/ai/prompts';
-import { getAIResponse, FallbackError } from '@/lib/ai/client-provider';
+import { buildCompareAnalysisPrompt, generateDetailedCompareFallback } from '@/lib/ai/prompts';
+import { getAIResponse } from '@/lib/ai/client-provider';
 import { AISettingsModal } from '../settings/ai-settings-modal';
+import { printFormattedDocument } from '@/lib/utils/print-document';
 
 export function CompareModal({
   nodes,
@@ -39,58 +40,56 @@ export function CompareModal({
 
   const [loading, setLoading] = useState(true);
   const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isAiLive, setIsAiLive] = useState(false);
   const [showConfig, setShowConfig] = useState(false);
 
-  const selectedNodeIds = nodes.map(n => n.nodeId).sort().join('_');
-  const cacheKey = `pf_ai_compare_${locale}_${selectedNodeIds || 'empty'}_${input.stage}_${input.budgetBand}_${input.class12Stream || 'gen'}`;
+  const validNodes = (nodes || []).filter(Boolean);
+  const selectedNodeIds = validNodes.map(n => n.nodeId).sort().join('_');
+  const cacheKey = `pf_ai_compare_${locale}_${selectedNodeIds || 'empty'}_${input?.stage || 'class_10'}_${input?.budgetBand || 'medium'}_${input?.class12Stream || 'gen'}`;
 
   const fetchComparisonAnalysis = async (forceRefresh = false) => {
-    if (nodes.length < 2) {
-      setLoading(false);
-      return;
-    }
-
     setLoading(true);
-    setErrorMsg(null);
-    setShowConfig(false);
 
-    // 1. Check Session Cache
+    // 1. Check Session Cache if not forcing refresh
     if (!forceRefresh) {
       try {
         const cached = sessionStorage.getItem(cacheKey);
         if (cached) {
           setAiAnalysis(cached);
+          setIsAiLive(sessionStorage.getItem(`${cacheKey}_live`) === 'true');
           setLoading(false);
           return;
         }
       } catch (e) {}
     }
 
-    // 2. Build deep compare prompt
-    const { systemInstruction, userPrompt } = buildCompareAnalysisPrompt(nodes, input, locale);
-
-    // 3. Load user settings if any
+    // 2. Load user settings if any
     let userSettings = null;
     try {
       const saved = localStorage.getItem('pathfinder_ai_settings');
       if (saved) userSettings = JSON.parse(saved);
     } catch (e) {}
 
+    // 3. Build deep compare prompt
+    const { systemInstruction, userPrompt } = buildCompareAnalysisPrompt(validNodes, input, locale);
+
     try {
       const analysisText = await getAIResponse(userPrompt, systemInstruction, userSettings, locale);
       setAiAnalysis(analysisText);
+      setIsAiLive(true);
       try {
         sessionStorage.setItem(cacheKey, analysisText);
+        sessionStorage.setItem(`${cacheKey}_live`, 'true');
       } catch (e) {}
     } catch (err: any) {
-      console.error('Compare AI Analysis Generation Error:', err);
-      if (err instanceof FallbackError || err?.message?.includes('quota') || err?.message?.includes('key')) {
-        setErrorMsg(err.message || (locale === 'hi' ? 'AI सर्वर व्यस्त है। कृपया अपनी स्वयं की API Key दर्ज करें।' : 'Server AI limit reached. Please configure your own API key.'));
-        setShowConfig(true);
-      } else {
-        setErrorMsg(err?.message || (locale === 'hi' ? 'तुलनात्मक विश्लेषण लोड करने में त्रुटि हुई।' : 'Failed to generate Comparison Analysis.'));
-      }
+      console.warn('AI Compare Live Synthesis failed, using high-detail statutory fallback:', err?.message);
+      const fallbackAnalysis = generateDetailedCompareFallback(validNodes, input, locale);
+      setAiAnalysis(fallbackAnalysis);
+      setIsAiLive(false);
+      try {
+        sessionStorage.setItem(cacheKey, fallbackAnalysis);
+        sessionStorage.setItem(`${cacheKey}_live`, 'false');
+      } catch (e) {}
     } finally {
       setLoading(false);
     }
@@ -98,32 +97,49 @@ export function CompareModal({
 
   useEffect(() => {
     fetchComparisonAnalysis();
-  }, [selectedNodeIds, locale, input.stage, input.budgetBand]);
+  }, [selectedNodeIds, locale, input?.stage, input?.budgetBand]);
 
   // Find lowest cost node for differential highlighting
-  const lowestCostNodeId = nodes.reduce((prev, curr) => {
-    return (curr.costRange.min < prev.costRange.min) ? curr : prev;
-  }, nodes[0])?.nodeId;
+  const lowestCostNodeId = validNodes.reduce((prev, curr) => {
+    const prevMin = prev?.costRange?.min ?? 0;
+    const currMin = curr?.costRange?.min ?? 0;
+    return (currMin < prevMin) ? curr : prev;
+  }, validNodes[0])?.nodeId;
 
   // Find shortest duration node
-  const shortestDurationNodeId = nodes.reduce((prev, curr) => {
-    return (curr.durationMonths < prev.durationMonths) ? curr : prev;
-  }, nodes[0])?.nodeId;
+  const shortestDurationNodeId = validNodes.reduce((prev, curr) => {
+    const prevDur = prev?.durationMonths ?? 999;
+    const currDur = curr?.durationMonths ?? 999;
+    return (currDur < prevDur) ? curr : prev;
+  }, validNodes[0])?.nodeId;
+
+  const handlePrint = () => {
+    if (!aiAnalysis) return;
+    const tableEl = document.getElementById('compare-matrix-table');
+    const tableHtml = tableEl ? tableEl.outerHTML : '';
+
+    printFormattedDocument({
+      title: locale === 'hi' ? 'करियर मार्ग तुलना मैट्रिक्स व रणनीतिक निर्णय' : 'Career Pathway Comparison Matrix & AI Verdict',
+      subtitle: locale === 'hi' ? 'वैधानिक पूर्व-शर्तें, वास्तविक वित्तीय ROI और करियर वृद्धि का तुलनात्मक विश्लेषण' : 'Statutory prerequisites, starting salary benchmarks, and multi-factor comparison.',
+      badge: 'COMPARISON MATRIX',
+      tableHtml: tableHtml,
+      contentMarkdown: aiAnalysis,
+      locale,
+    });
+  };
 
   return (
     <>
       <AISettingsModal 
         isOpen={showConfig}
-        initialMessage={errorMsg || undefined}
         onClose={() => { 
           setShowConfig(false); 
-          if (!aiAnalysis) onClose(); 
-          else fetchComparisonAnalysis(true); // Retry
+          fetchComparisonAnalysis(true); // Re-run with new key
         }}
       />
 
-      <div className="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 font-sans select-none animate-in fade-in zoom-in-95">
-        <div className="bg-white border-2 border-slate-900 shadow-[8px_8px_0_0_#0f172a] w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden">
+      <div className="print-modal-container fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 font-sans select-none animate-in fade-in zoom-in-95">
+        <div className="print-modal-card bg-white border-2 border-slate-900 shadow-[8px_8px_0_0_#0f172a] w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden">
           
           {/* Header */}
           <div className="px-5 sm:px-6 py-4 border-b-2 border-slate-900 bg-slate-900 text-white flex justify-between items-center shrink-0">
@@ -138,21 +154,21 @@ export function CompareModal({
                 </h2>
                 <p className="text-xs text-slate-400 font-devanagari">
                   {locale === 'hi' 
-                    ? 'वैधानिक पूर्व-शर्तें, वास्तविक वित्तीय ROI और करियर वृद्धि का AI तुलनात्मक संश्लेषण'
-                    : 'Statutory prerequisites, starting salary benchmarks, and tailored AI synthesis.'}
+                    ? 'वैधानिक पूर्व-शर्तें, वास्तविक वित्तीय ROI और करियर वृद्धि का तुलनात्मक विश्लेषण'
+                    : 'Statutory prerequisites, starting salary benchmarks, and multi-factor comparison.'}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 no-print">
               <button
                 onClick={() => fetchComparisonAnalysis(true)}
-                disabled={loading || nodes.length < 2}
-                className="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-3 py-1.5 text-xs font-bold font-devanagari flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                disabled={loading}
+                className="bg-white hover:bg-slate-100 text-slate-900 border-2 border-slate-900 px-3 py-1.5 text-xs font-black font-devanagari flex items-center gap-1.5 shadow-[2px_2px_0_0_#0f172a] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all disabled:opacity-50"
                 title={locale === 'hi' ? 'नया तुलनात्मक विश्लेषण प्राप्त करें' : 'Refresh Comparison'}
               >
-                <RotateCw className={`w-3.5 h-3.5 text-saffron-400 ${loading ? 'animate-spin' : ''}`} />
-                <span className="hidden sm:inline">{locale === 'hi' ? 'पुनः विश्लेषण करें' : 'Refresh AI'}</span>
+                <RotateCw className={`w-3.5 h-3.5 text-slate-900 ${loading ? 'animate-spin' : ''}`} />
+                <span className="hidden sm:inline">{locale === 'hi' ? 'पुनः विश्लेषण करें' : 'Regenerate'}</span>
               </button>
 
               <button 
@@ -166,7 +182,7 @@ export function CompareModal({
           </div>
           
           {/* Scrollable Container */}
-          <div className="p-5 sm:p-8 overflow-y-auto grow custom-scrollbar bg-slate-50 space-y-8">
+          <div className="print-modal-content p-5 sm:p-8 overflow-y-auto grow custom-scrollbar bg-slate-50 space-y-8">
             
             {/* Section 1: Structured Fast Metadata Comparison Table */}
             <div>
@@ -174,25 +190,27 @@ export function CompareModal({
                 <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-700 bg-slate-200 px-2 py-0.5 border border-slate-300">
                   {locale === 'hi' ? 'मापदंड तुलना तालिका' : 'STATUTORY METRICS TABLE'}
                 </span>
-                <span className="text-xs text-slate-500 font-mono">
-                  {nodes.length} {locale === 'hi' ? 'विकल्प' : 'Pathways Compared'}
+                <span className="text-xs text-slate-500 font-mono font-bold">
+                  {validNodes.length} {locale === 'hi' ? 'विकल्प' : 'Pathways Compared'}
                 </span>
               </div>
 
               <div className="overflow-x-auto border-2 border-slate-900 bg-white shadow-[3px_3px_0_0_#0f172a]">
-                <table className="w-full text-left border-collapse min-w-[600px]">
+                <table id="compare-matrix-table" className="w-full text-left border-collapse min-w-[600px]">
                   <thead>
                     <tr className="bg-slate-100 border-b-2 border-slate-900">
                       <th className="p-3 border-r-2 border-slate-900 text-xs font-mono font-bold uppercase text-slate-700 w-1/4">
                         {locale === 'hi' ? 'तुलनात्मक मापदंड' : 'Evaluation Criteria'}
                       </th>
-                      {nodes.map((node) => {
-                        const name = locale === 'en' ? node.nameEn : node.nameHi;
-                        const isLowestCost = node.nodeId === lowestCostNodeId;
-                        const isShortest = node.nodeId === shortestDurationNodeId;
+                      {validNodes.map((node) => {
+                        const name = locale === 'en' ? (node?.nameEn || 'Pathway') : (node?.nameHi || node?.nameEn || 'Pathway');
+                        const isLowestCost = node?.nodeId === lowestCostNodeId;
+                        const isShortest = node?.nodeId === shortestDurationNodeId;
+                        const familyText = node?.family ? node.family.toUpperCase() : 'CAREER';
+                        const tierText = node?.tier ? node.tier.toUpperCase() : 'TIER';
 
                         return (
-                          <th key={node.nodeId} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 bg-white font-bold text-slate-950 align-top">
+                          <th key={node?.nodeId || Math.random()} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 bg-white font-bold text-slate-950 align-top">
                             <div className="space-y-1.5">
                               <div className="flex flex-wrap gap-1">
                                 {isLowestCost && (
@@ -210,7 +228,7 @@ export function CompareModal({
                                 {name}
                               </h3>
                               <span className="text-[10px] font-mono text-slate-500 uppercase block font-bold">
-                                {node.family.toUpperCase()} • {node.tier.toUpperCase()}
+                                {familyText} • {tierText}
                               </span>
                             </div>
                           </th>
@@ -225,9 +243,9 @@ export function CompareModal({
                         <DollarSign className="w-4 h-4 text-emerald-600 shrink-0" />
                         <span>{locale === 'hi' ? 'अनुमानित कुल लागत' : 'Estimated Cost'}</span>
                       </td>
-                      {nodes.map((node) => (
-                        <td key={node.nodeId} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-mono font-bold text-slate-950">
-                          {node.costRange.max > 0 ? formatCostRange(node.costRange.min, node.costRange.max, locale) : '₹0 (Free / Govt Stipend)'}
+                      {validNodes.map((node) => (
+                        <td key={node?.nodeId || Math.random()} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-mono font-bold text-slate-950">
+                          {node?.costRange ? (node.costRange.max > 0 ? formatCostRange(node.costRange.min, node.costRange.max, locale) : '₹0 (Free / Govt Stipend)') : 'N/A'}
                         </td>
                       ))}
                     </tr>
@@ -238,9 +256,9 @@ export function CompareModal({
                         <Clock className="w-4 h-4 text-blue-600 shrink-0" />
                         <span>{locale === 'hi' ? 'पाठ्यक्रम अवधि' : 'Program Duration'}</span>
                       </td>
-                      {nodes.map((node) => (
-                        <td key={node.nodeId} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-mono font-semibold text-slate-900">
-                          {node.durationMonths} {locale === 'hi' ? 'महीने' : 'months'}
+                      {validNodes.map((node) => (
+                        <td key={node?.nodeId || Math.random()} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-mono font-semibold text-slate-900">
+                          {node?.durationMonths ?? 0} {locale === 'hi' ? 'महीने' : 'months'}
                         </td>
                       ))}
                     </tr>
@@ -251,9 +269,9 @@ export function CompareModal({
                         <ShieldCheck className="w-4 h-4 text-brand-600 shrink-0" />
                         <span>{locale === 'hi' ? 'वैधानिक पूर्व-शर्तें' : 'Prerequisites & Rules'}</span>
                       </td>
-                      {nodes.map((node) => (
-                        <td key={node.nodeId} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-devanagari text-slate-700 leading-relaxed">
-                          {locale === 'en' ? node.doorReasonEn : node.doorReasonHi}
+                      {validNodes.map((node) => (
+                        <td key={node?.nodeId || Math.random()} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-devanagari text-slate-700 leading-relaxed">
+                          {locale === 'en' ? (node?.doorReasonEn || 'Standard rules apply') : (node?.doorReasonHi || node?.doorReasonEn || 'मानक नियम लागू')}
                         </td>
                       ))}
                     </tr>
@@ -264,11 +282,11 @@ export function CompareModal({
                         <Building2 className="w-4 h-4 text-amber-600 shrink-0" />
                         <span>{locale === 'hi' ? 'संस्थान प्रकार' : 'Institution Type'}</span>
                       </td>
-                      {nodes.map((node) => (
-                        <td key={node.nodeId} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-devanagari text-slate-800">
-                          {node.costRange.type === 'government' 
+                      {validNodes.map((node) => (
+                        <td key={node?.nodeId || Math.random()} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-devanagari text-slate-800">
+                          {node?.costRange?.type === 'government' 
                             ? (locale === 'hi' ? '🏛️ सरकारी संस्थान (न्यूनतम शुल्क)' : '🏛️ Government College (Subsidized)')
-                            : node.costRange.type === 'private'
+                            : node?.costRange?.type === 'private'
                             ? (locale === 'hi' ? '🏢 निजी संस्थान (स्व-वित्तपोषित)' : '🏢 Private Deemed Institution')
                             : (locale === 'hi' ? '🏛️ सरकारी व निजी दोनों उपलब्ध' : '🏛️ Both Govt & Private Options Available')}
                         </td>
@@ -281,10 +299,10 @@ export function CompareModal({
                         <Award className="w-4 h-4 text-purple-600 shrink-0" />
                         <span>{locale === 'hi' ? 'प्रतिस्पर्धा स्तर' : 'Competitiveness'}</span>
                       </td>
-                      {nodes.map((node) => (
-                        <td key={node.nodeId} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-mono text-slate-800">
+                      {validNodes.map((node) => (
+                        <td key={node?.nodeId || Math.random()} className="p-3.5 border-r-2 last:border-r-0 border-slate-900 font-mono text-slate-800">
                           <span className="font-black px-2 py-0.5 bg-slate-100 border border-slate-300 text-[10px] uppercase">
-                            {node.competitiveness.replace(/_/g, ' ')}
+                            {node?.competitiveness ? node.competitiveness.replace(/_/g, ' ') : 'MODERATE'}
                           </span>
                         </td>
                       ))}
@@ -296,10 +314,13 @@ export function CompareModal({
 
             {/* Section 2: Deep AI Comparative Synthesis & Strategic Verdict */}
             <div>
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center justify-between mb-3">
                 <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-white bg-slate-900 px-2.5 py-0.5 border border-slate-900 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-saffron-400" />
-                  {locale === 'hi' ? 'गहन AI तुलनात्मक विश्लेषण व अंतिम निर्णय' : 'AI DEEP COMPARATIVE SYNTHESIS & VERDICT'}
+                  {locale === 'hi' ? 'गहन तुलनात्मक विश्लेषण व अंतिम निर्णय' : 'DEEP COMPARATIVE SYNTHESIS & STRATEGIC VERDICT'}
+                </span>
+                <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 bg-slate-900 text-white border border-slate-900 no-print">
+                  {isAiLive ? '⚡ LIVE GEMINI 3.6' : '📋 STATUTORY ANALYSIS'}
                 </span>
               </div>
 
@@ -309,8 +330,8 @@ export function CompareModal({
                   <div className="text-center space-y-1">
                     <p className="font-bold text-sm text-slate-900 animate-pulse font-devanagari">
                       {locale === 'hi' 
-                        ? 'AI चयनित विकल्पों का वेतन (ROI), तैयारी कठिनाई व जोखिम विश्लेषण कर रहा है...' 
-                        : 'AI is evaluating salary trajectories, preparation drop risk, and budget alignment...'}
+                        ? 'चयनित विकल्पों का वेतन (ROI), तैयारी कठिनाई व जोखिम विश्लेषण किया जा रहा है...' 
+                        : 'Evaluating salary trajectories, preparation drop risk, and budget alignment with Gemini 3.6...'}
                     </p>
                   </div>
                 </div>
@@ -322,30 +343,31 @@ export function CompareModal({
                     </div>
                   </div>
                 </div>
-              ) : (
-                <div className="bento-box p-6 border-2 border-slate-900 bg-white text-center py-10 space-y-3">
-                  <AlertCircle className="w-8 h-8 text-amber-600 mx-auto" />
-                  <p className="text-sm font-bold font-devanagari text-slate-800">
-                    {errorMsg || (locale === 'hi' ? 'तुलनात्मक AI विश्लेषण लोड नहीं हो सका।' : 'Could not generate AI comparison synthesis.')}
-                  </p>
-                  <button
-                    onClick={() => setShowConfig(true)}
-                    className="px-4 py-2 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider border border-slate-950 inline-flex items-center gap-1.5"
-                  >
-                    <Settings className="w-3.5 h-3.5" />
-                    {locale === 'hi' ? 'API सेटिंग्स खोलें' : 'Configure API Key'}
-                  </button>
-                </div>
-              )}
+              ) : null}
             </div>
 
           </div>
 
           {/* Footer Actions */}
-          <div className="px-5 sm:px-6 py-3.5 border-t-2 border-slate-900 bg-white flex flex-wrap items-center justify-between gap-3 shrink-0">
-            <div className="text-xs text-slate-600 font-devanagari flex items-center gap-1.5">
-              <Info className="w-4 h-4 text-slate-500 shrink-0" />
-              <span>{locale === 'hi' ? 'तुलना के आधार पर अपना 30-90 दिवसीय एक्शन प्लान तैयार करें।' : 'Ready to proceed? Generate your 30-90 Day Action Plan.'}</span>
+          <div className="px-5 sm:px-6 py-3.5 border-t-2 border-slate-900 bg-white flex flex-wrap items-center justify-between gap-3 shrink-0 no-print">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePrint}
+                disabled={!aiAnalysis}
+                className="px-3.5 py-2 bg-white hover:bg-slate-100 border-2 border-slate-900 text-slate-900 text-xs font-bold font-devanagari flex items-center gap-1.5 shadow-[2px_2px_0_0_#0f172a] active:translate-x-0.5 active:translate-y-0.5 transition-all disabled:opacity-50"
+              >
+                <Printer className="w-3.5 h-3.5 text-slate-700" />
+                <span>{locale === 'hi' ? 'प्रिंट / PDF' : 'Print PDF'}</span>
+              </button>
+
+              <button
+                onClick={() => setShowConfig(true)}
+                className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-900 text-slate-900 text-xs font-bold font-devanagari flex items-center gap-1.5 shadow-[2px_2px_0_0_#0f172a] active:translate-x-0.5 active:translate-y-0.5 transition-all"
+                title="API Settings"
+              >
+                <Settings className="w-3.5 h-3.5" />
+                <span className="font-mono text-[10px]">API KEY</span>
+              </button>
             </div>
 
             <div className="flex items-center gap-2.5">

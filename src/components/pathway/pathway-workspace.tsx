@@ -226,7 +226,13 @@ export function PathwayWorkspace({
       {/* Modals */}
       {showCompare && (
         <CompareModal
-          nodes={nodes.filter((n) => selectedIds.includes(n.nodeId))}
+          nodes={(() => {
+            const selected = nodes.filter((n) => selectedIds.includes(n.nodeId));
+            if (selected.length >= 2) return selected;
+            const openNodes = nodes.filter((n) => n.doorStatus === 'open');
+            const fallback = [...selected, ...openNodes.filter((n) => !selectedIds.includes(n.nodeId))];
+            return fallback.length >= 2 ? fallback.slice(0, 3) : nodes.slice(0, 3);
+          })()}
           input={input}
           onClose={() => setShowCompare(false)}
           onGetActionPlan={() => setShowPlan(true)}
@@ -235,7 +241,12 @@ export function PathwayWorkspace({
 
       {showPlan && (
         <ActionPlanModal
-          nodes={nodes.filter((n) => selectedIds.includes(n.nodeId))}
+          nodes={(() => {
+            const selected = nodes.filter((n) => selectedIds.includes(n.nodeId));
+            if (selected.length >= 1) return selected;
+            const openNodes = nodes.filter((n) => n.doorStatus === 'open');
+            return openNodes.length > 0 ? openNodes.slice(0, 3) : nodes.slice(0, 3);
+          })()}
           input={input}
           onClose={() => setShowPlan(false)}
         />

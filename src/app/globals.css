@@ -91,8 +91,8 @@
 
 @media print {
   @page {
-    size: A4 landscape;
-    margin: 8mm;
+    size: A4 portrait;
+    margin: 10mm;
   }
 
   header, footer, nav, .no-print, [data-floating-ui] {
@@ -102,7 +102,7 @@
   html, body {
     background: white !important;
     color: black !important;
-    zoom: 75% !important;
+    zoom: 100% !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     width: 100% !important;
@@ -110,26 +110,37 @@
     overflow: visible !important;
   }
 
-  /* Prevent column clipping across 4-column fission views */
-  .grid-cols-4 {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    min-width: 0 !important;
+  /* Modal Print Isolation */
+  .print-modal-container {
+    position: static !important;
+    inset: auto !important;
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
     width: 100% !important;
-    gap: 12px !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border: none !important;
+    z-index: auto !important;
   }
 
-  .grid-cols-3 {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    min-width: 0 !important;
+  .print-modal-card {
+    border: none !important;
+    box-shadow: none !important;
+    max-height: none !important;
     width: 100% !important;
-    gap: 12px !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    background: white !important;
   }
 
-  .min-w-\[1050px\], .min-w-\[960px\], .min-w-\[1400px\] {
-    min-width: 0 !important;
-    width: 100% !important;
+  .print-modal-content {
+    overflow: visible !important;
+    max-height: none !important;
+    padding: 0 !important;
+    background: white !important;
   }
 
   .print-page {

@@ -71,8 +71,7 @@ export async function getAIResponse(
         return data.choices[0].message.content;
       }
     } catch (error: any) {
-      console.error('Client AI Provider Error:', error);
-      throw new Error(`Your ${userSettings.provider} API key failed: ${error?.message || 'Unknown error'}`);
+      console.warn('Custom Client API key failed, falling back to default server API:', error?.message);
     }
   }
 

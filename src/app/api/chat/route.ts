@@ -28,8 +28,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
     }
 
-    // 3. Ensure API Key exists
-    const apiKey = process.env.GOOGLE_AI_STUDIO_API_KEY;
+    // 3. Ensure API Key exists across common environment variable names
+    const apiKey =
+      process.env.GOOGLE_AI_STUDIO_API_KEY ||
+      process.env.GEMINI_API_KEY ||
+      process.env.GOOGLE_API_KEY ||
+      process.env.GOOGLE_GENAI_API_KEY ||
+      process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
+      process.env.NEXT_PUBLIC_GOOGLE_AI_STUDIO_API_KEY;
+
     if (!apiKey) {
       return NextResponse.json(
         { error: 'Server AI API key not configured. Please configure your own API key in AI Settings.' },
